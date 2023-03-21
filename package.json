@@ -1,0 +1,34 @@
+{
+  "name": "EXMAPRANDO",
+  "version": "1.0.0",
+  "devDependencies": {
+    "buffer": "^5.7.1",
+    "parcel": "^2.8.2",
+    "process": "^0.11.10"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "preBuild" : "node build-helpers/preBuild.js",
+    "parcelBuild": "parcel build dist/build-index.html --dist-dir build --public-url ./",
+    "postBuild" : "node build-helpers/postBuild.js",
+    "build" : "npm run preBuild && npm run parcelBuild && npm run postBuild"
+  },
+  "scriptComments": {
+    "build": "Before building for remote switch to the remote version of lzutf8 in index.html so it dosnt' try and bundle it"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KittyPBoxx/GBAXG.git"
+  },
+  "keywords": [],
+  "author": "Kitty P Boxx",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KittyPBoxx/GBAXG/issues"
+  },
+  "alias": {
+    "readable-stream": false
+  },
+  "homepage": "https://github.com/KittyPBoxx/GBAXG#readme",
+  "description": "Modded emulator playing emerald ex map rando"
+}

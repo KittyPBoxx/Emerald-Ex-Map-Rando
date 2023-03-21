@@ -1,0 +1,894 @@
+/* ICONS https://pixelarticons.com/free/ */
+
+
+:root {
+    --main-color: #A40404;
+}
+
+@font-face {
+    font-family: 'RetroGaming'; 
+    src: url('./fonts/AvenirLTStd-Book.otf'); 
+}
+
+.modal-overlay {
+    backdrop-filter: blur(10px) saturate(0.8);
+    -webkit-backdrop-filter: blur(10px) saturate(0.8);
+}
+
+#main {
+    display: flex;
+}
+
+#menu {
+    min-width: 75vw !important;
+    min-height: 75vh !important;
+    width: 75vw !important;
+    height: 75vh !important;
+    background: transparent;
+    box-shadow: none;
+    overflow: visible;
+    font-family: 'RetroGaming';
+}
+
+.modal .modal-content {
+    padding: 0;
+}
+
+.carousel#menuCarousel {
+    min-height: 75vh;
+    overflow: visible;
+}
+
+.carousel#menuCarousel  .carousel-item {
+    height: 75vh;
+    width: 60vw;
+    border-width: 8px 5px;
+    border-style: solid;
+    border-color: #403c44;
+    border-radius: 5px;
+    box-shadow: #302d3a 0px 1px 0px 3px;
+    background: #e5e5e5;
+}
+
+.carousel-item {
+    background-color: #e7e7e7;
+}
+
+.menu-title {
+    display: flex;
+    color: #302d3a;
+    justify-content: center;
+    width: 50vw;
+    margin: auto;
+    margin-top: 6vh;
+    border-bottom: solid;
+    margin-bottom: 2vh;
+    font-weight: revert;
+    border-color: #5e5e5e;
+    border-width: 0.15em;
+}
+.left-menu-button {
+    border-radius: 5px;
+    border: solid;
+    border-top-left-radius: 10px;
+    padding: 1px 5px 1px;
+    box-shadow: rgb(129 129 129) 1px 1px 0px 0px;
+    line-height: 1.5em;
+    margin-right: auto;
+    margin-bottom: 1em;
+}
+.right-menu-button {
+    border-radius: 5px;
+    border: solid;
+    border-top-right-radius: 10px;
+    padding: 1px 5px 1px;
+    box-shadow: rgb(129 129 129) 1px 1px 0px 0px;
+    line-height: 1.5em;
+    margin-left: auto;
+    margin-bottom: 1em;
+}
+.menu-group {
+    margin-left: 50px;
+}
+
+
+.bios-text {
+    color: #4a4a4a;
+}
+.fr-text {
+    color: #AA170D;
+}
+.c-text {
+    color: #4F2C8C;
+} 
+.e-text {
+    color: #004D20;
+}
+
+.btn-small {
+    border-radius: 0.5em;
+    font-size: 1vw;
+    height: 3vh;
+    line-height: 3vh;
+}
+
+.file-field .btn-small {
+    height: 3vh;
+    line-height: 3vh;
+    margin-top: 0.5em;
+    color: black !important;
+    border: black solid 1px !important;
+    background: none !important;
+    box-shadow: rgb(129 129 129) 1px 1px 0px 1px !important;
+}
+.file-field .btn-small.bios-file {
+    margin-top: 0;
+}
+.file-path-wrapper { 
+    width: 25vw;
+    height: 4vh;
+}
+.file-path-wrapper .file-path {
+    height: 4vh !important;
+    font-family: 'RetroGaming';
+    border-bottom: none !important;
+}
+.file-path-wrapper input {
+    text-overflow: ellipsis;
+}
+h5 {
+    font-size: 2vh !important;
+}
+h4 {
+    font-size: 5vh !important;
+}
+.input-field {
+    margin-top: 0 !important; 
+    margin-bottom: 0 !important;
+}
+.menu-title h4 {
+    white-space: nowrap;
+}
+.start-group {
+    display: flex;
+    justify-content: end;
+    margin-top: 4vh;
+}
+.start-group .btn-small {
+    width: 10vw;
+    margin-right: 3vw;
+}
+.rom-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+.rom-header h5 {
+    opacity: 0.75;
+}
+span.rom-status {
+    color: #919191;
+    font-size: 1.8vh;
+    margin-left: auto;
+    margin-right: 50px;
+}
+.carousel#menuCarousel .carousel-item {
+    display: flex;
+    flex-direction: column;
+}
+.table-container {
+    margin-right: 50px;
+    margin-left: 50px;
+    overflow: auto;
+    max-height: 60%;
+}
+.table-container.flag-table {
+    margin-top: 1em;
+}
+.menu-group:not(.dividerless):after {
+    content: '';
+    width: 85%;
+    display: block;
+    height: 1px;
+    background: #c9c9c9;
+    position: absolute;
+    transform: translateY(8px);
+}
+.bios-input {
+    margin-right: auto;
+    filter: contrast(0.75) brightness(2);
+    margin-right: 2em;
+}
+.bios-input .btn-small {
+    margin-right: 0;
+}
+
+.version-label {
+    margin-left: auto;
+    margin-right: 4em;
+    margin-top: auto;
+    margin-bottom: 2em;
+    color: black;
+    font-size: 1.5vw;
+    opacity: 0.3;
+}
+
+
+.table-container tr:nth-child(even) {
+    background: #CCC;
+}
+.table-container tr {
+    color: black;
+}
+
+.table-container td span {
+    box-shadow: rgb(40 40 40) 0px 0px 1px 1px, rgb(129 129 129) 1px 1px 0px 2px;
+    border-radius: 0.5em;
+    padding: 0.5em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#hint-table td,
+#key-binding-table td {
+    max-width: 100px !important;
+    text-overflow: ellipsis !important;
+    overflow: hidden !important;
+}
+
+#flag-table {
+    margin-top: 1em;
+}
+
+#flag-table td {
+    text-overflow: ellipsis !important;
+    overflow: hidden !important;
+}
+
+.flag-option-holder {
+    display: flex;
+    gap: 1em;
+    justify-content: flex-end;
+    margin-right: 2em;
+}
+
+.collection .collection-item {
+    display: inline-block;
+    color: #4a4a4a;
+    border-radius: 0.5em;
+}
+
+.high-tide {
+    position: relative;
+}
+
+.tide-label {
+    color: black;
+    font-size: 10px;
+    padding-left: 15px;
+}
+
+.high-tide::after {
+    content: '';
+    position: absolute;
+    left: 0px;
+    top: 0;
+    font-size: 10px;
+    background: #1e88e5;
+    transform: rotateZ(90deg);
+    border-right: 10px solid #1e88e5;
+    width: 10px;
+    height: 10px;
+    border-radius: 0.2em;
+}
+
+.switch label input[type=checkbox]:checked+.lever {
+    background-color: #c78484;
+}
+
+.switch {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    color: #4a4a4a;
+    margin-top: 3em;
+    margin-right: 3vw;
+    gap: 10px;
+    font-size: 1.2vw;
+}
+
+.switch.hm-sync-switch {
+    margin-top: 1em !important;
+}
+
+.hack-row .switch {
+    margin-top: 3em;
+}
+
+.switch.clock-switch {
+    margin-top: 2em;
+} 
+
+.switch.random-warp {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    color: #4a4a4a;
+    margin-left: 3em;
+    margin-top: 1em;
+    gap: 10px;
+}
+
+.random-row {
+    display: flex;
+    color: #4a4a4a;
+    flex-wrap: wrap;
+}
+.random-row .input-field {
+    padding-right: 1vw;
+}
+
+.random-row.map-row {
+    margin-top: 1.5em;
+} 
+
+.random-row .input-field #input_seed_text{
+    font-family: 'RetroGaming';
+    height: 2.2rem;
+}
+
+.remap-btn {
+    align-self: center;
+    margin-left: auto;
+    margin-right: 5em;
+}
+
+#overrideNextWarp {
+    margin-right: 0;
+}
+
+#underRandomise {
+    margin-top: 1em;
+}
+
+.switch.hack-toggle {
+    align-items: flex-start;
+}
+
+.collection {
+    margin: 0.5rem 0 1vw 0;
+    border-radius: 2px;
+    border: none !important;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1vw;
+    padding: 0.2vw;
+}
+
+li.collection-item.speedup {
+    width: 0.5vw;
+    display: flex;
+    justify-content: center;
+}
+
+.plaint-btn.btn-small {
+    color: black !important;
+    border: black solid 1px !important;
+    background: none !important;
+    box-shadow: rgb(129 129 129) 1px 1px 0px 1px !important;
+    margin-bottom: 2px;
+    overflow: hidden;
+}
+
+.state-button {
+    width: 9em;
+}
+
+#eraseKeybinds,
+#eraseAll {
+    margin-right: 50px;
+    margin-top: 2em;
+    margin-bottom: 0.1em;
+}
+.saveFileButton {
+    margin-top: 2em;
+}
+.import-save {
+    display: inline-block;
+    margin-right: 1em;
+}
+.save-export-group {
+    align-items: end;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1em;
+}
+
+.collection-item.save-state {
+    border-radius: 5px;
+    border: 1px solid #919191;
+    box-shadow: rgb(129 129 129) 1px 1px 0px 1px !important;
+    position: relative;
+    padding: 0;
+    height: 160px;
+}
+
+.btn-small.save-btn {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: #d3d3d3bf;
+    color: black;
+}
+.btn-small.load-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #d3d3d3bf;
+    color: black;
+}
+
+.switch label .lever,
+.switch label .lever::before,
+.switch label .lever::after
+{
+    border-radius: 0.3em !important;
+}
+
+.switch.hack-toggle span {
+    white-space: nowrap;
+}
+
+.switch label {
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.hack-row {
+    margin-top: -1em;
+}
+
+.toggle-row {
+    margin-bottom: 1em;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#console {
+    background: black;
+    opacity: 40% !important;
+}
+
+#console .modal-content,
+#consoleText {
+    color: #FFF;
+    display: flex;
+    font-size: 20px;
+}
+
+#console .console-prompt{
+    font-size: 30px;
+    margin-right: 0.5em;
+    margin-left: 0.5em;
+}
+
+#reset {
+    background: transparent;
+    color: black;
+}
+
+#opts {
+    margin-right: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.btn-small.menu-plain {
+    background: transparent;
+    color: black;
+    border: 1px black solid;
+    width: 6em;
+    box-shadow: none;
+}
+
+.opts-table {
+    margin-top: 1.5em;
+    color: black;
+}
+
+.opts-table table {
+    width: 20em;
+    margin-right: auto;
+    margin-top: 0;
+}
+
+.carousel-item {
+    overflow: auto;
+}
+
+.carousel-item  td {
+    padding: 7px 5px;
+}
+
+.carousel-item .opts-table td:first-child {
+    border-right: 1px solid #919191;
+}
+
+.carousel-item [type="checkbox"]+span:not(.lever) {
+    padding-left: 25px;
+}
+
+.random-row .input-field.item-quantity, 
+.random-row .input-field.item-inputs {
+    display: flex;
+    flex-direction: column;
+}
+
+.random-row.item-row {
+    margin-top: 2em;
+}
+
+#item-quantity {
+    font-family: 'RetroGaming';
+    width: 4em;
+    max-height: 5rem;
+}
+#item-quantity input {
+    font-family: 'RetroGaming';
+}
+
+#autocomplete-items {
+    font-family: 'RetroGaming';
+    width: 10em;
+}
+
+#overrideNextWarp span {
+    white-space: nowrap;
+}
+
+.randomiser-buttons-row {
+    display: flex;
+    gap: 20px;
+}
+
+.randomiser-button-group {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-top: 1.5em;
+}
+
+.btn-small.randomiser-button {
+    background: transparent;
+    color: black;
+    border: 1px black solid;
+    box-shadow: none;
+    width: fit-content;
+    box-shadow: none !important;
+    font-size: 12px;
+}
+
+.faded {
+    filter: brightness(0);
+}
+
+.dropdown-content li>a, .dropdown-content li>span {
+    padding: 2px 16px;
+}
+
+.dropdown-content li {
+    min-height: 0;
+}
+
+.available-warp-select-wrapper {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.select-wrapper input.select-dropdown {
+    font-family: 'RetroGaming';
+}
+
+.available-warp-select-wrapper .select-wrapper {
+    width: 10em !important;
+}
+
+.state-group {
+    padding-top: 2.6em;
+}
+
+.warp-select {
+    width: 4em !important;
+    margin-right: 2em;
+    max-height: 5rem;
+}
+
+.warp-select input {
+    font-family: 'RetroGaming';
+}
+
+.game-input {
+    display: flex;
+    flex-direction: column-reverse;
+    margin-right: 2em;
+    width: 4em !important;
+    justify-content: flex-end;
+}
+
+.random-opts-container {
+    display: flex;
+    gap: 3em;
+    align-items: center;
+    padding-top: 2em;
+    padding-left: 3em;
+    flex-wrap: wrap;
+}
+
+#remapWarps {
+    margin-right: 0;
+    margin-left: unset;
+}
+
+.warp-destination-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.speed-menu {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.speed-menu .collection {
+    margin-right: 3em;
+}
+
+.speed-menu .boost-switch {
+    margin-top: 0em;
+}
+
+.speed-menu .use-speedup {
+    margin-top: 0em;
+}
+
+.switch.hack-toggle.mute-speedup {
+    margin-top: 0em;
+}
+
+.location-inputs {
+    margin-right: 2em;
+    width: 15vw;
+}
+
+.location-inputs input {
+    font-family: 'RetroGaming';
+}
+
+.hint-text {
+    width: 55%
+}
+
+.overlayControls {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    touch-action: manipulation;
+}
+
+.overlayControls button {
+    width: 5em;
+    height: 3em;
+    margin: 1em;
+    opacity: 0.5;
+    background: black;
+    color: white;
+    font-size: 32px;
+    border-radius: 2em;
+    touch-action: manipulation;
+}
+
+.touch-dpad {
+    bottom: 0;
+    border-radius: 2em;
+    position: absolute;
+}
+
+.touch-buttons.menu-buttons {
+    position: absolute;
+    bottom: 2em;
+    margin-left: 45%;
+    margin-right: 50%;
+}
+
+.touch-buttons.menu-buttons button{
+    font-size: 1.5em;
+}
+
+.touch-buttons {
+    position: absolute;
+}
+
+.touch-buttons.ab-buttons {
+    position: absolute;
+    bottom: 10em;
+    transform: rotate(-45deg);
+    right: 0;
+}
+
+.hashContainer {
+    display: flex;
+    margin-left: auto;
+    margin-right: 2.5em;
+}
+
+#hashText {
+    margin-top: 1.8em;
+    color: black;
+}
+
+#randomSeed {
+    margin-top: 0;
+}
+
+/* Scrollbars */
+
+/* ::-webkit-scrollbar {
+    width: 20px;
+}
+::-webkit-scrollbar-track {
+  box-shadow: inset -1px -1px 0px 2px rgb(180, 180, 180); 
+  border-radius: 1px;
+  background-color: rgb(199, 199, 199);
+}
+   
+::-webkit-scrollbar-thumb {
+  box-shadow: inset -1px -1px 0px 2px rgb(180, 180, 180); 
+  background: rgb(231, 231, 231); 
+  border-radius: 1px;
+}
+::-webkit-scrollbar-button:single-button {
+    background-color: transparent;
+    display: block;
+    border-style: solid;
+    height: 13px;
+    width: 50px;
+    color: #000000;
+} */
+
+
+::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 4px rgb(0 0 0 / 30%);
+    /* border-radius: 3px; */
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar
+{
+	width: 25px;
+	background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb
+{
+	border-radius: 3px;
+    -webkit-box-shadow: inset 0 0 2px rgb(0 0 0 / 30%);
+    background-color: #d1d1d1;
+}
+
+::-webkit-scrollbar-button {
+    display: block;
+    background-color: #d1d1d1;
+    background-repeat: no-repeat;
+    background-size: 50%;
+    background-position: center;
+    
+    margin-bottom: 2px;
+    -webkit-box-shadow: inset 0 0 2px rgb(0 0 0 / 30%);
+}
+
+::-webkit-scrollbar-button:vertical:start:decrement {
+    border-radius: 5px 5px 0px 0px;
+    background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMiIgaGVpZ2h0PSIxMyIgdmlld0JveD0iMCAwIDIyIDEzIiBmaWxsPSJub25lIj4KPHBhdGggZD0iTTIwIDExTDExIDJMMiAxMSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjwvcGF0aD4KPC9zdmc+"); 
+}
+
+::-webkit-scrollbar-button:vertical:start:increment {
+    display: none;
+}
+
+::-webkit-scrollbar-button:vertical:end:decrement {
+    display: none;
+}
+
+::-webkit-scrollbar-button:vertical:end:increment {
+    border-radius: 0px 0px 5px 5px;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMiIgaGVpZ2h0PSIxMyIgdmlld0JveD0iMCAwIDIyIDEzIiBmaWxsPSJub25lIj4KPHBhdGggZD0iTTIgMkwxMSAxMUwyMCAyIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PC9wYXRoPgo8L3N2Zz4=");   
+}
+
+/* ::-webkit-scrollbar-button:single-button:vertical:decrement {
+    border-width: 0 8px 8px 8px;
+    border-color: transparent transparent rgb(143, 143, 143) transparent;
+    transform: translateY(2px);
+}
+  
+::-webkit-scrollbar-button:single-button:vertical:increment {
+  border-width: 8px 8px 0 8px;
+  border-color: rgb(143, 143, 143) transparent transparent transparent;
+}   */
+
+
+/* Number Input */
+
+input[type=number] { 
+    -moz-appearance: textfield;
+    appearance: textfield;
+    margin: 0; 
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none; 
+      margin: 0; 
+}
+  
+.number-spinner {
+    background-color: transparent;
+    position: absolute;
+    bottom: 0.7em;
+    right: 0;
+    width: 0;
+    height: 0;
+}
+
+.number-spinner-inc {
+    border-radius: 5px 5px 0px 0px;
+    background-color: #d1d1d1;
+    background-repeat: no-repeat;
+    background-size: 50%;
+    background-position: center;
+    margin-bottom: 2px;
+    -webkit-box-shadow: inset 0 0 2px rgb(0 0 0 / 30%);
+    box-shadow: inset 0 0 2px rgb(0 0 0 / 30%);
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMiIgaGVpZ2h0PSIxMyIgdmlld0JveD0iMCAwIDIyIDEzIiBmaWxsPSJub25lIj4KPHBhdGggZD0iTTIwIDExTDExIDJMMiAxMSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjwvcGF0aD4KPC9zdmc+);
+    width: 20px;
+    height: 18px;
+    top: 1.8em;
+    right: -0.4em;
+}
+
+.number-spinner-dec {
+    border-radius: 0px 0px 5px 5px;
+    background-color: #d1d1d1;
+    background-repeat: no-repeat;
+    background-size: 50%;
+    background-position: center;
+    margin-bottom: 2px;
+    -webkit-box-shadow: inset 0 0 2px rgb(0 0 0 / 30%);
+    box-shadow: inset 0 0 2px rgb(0 0 0 / 30%);
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMiIgaGVpZ2h0PSIxMyIgdmlld0JveD0iMCAwIDIyIDEzIiBmaWxsPSJub25lIj4KPHBhdGggZD0iTTIgMkwxMSAxMUwyMCAyIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PC9wYXRoPgo8L3N2Zz4=);
+    width: 20px;
+    height: 18px;
+    bottom: 0.6em;
+    right: -0.4em;
+}
+
+.updateList {
+    margin-left: 2em;
+}
+
+.updateList li {
+    list-style-type: circle !important;
+}
+
+.olderVersions {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin-bottom: 1em;
+    margin-left: 2em;
+}
