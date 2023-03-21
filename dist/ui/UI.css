@@ -618,6 +618,39 @@ li.collection-item.speedup {
     justify-content: flex-end;
 }
 
+.speed-hack-input input.select-dropdown.dropdown-trigger {
+    position: relative;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #9e9e9e;
+    outline: none;
+    height: 2rem;
+    line-height: 3rem;
+    width: 100%;
+    font-size: 14px;
+    padding: 0;
+    display: block;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin: 0;
+    z-index: 1;
+}
+
+.speed-hack-input {
+    display: flex;
+    flex-direction: row-reverse;
+    margin-right: 2em;
+    justify-content: flex-end;
+    color: #4a4a4a;
+    align-items: center;
+    gap: 2em;
+    font-size: 1vw;
+    height: 3vh;
+}
+
 .random-opts-container {
     display: flex;
     gap: 3em;

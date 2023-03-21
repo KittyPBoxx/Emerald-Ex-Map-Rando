@@ -235,6 +235,11 @@ function registerGUIEvents() {
         forceNextWarp = game + "," + bank + "," + map + "," + warp;
     });
 
+    addEvent("change", document.getElementById("speed-hack-value-input"), () => {
+        setSpeedupHackState(SPEEDUP_HACKS_MODE[document.getElementById("speed-hack-value-input").value]);
+    });
+    
+
     addEvent("click", document.getElementById("give-shoes"), () => modifyRunningShoes(IodineGUI.Iodine.IOCore.cartridge.romCode, 1));
     addEvent("click", document.getElementById("take-shoes"), () => modifyRunningShoes(IodineGUI.Iodine.IOCore.cartridge.romCode, 0));
 

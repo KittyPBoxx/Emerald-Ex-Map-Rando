@@ -46,6 +46,22 @@ const EMERALD_MAP_TYPE = 0x203732F; // Used for enabling teleports/fly anywhere 
 var flagManager; // only global to help debugging
 var isInSafari = false;
 
+const SPEEDUP_HACKS_MODE = { ON: 2, BATTLE_ONLY: 1, OFF: 0}
+var speedupHackState = SPEEDUP_HACKS_MODE.ON;
+
+function setSpeedupHackState(mode) {
+    if (mode == SPEEDUP_HACKS_MODE.ON) {
+        bypassWait = true;
+        speedupHackState = SPEEDUP_HACKS_MODE.ON
+    } else if (mode == SPEEDUP_HACKS_MODE.BATTLE_ONLY) {
+        bypassWait = false;
+        speedupHackState = SPEEDUP_HACKS_MODE.BATTLE_ONLY;
+    } else if (mode == SPEEDUP_HACKS_MODE.OFF) {
+        bypassWait = false;
+        speedupHackState = SPEEDUP_HACKS_MODE.OFF;
+    }
+}
+
 async function disableBypassWait() {
     bypassWait = false;
     await delay(500);
@@ -58,18 +74,15 @@ GameBoyAdvanceCPU.prototype.write32 = function (address, data) {
     if (address == EMERALD_LAST_BANK)  {
         isInSafari = new FlagManager().getFlag(IodineGUI.Iodine.IOCore.cpu.read32(EMERALD_SAVE_1_PTR), EMERALD_SYS_FLAGS_OFFSET, 0x2C)
         specialPostWarpHandling();
-    } else if (address == 0x02038c5c) 
-    {
+    } else if (address == 0x02038c5c && speedupHackState == SPEEDUP_HACKS_MODE.ON) {
         if (data == -1) {
             disableBypassWait();
         }
-    } else if (address == 0x02020004) 
-    {
+    } else if (address == 0x02020004) {
         // Make emulation more accurate :/
         data = 0;
-    } else if (address == 0x02025364) 
-    {
-        console.log("start battle")
+    } else if (address == 0x02025364 && speedupHackState == SPEEDUP_HACKS_MODE.BATTLE_ONLY) {
+        bypassWait = true;
     }    
 
     this.write32WithoutIntercept(address, data);
@@ -78,10 +91,7 @@ GameBoyAdvanceCPU.prototype.write32 = function (address, data) {
 // GameBoyAdvanceCPU.prototype.write16WithoutIntercept = GameBoyAdvanceCPU.prototype.write16;
 // GameBoyAdvanceCPU.prototype.write16 = function (address, data) { 
 
-//     if (address == 0x02024f0e && data != 0) 
-//     {
-//         console.log("end battle")
-//     }
+
 
 //     this.write16WithoutIntercept(address, data);
 // }
@@ -89,12 +99,10 @@ GameBoyAdvanceCPU.prototype.write32 = function (address, data) {
  GameBoyAdvanceCPU.prototype.write8WithoutIntercept = GameBoyAdvanceCPU.prototype.write8;
  GameBoyAdvanceCPU.prototype.write8 = function (address, data) { 
 
-    if (address == EMERALD_CURRENT_WARP)
-    {
+    if (address == EMERALD_CURRENT_WARP){
         isWarping = randomWarpsEnabled || forceNextWarp;
-    } else if (address == 0x02024f0e && data != 0) 
-    {
-        console.log("end battle")
+    } else if (address == 0x02024f0e && data != 0 && speedupHackState == SPEEDUP_HACKS_MODE.BATTLE_ONLY) {
+        bypassWait = false;
     }
     
     this.write8WithoutIntercept(address, data);

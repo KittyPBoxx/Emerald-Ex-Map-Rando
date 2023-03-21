@@ -150,6 +150,14 @@
                               <input class="file-path validate" type="text">
                             </div>
                           </div>
+                          <div class="input-field col s12 speed-hack-input">
+                            <select id="speed-hack-value-input">
+                              <option value="ON" selected>On</option>
+                              <option value="BATTLE_ONLY">Battle Only</option>
+                              <option value="OFF">Off</option>
+                            </select>
+                            <span>SPEED HACKS</span>
+                          </div>
                           <div class="btn-small right-align" id="reset">
                             <span>RESET</span>
                           </div>
@@ -280,7 +288,7 @@
                           <div class="map-row random-row">
                             <div class="input-field col s6 location-inputs">
                               <span>SEARCH LOCATION</span>
-                              <input id="autocomplete-locations" autocomplete="off" class="autocomplete" type="text" value="PALLET TOWN" data-length="25">
+                              <input id="autocomplete-locations" autocomplete="off" class="autocomplete" type="text" value="LITTLE ROOT" data-length="25">
                             </div>
                             <div class="warp-destination-container">
                               <div class="input-field col s12 game-input hide">
@@ -291,19 +299,19 @@
                               </div>
                               <div class="input-field col s6 warp-select bank-value" id="bank-value">
                                 <span>BANK</span>
-                                <input id="bank-value-input" type="number" value="3" min="0" max="255" data-length="2">
+                                <input id="bank-value-input" type="number" value="0" min="0" max="255" data-length="2">
                                 <span class="number-spinner number-spinner-inc" id="bank-value-input-inc"></span>
                                 <span class="number-spinner number-spinner-dec" id="bank-value-input-dec"></span>
                               </div>
                               <div class="input-field col s6 warp-select map-value" id="map-value">
                                 <span>MAP</span>
-                                <input id="map-value-input" type="number" value="0" min="0" max="255" data-length="2">
+                                <input id="map-value-input" type="number" value="9" min="0" max="255" data-length="2">
                                 <span class="number-spinner number-spinner-inc" id="map-value-input-inc"></span>
                                 <span class="number-spinner number-spinner-dec" id="map-value-input-dec"></span>
                               </div>
                               <div class="input-field col s6 warp-select warp-value" id="warp-value">
                                 <span>WARP</span>
-                                <input id="warp-value-input" type="number" value="0" min="0" max="255" data-length="2">
+                                <input id="warp-value-input" type="number" value="2" min="0" max="255" data-length="2">
                                 <span class="number-spinner number-spinner-inc" id="warp-value-input-inc"></span>
                                 <span class="number-spinner number-spinner-dec" id="warp-value-input-dec"></span>
                               </div>
