@@ -1991,6 +1991,7 @@ var EMERALD_WARPS =
             "E,0,7,8": true,
             "E,0,7,6": true,
             "E,0,7,4": true,
+            "E,0,7,13": true,
         }
     },
     "E,0,7,2"  : {
@@ -2074,6 +2075,14 @@ var EMERALD_WARPS =
         "name": "SOOTOPOLIS CITY - OUTSIDE - Right Side Bottom - 33,24",
         "level" : "8",
         "to" : "E,15,13,0",
+        "connections" : {
+            "E,0,7,1": true,
+        }
+    },
+    "E,0,7,13" : {
+        "name": "SOOTOPOLIS CITY - OUTSIDE - New Cave - 30,19",
+        "level" : "8",
+        "to" : "E,24,39,1",
         "connections" : {
             "E,0,7,0": true,
         }
@@ -6370,6 +6379,7 @@ var EMERALD_WARPS =
         "name" : "SEAFLOOR CAVERN - INSIDE - F7 Bottom - B,15",
         "to" : "E,24,29,2",
         "level" : "8",
+        "ignore" : true,
         "connections" : {
             "E,24,33,1": "HOENN_SURF",
             "E,24,33,2": "HOENN_SURF",
@@ -6379,6 +6389,7 @@ var EMERALD_WARPS =
         "name" : "SEAFLOOR CAVERN - INSIDE - F7 Top - 4,1",
         "to" : "E,24,30,2",
         "level" : "8",
+        "ignore" : true,
         "connections" : {
             "E,24,33,0": "HOENN_SURF",
             "E,24,33,2": "HOENN_SURF",
@@ -6388,6 +6399,7 @@ var EMERALD_WARPS =
         "name" : "SEAFLOOR CAVERN - INSIDE - F7 Center - E,8",
         "to" : "E,24,27,70",
         "level" : "8",
+        "ignore" : true,
         "connections" : {
             "E,24,33,0": "HOENN_SURF",
             "E,24,33,1": "HOENN_SURF",
@@ -6474,6 +6486,7 @@ var EMERALD_WARPS =
         "name" : "CAVE OF ORIGIN - INSIDE - F3 Top - D,5",
         "to" : "E,24,38,1",
         "level" : "8",
+        "ignore" : true,
         "connections" : {
             "E,24,39,1": true,
         }
@@ -6482,6 +6495,7 @@ var EMERALD_WARPS =
         "name" : "CAVE OF ORIGIN - INSIDE - F3 Bottom - 5,B",
         "to" : "E,24,40,0",
         "level" : "8",
+        "ignore" : true,
         "connections" : {
             "E,24,39,0": true,
         }
@@ -6490,6 +6504,7 @@ var EMERALD_WARPS =
     "E,24,40,0" : {
         "name" : "CAVE OF ORIGIN - INSIDE - F4 Top - 5,A",
         "to" : "E,24,39,1",
+        "ignore" : true,
         "level" : "8",
         "connections" : {
             "E,24,40,1": true,
@@ -6498,6 +6513,7 @@ var EMERALD_WARPS =
     "E,24,40,1" : {
         "name" : "CAVE OF ORIGIN - INSIDE - F4 Bottom - 8,E",
         "to" : "E,24,41,0",
+        "ignore" : true,
         "level" : "8",
         "connections" : {
             "E,24,40,0": true,
@@ -6508,6 +6524,7 @@ var EMERALD_WARPS =
         "name" : "CAVE OF ORIGIN - INSIDE - F5 Bottom - 7,E",
         "to" : "E,24,40,1",
         "level" : "8",
+        "ignore" : true,
         "connections" : {
             "E,24,41,1": true,
         }
@@ -6516,6 +6533,7 @@ var EMERALD_WARPS =
         "name" : "CAVE OF ORIGIN - INSIDE - F5 Top - C,6",
         "to" : "E,24,42,0",
         "level" : "8",
+        "ignore" : true,
         "connections" : {
             "E,24,41,0": true,
         }
