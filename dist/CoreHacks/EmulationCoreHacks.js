@@ -85,6 +85,14 @@ GameBoyAdvanceCPU.prototype.write32 = function (address, data) {
         bypassWait = true;
     }    
 
+    if (usingHomeWarp && address == EMERALD_CURRENT_BANK){
+        this.write8(EMERALD_CURRENT_BANK, 0);
+        this.write8(EMERALD_CURRENT_MAP, 9);
+        this.write8(EMERALD_CURRENT_WARP, 1);
+        usingHomeWarp = false;
+        return;
+    }
+
     this.write32WithoutIntercept(address, data);
 }
 
@@ -118,16 +126,12 @@ var teleportAnywhere = false;
 GameBoyAdvanceCPU.prototype.read8WithoutIntercept = GameBoyAdvanceCPU.prototype.read8;
 GameBoyAdvanceCPU.prototype.read8 = function (address) {
 
-    if (teleportAnywhere) {
-        if (address == EMERALD_MAP_TYPE){
-            return 2;
-        }
-    }
-
+    
     if (!isWarping) return this.read8WithoutIntercept(address);
 
     if (address == EMERALD_CURRENT_BANK) 
     {
+        console.log("reading next warp");
         // Base game Emerald
         address = this.handleWarpRedirection(address, IodineGUI.Iodine.IOCore.cartridge.romCode);
         
@@ -138,16 +142,16 @@ GameBoyAdvanceCPU.prototype.read8 = function (address) {
 
 var reverseNextWarp = false; // Set true when loading a save state that was going through a warp
 var forceNextWarp = null;
+var usingHomeWarp = true;
 GameBoyAdvanceCPU.prototype.handleWarpRedirection = function (address, romCode) {
+
+    console.log("Doning warp redirect");
 
     let bank = this.read8WithoutIntercept(address);
     let map = this.read8WithoutIntercept(address + 1);
     let warpNo = this.read8WithoutIntercept(address + 2);
     
-
-    let usingHomeWarp = this.handelHomeWarp(romCode, bank, map, warpNo);
-    
-    if (warpNo == 255 && !usingHomeWarp) { 
+    if (warpNo == 255) { 
         // Avoid scripted warps, route connections without zone e.t.c
         return address; 
     }
@@ -349,9 +353,51 @@ function spliceWRAM(address, length, data) {
 /***********************/
 /* Dynamic rom patches */  
 /***********************/
-/**
- * Patches out an area in the ROM 
- */
+
+
+const MAP_TYPE_ADDRESS = 0x2037f2f;
+const MAP_TYPES = {
+    NONE       : 0,
+    TOWN       : 1,
+    CITY       : 2,
+    ROUTE      : 3,
+    UNDERGROUND: 4,
+    UNDERWATER : 5,
+    OCEAN_ROUTE: 6,
+    UNKNOWN    : 7, // Not used by any map.
+    INDOOR     : 8,
+    SECRET_BASE: 9
+};
+
+function isMapOutside() {
+    let mapType = IodineGUI.Iodine.IOCore.cpu.read8(MAP_TYPE_ADDRESS);
+    return mapType == MAP_TYPES.NONE ||
+           mapType == MAP_TYPES.TOWN ||
+           mapType == MAP_TYPES.CITY ||
+           mapType == MAP_TYPES.ROUTE ||
+           mapType == MAP_TYPES.UNDERWATER ||
+           mapType == MAP_TYPES.OCEAN_ROUTE;
+}
+
+GameBoyAdvanceMultiCartridge.prototype.readROM16WithoutIntercept = GameBoyAdvanceMultiCartridge.prototype.readROM16;
+GameBoyAdvanceMultiCartridge.prototype.readROM16 = function (address) {
+    
+    if (address == 0xb9f78) {
+        console.log("Destination to escape warp");
+
+        if (isMapOutside()) {
+            usingHomeWarp = true;
+        }
+    }   
+
+    // if (address == 0xb9fc6) {
+    //     console.log("Escape goes home");
+    // } else if (address == 0xb9fb2) {
+    //     console.log("Escape goes outside");
+    // }
+
+    return this.readROM16WithoutIntercept(address);
+}
 
 var currentlySaving = false;
 GameBoyAdvanceMultiCartridge.prototype.readROM8WithoutIntercept = GameBoyAdvanceMultiCartridge.prototype.readROM8;
