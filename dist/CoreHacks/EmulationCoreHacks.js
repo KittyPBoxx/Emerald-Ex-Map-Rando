@@ -1,13 +1,7 @@
 /**
  * Random Warp Script
  */
-
-// Ruby/Saphire (0x020297f0) where to find current warp
-
 var isWarping = false;
-var switchingGameState = 0; // 0 - Not Switching Game, 
-                            // 1 - Playing exit transition before switch
-                            // 2 - Playing enterance after switch 
 var randomWarpsEnabled = true;
 
 /******************/
@@ -23,28 +17,21 @@ var randomWarpsEnabled = true;
  *  5) A write32 is done to the last bank address
  *  6) New map is loaded and fades in then enterance animation is played 
  * 
- * 
  *  Warp flow:
  * 
  *  Within game:
- *  Wait for write to warp address -> switch to warping state -> wait for next read from warp address -> make save state -> before reading overwrite it -> continue  
- * 
- *  To another game:
- *  Wait for write to warp address -> switch to warping state -> wait for next read from warp address -> take a save state -> increment game state -> resume playing ->
- *  wait for write to previous warp address (player exit map in first game) -> load state from different game (copying data accross) that was take just before warp ->
- *  make screen black -> overwrite next warp location -> increment warp state ->  wait for write to previous warp address (player exit map in load state from second game) -> 
- *  make screen visible -> continue
+ *  Wait for write to warp address -> 
+ *  switch to warping state -> 
+ *  wait for next read from warp address -> 
+ *  before reading overwrite it -> 
+ *  update flags e.t.c
+ *  continue  
  */
-const EMERALD_LAST_BANK = 0x02032eDC;
-
 const EMERALD_CURRENT_BANK = 0x2032ee4;
 const EMERALD_CURRENT_MAP  = 0x2032ee5;
 const EMERALD_CURRENT_WARP = 0x2032ee6;
 
-const EMERALD_MAP_TYPE = 0x203732F; // Used for enabling teleports/fly anywhere (0x2 for city, 0x4 for underground) 
-
 var flagManager; // only global to help debugging
-var isInSafari = false;
 
 const SPEEDUP_HACKS_MODE = { ON: 2, BATTLE_ONLY: 1, OFF: 0}
 var speedupHackState = SPEEDUP_HACKS_MODE.ON;
@@ -68,13 +55,11 @@ async function disableBypassWait() {
     bypassWait = true;
 }
 
+var usingHomeWarp = false;
 GameBoyAdvanceCPU.prototype.write32WithoutIntercept = GameBoyAdvanceCPU.prototype.write32;
 GameBoyAdvanceCPU.prototype.write32 = function (address, data) { 
 
-    if (address == EMERALD_LAST_BANK)  {
-        isInSafari = new FlagManager().getFlag(IodineGUI.Iodine.IOCore.cpu.read32(EMERALD_SAVE_1_PTR), EMERALD_SYS_FLAGS_OFFSET, 0x2C)
-        specialPostWarpHandling();
-    } else if (address == 0x02038c5c && speedupHackState == SPEEDUP_HACKS_MODE.ON) {
+    if (address == 0x02038c5c && speedupHackState == SPEEDUP_HACKS_MODE.ON) {
         if (data == -1) {
             disableBypassWait();
         }
@@ -98,9 +83,6 @@ GameBoyAdvanceCPU.prototype.write32 = function (address, data) {
 
 // GameBoyAdvanceCPU.prototype.write16WithoutIntercept = GameBoyAdvanceCPU.prototype.write16;
 // GameBoyAdvanceCPU.prototype.write16 = function (address, data) { 
-
-
-
 //     this.write16WithoutIntercept(address, data);
 // }
 
@@ -131,10 +113,7 @@ GameBoyAdvanceCPU.prototype.read8 = function (address) {
 
     if (address == EMERALD_CURRENT_BANK) 
     {
-        console.log("reading next warp");
-        // Base game Emerald
         address = this.handleWarpRedirection(address, IodineGUI.Iodine.IOCore.cartridge.romCode);
-        
     }
 
     return this.read8WithoutIntercept(address);
@@ -142,7 +121,6 @@ GameBoyAdvanceCPU.prototype.read8 = function (address) {
 
 var reverseNextWarp = false; // Set true when loading a save state that was going through a warp
 var forceNextWarp = null;
-var usingHomeWarp = true;
 GameBoyAdvanceCPU.prototype.handleWarpRedirection = function (address, romCode) {
 
     console.log("Doning warp redirect");
@@ -176,8 +154,6 @@ GameBoyAdvanceCPU.prototype.handleWarpRedirection = function (address, romCode) 
 
     if (pkWarp) {
 
-        pkWarp = specialPreWarpHandling(pkWarp);
-
         IodineGUI.Iodine.pause();
 
         IodineGUI.Iodine.saveStateManager.saveState(romCode, true);
@@ -186,7 +162,7 @@ GameBoyAdvanceCPU.prototype.handleWarpRedirection = function (address, romCode) 
         this.write8(EMERALD_CURRENT_MAP, pkWarp.toMap);
         this.write8(EMERALD_CURRENT_WARP, pkWarp.toWarpNo);
 
-        specialDuringWarpHandling(pkWarp);
+        specialWarpHandling(pkWarp);
 
         IodineGUI.Iodine.play();
 
@@ -200,38 +176,11 @@ GameBoyAdvanceCPU.prototype.handleWarpRedirection = function (address, romCode) 
     return address;
 }
 
-// Home Warp function use the same script as the safari zone 
-// If we are currently in the safari zone we run the script normally otherwise we modify the location to send us home
-GameBoyAdvanceCPU.prototype.handelHomeWarp = function(romCode, bank, map, warpNo) {
-
-    if (bank == 23 && map == 0 && warpNo == 255) {
-        if (!isInSafari) {
-            forceNextWarp = forceNextWarp || "E,1,3,0";
-            writeGameVar("E", 0x40A4, 0);
-            return true;
-        }
-    }
-
-    return false;
-}
-
-// Some warps may need special handling to avoid bugs
-/*
-*   PreWarp handling takes place as soon as a warps has been triggered. This is useful if you need to alter the location
-*   that a warp would be going to
-*/
-function specialPreWarpHandling(pkwarp) {
-
-    // let destination = pkwarp.toRomCode + "," + pkwarp.toBank + "," + pkwarp.toMap + "," + pkwarp.toWarpNo;
-
-    return pkwarp;
-}
-
 /*
 *   DuringWarp handling takes place before the warp had happened but after the new rom has been loaded
 *   This is useful for when you need to set a flag/var in  a game you are loading before the new map loads
 */
-function specialDuringWarpHandling(pkwarp) {
+function specialWarpHandling(pkwarp) {
     
     let destination = pkwarp.toRomCode + "," + pkwarp.toBank + "," + pkwarp.toMap + "," + pkwarp.toWarpNo;
 
@@ -257,98 +206,29 @@ function specialDuringWarpHandling(pkwarp) {
         } else {
             writeGameVar("E", 0x4085, 6)
         }
-    } 
-
-    // If Mauville Gym make battle
-    if (destination == "E,10,0,0") {
+    } else if (destination == "E,16,0,0") {
+        // E4 rooms needs to walk fowards when entering
+        writeGameVar("E", 0x409C, 0);
+    } else if (destination == "E,16,0,1")  {
+        writeGameVar("E", 0x409C, 1);
+    } else if (destination == "E,16,1,0") {
+        writeGameVar("E", 0x409C, 1);
+    } else if (destination == "E,16,1,1") {
+        writeGameVar("E", 0x409C, 2);
+    } else if (destination == "E,16,2,0") {
+        writeGameVar("E", 0x409C, 2);
+    } else if (destination == "E,16,2,1") {
+        writeGameVar("E", 0x409C, 3);
+    } else if (destination == "E,16,3,0") {
+        writeGameVar("E", 0x409C, 3);
+    } else if (destination == "E,16,3,1") {
+        writeGameVar("E", 0x409C, 4);
+    } else  if (destination == "E,10,0,0") {
+        // If Mauville Gym make battle
         new FlagManager().setFlag(IodineGUI.Iodine.IOCore.cpu.read32(EMERALD_SAVE_1_PTR), 0x1270, 0x391, 0);
     }
 
-    // Make sure we can get waterfall
 }
-
-/*
-*   PostWarp handling takes place after the warp has finished
-*   This is useful for when you need to trigger an event after the new map has loaded
-*/
-function specialPostWarpHandling() {
-
-    // Need to pass in the current warp address
-    // Fix the "Jesus warps" in seafloor cavern for emerald
-
-    if (IodineGUI.Iodine.IOCore.cartridge.romCode === "E") {
-        let bank = IodineGUI.Iodine.IOCore.cpu.read8WithoutIntercept(EMERALD_CURRENT_BANK);
-        let map = IodineGUI.Iodine.IOCore.cpu.read8WithoutIntercept(EMERALD_CURRENT_BANK + 1);
-        let warpNo = IodineGUI.Iodine.IOCore.cpu.read8WithoutIntercept(EMERALD_CURRENT_BANK + 2);
-
-        let destination = "E" + "," + bank + "," + map + "," + warpNo;
-
-        if (destination == "E,24,33,2") {
-            // Seafloor caven stop walking on water
-            forceStateAfterDelay(MOVEMENT_MODE_SURF, 1000);
-        } else if (destination == "E,0,4,1" || destination == "E,0,4,4" || destination == "E,0,4,5" || destination == "E,0,4,6" || destination == "E,0,4,7" || destination == "E,0,4,8" || 
-                   destination == "E,0,15,0" || destination == "E,0,15,1" || destination == "E,0,15,2" || destination == "E,0,15,3" || destination == "E,0,15,4" || destination == "E,0,15,") {
-            if (document.getElementById("autoBike").checked) {
-                M.toast({html: 'Auto Bike Off', displayLength:1000 });
-                document.getElementById("autoBike").click();
-            }
-            // Somewhere we can't use a bike (fortree or pacifidlog)
-            forceStateAfterDelay(MOVEMENT_MODE_WALK, 1000);
-        } else if (destination == "E,16,0,0") {
-            // E4 rooms needs to walk fowards when entering
-            writeGameVar("E", 0x409C, 0);
-        } else if (destination == "E,16,0,1")  {
-            writeGameVar("E", 0x409C, 1);
-        } else if (destination == "E,16,1,0") {
-            writeGameVar("E", 0x409C, 1);
-        } else if (destination == "E,16,1,1") {
-            writeGameVar("E", 0x409C, 2);
-        } else if (destination == "E,16,2,0") {
-            writeGameVar("E", 0x409C, 2);
-        } else if (destination == "E,16,2,1") {
-            writeGameVar("E", 0x409C, 3);
-        } else if (destination == "E,16,3,0") {
-            writeGameVar("E", 0x409C, 3);
-        } else if (destination == "E,16,3,1") {
-            writeGameVar("E", 0x409C, 4);
-        }
-
-    }
-}
-
-async function forceStateAfterDelay(movementMode, delayTime) {
-    await delay(delayTime/IodineGUI.Iodine.getSpeed());
-    forcePlayerState(movementMode);
-}
-
-async function quickSpeedUp(duration) {
-    let currentSpeed = IodineGUI.Iodine.getSpeed();
-    IodineGUI.Iodine.setSpeed(4);
-    IodineGUI.mixerInput.volume = 0.0
-    await delay(duration);
-    IodineGUI.Iodine.setSpeed(currentSpeed);
-    IodineGUI.mixerInput.volume = 0.1
-}
-
-function quickHideScreen() {
-    let elmnt = document.getElementById("emulator_target");
-    elmnt.classList.remove("quick-hide");
-    elmnt.offsetWidth
-    elmnt.classList.add("quick-hide")
-}
-
-function readWRAMSlice(address, length) {
-    let startAddress = (address - 0x02000000);
-    let endAddress = startAddress + length;
-    return IodineGUI.Iodine.IOCore.memory.externalRAM.slice(startAddress, endAddress);
-}
-function spliceWRAM(address, length, data) {
-    let startAddress = (address - 0x02000000);
-    for (let i = 0; i<length; i++) {
-        IodineGUI.Iodine.IOCore.memory.externalRAM[startAddress + i] = data[i];
-    }
-}
-
 
 /***********************/
 /* Dynamic rom patches */  
@@ -390,12 +270,6 @@ GameBoyAdvanceMultiCartridge.prototype.readROM16 = function (address) {
         }
     }   
 
-    // if (address == 0xb9fc6) {
-    //     console.log("Escape goes home");
-    // } else if (address == 0xb9fb2) {
-    //     console.log("Escape goes outside");
-    // }
-
     return this.readROM16WithoutIntercept(address);
 }
 
@@ -424,46 +298,6 @@ GameBoyAdvanceSaves.prototype.saveIntercept = function(address, data) {
         currentlySaving = true;
     } 
 }
-
-
-const EMERALD_CURRENT_GROUND_OFFSET = 0x0203735B;
-const CURRENT_GROUND_LAND = 0x33;
-const CURRENT_GROUND_WATER = 0x11;
-const CURRENT_GROUND_LADDER = 0x30;
-const CURRENT_GROUND_ELEVATED = 0x44;
-
-const EMERALD_STATE_OFFSET = 0x02037591;
-function forcePlayerState(state) {
-
-    if(!IodineGUI.Iodine.IOCore) return;
-
-    IodineGUI.Iodine.IOCore.cpu.write8(EMERALD_MOVEMENT_MODE_OFFSET, state);
-    IodineGUI.Iodine.IOCore.cpu.write8(EMERALD_STATE_OFFSET, state); 
-    if (state == MOVEMENT_MODE_SURF) {
-        IodineGUI.Iodine.IOCore.cpu.write8(EMERALD_CURRENT_GROUND_OFFSET, CURRENT_GROUND_WATER); 
-    } else if (IodineGUI.Iodine.IOCore.cpu.read8(EMERALD_CURRENT_GROUND_OFFSET) == CURRENT_GROUND_ELEVATED) {
-        IodineGUI.Iodine.IOCore.cpu.write8(EMERALD_CURRENT_GROUND_OFFSET, CURRENT_GROUND_ELEVATED); 
-    } else {
-        IodineGUI.Iodine.IOCore.cpu.write8(EMERALD_CURRENT_GROUND_OFFSET, CURRENT_GROUND_LADDER); 
-    }
-}
-
-
-function dynamicMemorySlice(dynamicPointer, offsetInDynamic, length) {
-    let dynamicBlock = IodineGUI.Iodine.IOCore.cpu.read32(dynamicPointer);
-    let startAddress = (dynamicBlock + offsetInDynamic - 0x02000000);
-    let endAddress = startAddress + length;
-    return IodineGUI.Iodine.IOCore.memory.externalRAM.slice(startAddress, endAddress);    
-}
-
-function dynamicMemorySplice(dynamicPointer, offsetInDynamic, length, data) {
-    let dynamicBlock = IodineGUI.Iodine.IOCore.cpu.read32(dynamicPointer);
-    let startAddress = (dynamicBlock + offsetInDynamic - 0x02000000);
-    for (let i = 0; i<length; i++) {
-        IodineGUI.Iodine.IOCore.memory.externalRAM[startAddress + i] = data[i];
-    }
-}
-
 
 /******************/
 /* Data Addresses */
