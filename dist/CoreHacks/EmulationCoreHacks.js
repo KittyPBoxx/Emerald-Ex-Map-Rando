@@ -123,8 +123,6 @@ var reverseNextWarp = false; // Set true when loading a save state that was goin
 var forceNextWarp = null;
 GameBoyAdvanceCPU.prototype.handleWarpRedirection = function (address, romCode) {
 
-    console.log("Doning warp redirect");
-
     let bank = this.read8WithoutIntercept(address);
     let map = this.read8WithoutIntercept(address + 1);
     let warpNo = this.read8WithoutIntercept(address + 2);

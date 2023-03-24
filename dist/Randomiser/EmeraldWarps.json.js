@@ -6469,6 +6469,7 @@ var EMERALD_WARPS =
         "name" : "CAVE OF ORIGIN - INSIDE - F2 Bottom - B,11",
         "to" : "E,24,37,1",
         "level" : "8",
+        "ignore" : true,
         "connections" : {
             "E,24,38,1": true,
         }
@@ -6477,6 +6478,7 @@ var EMERALD_WARPS =
         "name" : "CAVE OF ORIGIN - INSIDE - F2 Top - E,5",
         "to" : "E,24,39,0",
         "level" : "8",
+        "ignore" : true,
         "connections" : {
             "E,24,38,0": true,
         }
