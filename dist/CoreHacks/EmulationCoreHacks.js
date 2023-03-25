@@ -98,13 +98,6 @@ GameBoyAdvanceCPU.prototype.write32 = function (address, data) {
     this.write8WithoutIntercept(address, data);
  }
 
-
-const EMERALD_MOVEMENT_MODE_OFFSET = 0x02037590;
-const FIRE_RED_MOVEMENT_MODE_OFFSET = 0x02037078;
-const MOVEMENT_MODE_WALK = 0x01;
-const MOVEMENT_MODE_BIKE = 0x02;
-const MOVEMENT_MODE_SURF = 0x08;
-var teleportAnywhere = false;
 GameBoyAdvanceCPU.prototype.read8WithoutIntercept = GameBoyAdvanceCPU.prototype.read8;
 GameBoyAdvanceCPU.prototype.read8 = function (address) {
 
