@@ -2339,7 +2339,7 @@ var EMERALD_WARPS =
         "groupMain" : true,
         "connections" : {
             "E,16,10,4": true,
-            "E,0,8,0": true
+            // "E,0,8,0": true // Technically you can whiteout to get there but really?
         }
     },
     "E,16,10,1" : {
@@ -2380,9 +2380,9 @@ var EMERALD_WARPS =
         "name": "E4 - INSIDE - Battle 1 Bottom - 6,D",
         "level": "9", 
         "to" : "E,16,9,1",
-        "connections" : {
-            "E,16,0,1": true
-        }
+        // "connections" : {
+        //     "E,16,0,1": true
+        // }
     },
     "E,16,0,1" : {
         "name": "E4 - INSIDE - Battle 1 Top - 6,2",
@@ -2393,9 +2393,9 @@ var EMERALD_WARPS =
         "name": "E4 - INSIDE - Battle 2 Bottom - 6,D",
         "level": "9", 
         "to" : "E,16,5,1",
-        "connections" : {
-            "E,16,1,1": true
-        }
+        // "connections" : {
+        //     "E,16,1,1": true
+        // }
     },
     "E,16,1,1" : {
         "name": "E4 - INSIDE - Battle 2 Top - 6,2",
@@ -2406,9 +2406,9 @@ var EMERALD_WARPS =
         "name": "E4 - INSIDE - Battle 3 Bottom - 6,D",
         "level": "9", 
         "to" : "E,16,6,1",
-        "connections" : {
-            "E,16,2,1": true
-        }
+        // "connections" : {
+        //     "E,16,2,1": true
+        // }
     },
     "E,16,2,1" : {
         "name": "E4 - INSIDE - Battle 3 Top - 6,2",
@@ -2419,9 +2419,9 @@ var EMERALD_WARPS =
         "name": "E4 - INSIDE - Battle 4 Bottom - 6,D",
         "level": "9", 
         "to" : "E,16,7,1",
-        "connections" : {
-            "E,16,3,1": true
-        }
+        // "connections" : {
+        //     "E,16,3,1": true
+        // }
     },
     "E,16,3,1" : {
         "name": "E4 - INSIDE - Battle 4 Top - 6,2",
@@ -3952,9 +3952,9 @@ var EMERALD_WARPS =
         "name" : "ROUTE 110 - INSIDE - Trick House Completed Left - 2,1",
         "to" : "E,29,2,0",
         "level" : "3",
-        "connections" : {
-            "E,29,1,0": true
-        }
+        // "connections" : {
+        //     "E,29,1,0": true
+        // }
     },
     "E,29,2,0" : {
         "name" : "ROUTE 110 - INSIDE - Trick House Hall Top - D,3",
