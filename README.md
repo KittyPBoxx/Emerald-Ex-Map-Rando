@@ -1,9 +1,8 @@
 # Emerald Speedchoice Ex map rando
 
-**WARNING! THIS PROJECT IS STILL IN DEVELOPMENT AND HAS HAD VERY LITTLE TESTING. PLEASE REPORT ANY BUGS**
-
 This is a custom emulator mod for playing Emerald Ex Speedchoice with random warps and speedup hacks [Go To The Emulator](https://kittypboxx.github.io/Emerald-Ex-Map-Rando/build)
 
+**PLEASE REPORT ANY BUGS IN THE ISSUES SECTION**
 
 ---
 

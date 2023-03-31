@@ -221,6 +221,7 @@ function specialWarpHandling(pkwarp) {
         new FlagManager().setFlag(IodineGUI.Iodine.IOCore.cpu.read32(EMERALD_SAVE_1_PTR), 0x1270, 0x391, 0);
     }
 
+    new FlagManager().writeFlags();
 }
 
 /***********************/

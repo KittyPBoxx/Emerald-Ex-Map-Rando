@@ -2322,6 +2322,7 @@ var EMERALD_WARPS =
         "name": "EVER GRANDE CITY- INSIDE - PkCenter Stairs - 1,6",
         "level": "9", 
         "to": "E,16,13,0",
+        "ignore": true,
         "connections" : {
             "E,16,12,0": true,
         }
@@ -6543,7 +6544,7 @@ var EMERALD_WARPS =
 // F6
     "E,24,42,0" : {
         "name" : "CAVE OF ORIGIN - INSIDE - Wallice Cave - 9,3",
-        "to" : "E,24,41,1",
+        "to" : "E,24,38,1",
         "level" : "8",
     },
 /* Sky pillar */

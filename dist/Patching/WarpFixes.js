@@ -5,7 +5,7 @@ function patchDuplicateWarps() {
 
         // (24,24,20, 24,24,23) -> 24,24,17
         // First Duplicate Warp in aquas hideout
-        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x0872b27c - 0x08000000, 0x32);
+        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x0872b27d - 0x08000000, 0x32);
 
         // (24,24,9, 24,24,14, 24,24,21) -> 24,24,12
         // Second duplicate Warp in aquas hideout
