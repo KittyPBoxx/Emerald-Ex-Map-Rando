@@ -2004,7 +2004,8 @@ var EMERALD_WARPS =
         // CAVE OF ORIGIN
         "name": "SOOTOPOLIS CITY - OUTSIDE - Cave Of Origin - 1F,10",
         "level" : "8",
-        "to" : "E,24,37,0"
+        "to" : "E,24,37,0",
+        "ignore": true
     },
     "E,0,7,4"  : {
         "name": "SOOTOPOLIS CITY - OUTSIDE - Left Side Top - 9,6",
