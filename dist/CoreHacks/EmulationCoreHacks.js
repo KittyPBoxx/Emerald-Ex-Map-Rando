@@ -409,6 +409,20 @@ FlagManager.prototype.writeFlags = function () {
 
     // Not On Bike Path
     modifySystemFlag(0x2B, 0);
+
+    // Open Sootopolis Gym Door
+    this.setFlag(save1Start, EMERALD_BASE_FLAGS_OFFSET, 0x9E, 1);
+
+    // Sootopolis always in nice state
+    writeGameVar(0x405E, 0);
+    this.setFlag(save1Start, EMERALD_BASE_FLAGS_OFFSET, 0x81, 1);
+
+    // Rae-Rae always available
+    writeGameVar(0x40D7, 0);
+    this.setFlag(save1Start, EMERALD_BASE_FLAGS_OFFSET, 0x50, 0);
+
+    // Show steven on the bridge
+    this.setFlag(save1Start, EMERALD_BASE_FLAGS_OFFSET, 0x3CC, 0);
 }
 
 

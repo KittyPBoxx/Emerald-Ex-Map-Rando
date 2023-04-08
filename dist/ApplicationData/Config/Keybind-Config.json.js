@@ -3,7 +3,8 @@ const DEFAULT_KEYBIND_CONFIG_PATH = "Config/Keybind-Config.json";
 const DEFAULT_KEYBIND_CONFIG = 
 `[
     {"type": "exec"  , "command": "toggleMenu"  , "kbd":"Escape"         , "gmpd": null      }, 
-    {"type": "exec"  , "command": "SpeedUp"     , "kbd":"Space"          , "gmpd": null      },
+    {"type": "exec"  , "command": "SpeedUp"     , "kbd":"KeyQ"           , "gmpd": null      },
+    {"type": "exec"  , "command": "SpeedHacks"  , "kbd":"Space"          , "gmpd": null      },
     {"type": "exec"  , "command": "Restart"     , "kbd":"KeyR"           , "gmpd": null      },
     {"type": "exec"  , "command": "SaveSlot1"   , "kbd":"Numpad8"        , "gmpd": null      },
     {"type": "exec"  , "command": "LoadSlot1"   , "kbd":"Numpad2"        , "gmpd": null      },

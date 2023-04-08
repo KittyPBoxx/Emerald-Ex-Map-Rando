@@ -85,6 +85,18 @@ CommandExecutor.register("Restart", args => IodineGUI.Iodine.restart());
 CommandExecutor.register("Start", args => IodineGUI.Iodine.play());
 CommandExecutor.register("Stop", args => IodineGUI.Iodine.stop());
 
+CommandExecutor.register("SpeedHacks", args => { 
+  if (speedupHackState != SPEEDUP_HACKS_MODE.OFF) {
+    setSpeedupHackState(SPEEDUP_HACKS_MODE.OFF);
+    document.getElementById("speed-hack-value-input").value = "OFF";
+    M.FormSelect.getInstance(document.getElementById("speed-hack-value-input"))._handleSelectChangeBound()
+  } else {
+    setSpeedupHackState(SPEEDUP_HACKS_MODE.ON);
+    document.getElementById("speed-hack-value-input").value = "ON";
+    M.FormSelect.getInstance(document.getElementById("speed-hack-value-input"))._handleSelectChangeBound()
+  }
+});
+
 function updateEnabledAudioForSpeed() {
   if (IodineGUI.Iodine.getSpeed() == 1) {
     IodineGUI.Iodine.enableAudio();
