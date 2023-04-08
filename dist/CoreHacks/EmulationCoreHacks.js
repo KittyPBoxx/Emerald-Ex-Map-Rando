@@ -49,9 +49,15 @@ function setSpeedupHackState(mode) {
     }
 }
 
+var disableWaitCount = 0;
 async function disableBypassWait() {
     bypassWait = false;
-    await delay(500);
+    disableWaitCount = Math.max(disableWaitCount + 1, 2);
+    while(disableWaitCount > 0 ) {
+        await delay(500);
+        disableWaitCount--
+    }
+    disableWaitCount = 0;
     bypassWait = true;
 }
 
