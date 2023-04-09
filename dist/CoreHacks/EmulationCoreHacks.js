@@ -3,6 +3,7 @@
  */
 var isWarping = false;
 var randomWarpsEnabled = true;
+var needsPositioningAfterWarp = false;
 
 /******************/
 /* Warp Addresses */
@@ -30,6 +31,11 @@ var randomWarpsEnabled = true;
 const EMERALD_CURRENT_BANK = 0x2032ee4;
 const EMERALD_CURRENT_MAP  = 0x2032ee5;
 const EMERALD_CURRENT_WARP = 0x2032ee6;
+
+// These are from the normally dynamic save block 
+// gSaveBlock1Ptr->location.x e.t.c
+const X_VAL_POST_WARP = 0x02026688;
+const Y_VAL_POST_WARP = 0x0202668A;
 
 var flagManager; // only global to help debugging
 
@@ -87,10 +93,27 @@ GameBoyAdvanceCPU.prototype.write32 = function (address, data) {
     this.write32WithoutIntercept(address, data);
 }
 
-// GameBoyAdvanceCPU.prototype.write16WithoutIntercept = GameBoyAdvanceCPU.prototype.write16;
-// GameBoyAdvanceCPU.prototype.write16 = function (address, data) { 
-//     this.write16WithoutIntercept(address, data);
-// }
+GameBoyAdvanceCPU.prototype.write16WithoutIntercept = GameBoyAdvanceCPU.prototype.write16;
+GameBoyAdvanceCPU.prototype.write16 = function (address, data) { 
+
+
+    if (needsPositioningAfterWarp) {
+        if (address == X_VAL_POST_WARP) {
+    
+            console.log("Writing x");
+            return this.write16WithoutIntercept(address, needsPositioningAfterWarp[0]);
+    
+        } else if (address == Y_VAL_POST_WARP) {
+    
+            console.log("Writing y");
+            let yLocation = needsPositioningAfterWarp[1];
+            needsPositioningAfterWarp = false;
+            return this.write16WithoutIntercept(address, yLocation);
+        }
+    }
+
+    this.write16WithoutIntercept(address, data);
+}
 
  GameBoyAdvanceCPU.prototype.write8WithoutIntercept = GameBoyAdvanceCPU.prototype.write8;
  GameBoyAdvanceCPU.prototype.write8 = function (address, data) { 
@@ -163,7 +186,7 @@ GameBoyAdvanceCPU.prototype.handleWarpRedirection = function (address, romCode) 
         this.write8(EMERALD_CURRENT_MAP, pkWarp.toMap);
         this.write8(EMERALD_CURRENT_WARP, pkWarp.toWarpNo);
 
-        specialWarpHandling(pkWarp);
+        specialWarpHandling(pkWarp, trigger);
 
         console.log("Warping sending to " + pkWarp.toRomCode + "," + pkWarp.toBank + "," + pkWarp.toMap + "," + pkWarp.toWarpNo); 
     } else {
@@ -175,25 +198,73 @@ GameBoyAdvanceCPU.prototype.handleWarpRedirection = function (address, romCode) 
     return address;
 }
 
+var warpsNeedingPositionForces = new Map();
+warpsNeedingPositionForces.set("E,0,1,5"    , [0x1E, 0x1B]);
+warpsNeedingPositionForces.set("E,0,5,0"    , [0x1B, 0x07]);
+warpsNeedingPositionForces.set("E,0,2,0"    , [0x08, 0x06]);
+warpsNeedingPositionForces.set("E,0,7,5"    , [0x2D, 0x07]);
+warpsNeedingPositionForces.set("E,0,7,9"    , [0x35, 0x1D]);
+warpsNeedingPositionForces.set("E,0,7,4"    , [0x09, 0x07]);
+warpsNeedingPositionForces.set("E,0,8,2"    , [0x12, 0x2A]);
+warpsNeedingPositionForces.set("E,0,11,3"   , [0x11, 0x0E]);
+warpsNeedingPositionForces.set("E,0,12,5"   , [0x09, 0x02]);
+warpsNeedingPositionForces.set("E,0,14,4"   , [0x08, 0x02]);
+warpsNeedingPositionForces.set("E,0,15,0"   , [0x08, 0x10]);
+warpsNeedingPositionForces.set("E,0,26,0"   , [0x0D, 0x72]);
+warpsNeedingPositionForces.set("E,11,0,2"   , [0x0E, 0x02]);
+warpsNeedingPositionForces.set("E,14,9,2"   , [0x0D, 0x02]);
+warpsNeedingPositionForces.set("E,14,10,2"  , [0x0d, 0x02]);
+warpsNeedingPositionForces.set("E,16,10,2"  , [0x09, 0x02]);
+warpsNeedingPositionForces.set("E,24,8,2"   , [0x1D, 0x0D]);
+warpsNeedingPositionForces.set("E,24,8,3"   , [0x1C, 0x15]);
+warpsNeedingPositionForces.set("E,24,9,0"   , [0x1D, 0x0D]);
+warpsNeedingPositionForces.set("E,24,9,1"   , [0x1C, 0x15]);
+warpsNeedingPositionForces.set("E,24,13,4"  , [0x10, 0x13]);
+warpsNeedingPositionForces.set("E,24,16,4"  , [0x0B, 0x09]);
+warpsNeedingPositionForces.set("E,24,16,2"  , [0x0A, 0x0C]);
+warpsNeedingPositionForces.set("E,24,17,5"  , [0x06, 0x0C]);
+warpsNeedingPositionForces.set("E,24,17,4"  , [0x0A, 0x0C]);
+warpsNeedingPositionForces.set("E,24,18,2"  , [0x0C, 0x0A]);
+warpsNeedingPositionForces.set("E,24,18,3"  , [0x0C, 0x0C]);
+warpsNeedingPositionForces.set("E,24,19,3"  , [0x0C, 0x0A]);
+warpsNeedingPositionForces.set("E,24,19,4"  , [0x0C, 0x0C]);
+warpsNeedingPositionForces.set("E,24,24,10" , [0x20, 0x13]);
+warpsNeedingPositionForces.set("E,24,25,5"  , [0x05, 0x08]);
+warpsNeedingPositionForces.set("E,24,25,9"  , [0x20, 0x14]);
+warpsNeedingPositionForces.set("E,24,29,2"  , [0x06, 0x01]);
+warpsNeedingPositionForces.set("E,24,78,0"  , [0x11, 0x0D]);
+warpsNeedingPositionForces.set("E,24,81,0"  , [0x03, 0x01]);
+warpsNeedingPositionForces.set("E,24,82,1"  , [0x07, 0x01]);
+warpsNeedingPositionForces.set("E,24,95,0"  , [0x12, 0x0C]);
+warpsNeedingPositionForces.set("E,24,96,0"  , [0x12, 0x0C]);
+warpsNeedingPositionForces.set("E,26,74,1"  , [0x05, 0x05]);
+warpsNeedingPositionForces.set("E,26,87,0"  , [0x0E, 0x13]);
+
+var escalatorTriggers = new Set();
+escalatorTriggers.add("E,8,5,0"  );
+escalatorTriggers.add("E,9,12,0" );
+escalatorTriggers.add("E,10,6,0" );
+escalatorTriggers.add("E,11,6,0" );
+escalatorTriggers.add("E,12,3,0" );
+escalatorTriggers.add("E,13,7,0" );
+escalatorTriggers.add("E,14,4,0" );
+escalatorTriggers.add("E,15,3,0" );
+escalatorTriggers.add("E,16,13,0");
+escalatorTriggers.add("E,16,14,0");
+escalatorTriggers.add("E,2,3,0"  );
+escalatorTriggers.add("E,3,2,0"  );
+escalatorTriggers.add("E,4,6,0"  );
+escalatorTriggers.add("E,5,5,0"  );
+escalatorTriggers.add("E,6,5,0"  );
+escalatorTriggers.add("E,7,1,0"  );
+
 /*
 *   DuringWarp handling takes place before the warp had happened but after the new rom has been loaded
 *   This is useful for when you need to set a flag/var in  a game you are loading before the new map loads
 */
-function specialWarpHandling(pkwarp) {
+function specialWarpHandling(pkwarp, trigger) {
     
     let destination = pkwarp.toRomCode + "," + pkwarp.toBank + "," + pkwarp.toMap + "," + pkwarp.toWarpNo;
-
-    // Open Regi Caves
-
-    // Show Mirage Tower
-
-    // Make sure it dosn't think we are on cycling road
-
-    // Make sure guy is moved from from devon corp floor one
-    
-    // If trickmaster reached end state we need to reset him
-
-    // If muesum defeated we need to open up that warp in slateport
 
     // If Petalburg Gym make either catch tutorial or battle
     if (destination == "E,8,1,0") {
@@ -230,6 +301,18 @@ function specialWarpHandling(pkwarp) {
         if (readGameVar("E", 0x4044) > 7) {
             writeGameVar("E", 0x4044, 7);
         }
+    } else if (warpsNeedingPositionForces.get(destination)) {
+
+        // Some warps will break expected connections if we use an escalator / teleport 
+        // so we need to fix the post warp position manually
+        
+        needsPositioningAfterWarp = warpsNeedingPositionForces.get(destination);
+
+        // If the trigger was an escalator we need to apply the movement script to the position correction  
+        if (escalatorTriggers.has(trigger)) {
+            needsPositioningAfterWarp[0]--;
+        }
+        
     }
 
     new FlagManager().writeFlags();

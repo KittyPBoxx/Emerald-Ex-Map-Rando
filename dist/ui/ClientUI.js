@@ -1,5 +1,5 @@
 const fileSystem = null;//window.__TAURI__ ? window.__TAURI__.fs : null;
-const VERSION_NUMBER = "0.3.0-ALPHA";
+const VERSION_NUMBER = "0.4.0-ALPHA";
 
 var debugConsole;
 document.addEventListener('DOMContentLoaded', function() {
