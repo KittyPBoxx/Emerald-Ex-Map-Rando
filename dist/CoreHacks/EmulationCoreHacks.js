@@ -4,6 +4,7 @@
 var isWarping = false;
 var randomWarpsEnabled = true;
 var needsPositioningAfterWarp = false;
+var fromEscalator = false;
 
 /******************/
 /* Warp Addresses */
@@ -100,15 +101,20 @@ GameBoyAdvanceCPU.prototype.write16 = function (address, data) {
     if (needsPositioningAfterWarp) {
         if (address == X_VAL_POST_WARP) {
     
-            console.log("Writing x");
             return this.write16WithoutIntercept(address, needsPositioningAfterWarp[0]);
     
         } else if (address == Y_VAL_POST_WARP) {
     
-            console.log("Writing y");
             let yLocation = needsPositioningAfterWarp[1];
             needsPositioningAfterWarp = false;
             return this.write16WithoutIntercept(address, yLocation);
+        }
+    } else if (fromEscalator) {
+        if (address == X_VAL_POST_WARP) {
+    
+            fromEscalator = false;
+            data = data - 1;
+    
         }
     }
 
@@ -313,6 +319,12 @@ function specialWarpHandling(pkwarp, trigger) {
             needsPositioningAfterWarp[0]--;
         }
         
+    } else if (escalatorTriggers.has(trigger)) {
+
+        // In general if it's from an escalator we move the warp left 1 even if it's not a special warp
+
+        fromEscalator = true;
+
     }
 
     new FlagManager().writeFlags();
