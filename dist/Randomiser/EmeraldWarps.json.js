@@ -2323,7 +2323,6 @@ var EMERALD_WARPS =
         "name": "EVER GRANDE CITY- INSIDE - PkCenter Stairs - 1,6",
         "level": "9", 
         "to": "E,16,13,0",
-        "ignore": true,
         "connections" : {
             "E,16,12,0": true,
         }
@@ -2332,6 +2331,7 @@ var EMERALD_WARPS =
         "name": "EVER GRANDE CITY - INSIDE - PkCenter Upstairs - 1,6",
         "level": "9", 
         "to": "E,16,12,2",
+        "ignore": true
     },
     "E,16,10,0" : {
         "name": "EVER GRANDE CITY - INSIDE - Enterance Door - 7,8",
