@@ -258,6 +258,7 @@ RNG.prototype.choice = function(array) {
 function AreaNode(node) {
     this.data = {};
     this.data.id = toMapBank(node[0]);
+    this.data.isMap = true;
     this.data.parent = toReigon(node[0]);
     this.data.label = node[0] + " (" + node[1].name.split("-")[0] + "- " + node[1].name.split("-")[1].trim() + ")";
 }
@@ -270,6 +271,8 @@ function WarpNode(data) {
     this.classes = 'outline';
     this.data.isWarp = true;
     this.data.isMapped = false;
+    this.data.needsReturn = data[1].tags && data[1].tags.includes("needs_return");
+    this.data.noReturn = data[1].tags && data[1].tags.includes("no_return");
     this.data.hasMultipleConnections = data[1].connections ? Object.values(data[1].connections).filter(n => n == true).length > 0 : false;
 }
 
@@ -376,11 +379,12 @@ function doNextMapping(rng, root, progressionState) {
     let warp2 = null;
     let shouldCacheNodes = false;
     let inacessibleHubs = inacessibleNodes.filter(e => e.degree(true) > 0);
+
     if (progressionState.unconnectedComponents.length > 0) {
 
       // Add a node from every component of the graph (with the assumption no warps are present but all flags are met)
       let randomComponent = progressionState.unconnectedComponents[rng.nextRange(0, progressionState.unconnectedComponents.length - 1)];
-      let randomNodeIdFromComponent = randomComponent[rng.nextRange(0, randomComponent.length - 1)];
+      let randomNodeIdFromComponent = selectRandomWarp(rng, randomComponent, warp1);
 
       warp2 = cy.getElementById(randomNodeIdFromComponent);
       progressionState.unconnectedComponents = progressionState.unconnectedComponents.filter(c => c != randomComponent);
@@ -388,31 +392,34 @@ function doNextMapping(rng, root, progressionState) {
     } else if (inaccesibleFlagLocations.length > 0) { 
 
       // Add inacessible dead-ends that might allow flags givinb access to new locations
-      warp2 = inaccesibleFlagLocations[rng.nextRange(0, inaccesibleFlagLocations.length - 1)];
+      warp2 = selectRandomWarp(rng, inaccesibleFlagLocations, warp1);
+      warp2.addClass("significant");
 
     } else if (inacessibleHubs.length > 0) {
 
       // Add any hubs that there is still no access to... I'm not sure there would even be any left...
       inacessibleNodes = inacessibleNodes.filter(e => e.degree(true) > 0);
-      warp2 = inacessibleNodes[rng.nextRange(0, inacessibleNodes.length - 1)];
+      warp2 = selectRandomWarp(rng, inacessibleNodes, warp1);
 
     } else if (inaccesibleKeyLocations.length > 0) {
 
       // Add key inacessible locations 
-      warp2 = inaccesibleKeyLocations[rng.nextRange(0, inaccesibleKeyLocations.length - 1)];
+      warp2 = selectRandomWarp(rng, inaccesibleKeyLocations, warp1); 
       shouldCacheNodes = true;
       accessibleNodes.delete(warp2);
+      warp2.addClass("significant");
+
     } else if (inacessibleNodes.length > 0) {
 
       // Add other inacessible dead-ends 
-      warp2 = inacessibleNodes[rng.nextRange(0, inacessibleNodes.length - 1)];
+      warp2 = selectRandomWarp(rng, inacessibleNodes, warp1); 
       shouldCacheNodes = true;
       accessibleNodes.delete(warp2);
 
     } else if (accessibleNodes.size > 0) {
 
       // map together nodes that are already accessible
-      warp2 = [...accessibleNodes][rng.nextRange(0, accessibleNodes.size - 1)];
+      warp2 = selectRandomWarp(rng, [...accessibleNodes], warp1);
       shouldCacheNodes = true;
       accessibleNodes.delete(warp2);
 
@@ -468,6 +475,23 @@ function doNextMapping(rng, root, progressionState) {
     warp2.data().isMapped = true;
 
     return true;
+}
+
+function selectRandomWarp(rng, listOfWarps, connectingWarp) {
+
+    // Some warps do not allow bi-directional travel 
+    // Some warps need to be accessible in reverse not to block map access. i.e a warp tile you have to walk over to get somewhere
+    // We need to make sure those don't get matched together
+    let warpNeedsReturn = connectingWarp.data().needsReturn;
+    let warpNoReturn = connectingWarp.data().noReturn;
+
+    if (warpNeedsReturn) {
+      listOfWarps = listOfWarps.filter(w => !w.data().noReturn);
+    } else if (warpNoReturn) {
+      listOfWarps = listOfWarps.filter(w => !w.data().needsReturn);
+    }
+
+    return listOfWarps[rng.nextRange(0, listOfWarps.length - 1)];
 }
 
 
@@ -558,25 +582,9 @@ function initMappingGraph(mapData, isHeadless, progressionState) {
           },
         },
         {
-          selector: '.map-F',
-          css: {
-              'background-color': '#ffc0c3',
-              'color' : '#C0C0C0',
-              'font-size' : '2em'
-          }
-        },
-        {
-          selector: '.map-C',
-          css: {
-              'background-color': '#c0c3ff',
-              'color' : '#C0C0C0',
-              'font-size' : '2em'
-          }
-        },
-        {
           selector: '.map-E',
           css: {
-              'background-color': '#c3ffc0',
+              'background-color': '#262729',
               'color' : '#C0C0C0',
               'font-size' : '2em'
           }
@@ -599,7 +607,27 @@ function initMappingGraph(mapData, isHeadless, progressionState) {
           css: {
             'opacity': '0.5'
           }
-        }
+        },
+        {
+          selector: '.significant',
+          css: {
+            'background-color': '#FFD700',
+            'shape' : 'hexagon'
+          }
+        },
+        {
+          selector: '.indoors',
+          css: {
+              'background-color': '#543d48',
+          }
+        },
+        {
+          selector: '.faded',
+          css: {
+            opacity: 0.2,
+            'line-color': '#24080c'
+          }
+        },
       ],
     
       elements: {
@@ -609,8 +637,6 @@ function initMappingGraph(mapData, isHeadless, progressionState) {
     });
 
 
-    cy.add(new ReigonNode("KANTO"));
-    cy.add(new ReigonNode("JOHTO"));
     cy.add(new ReigonNode("HOENN"));
 
     let data = [...mapData];
@@ -668,7 +694,7 @@ function initMappingGraph(mapData, isHeadless, progressionState) {
     });
 
     if (!isHeadless) {
-        cy.layout({name: 'cose-bilkent', animationDuration: 1000, nodeDimensionsIncludeLabels: true}).run();
+        cy.layout({name: 'preset', nodeDimensionsIncludeLabels: true, positions:nodeToPosition}).run();
     }
 
     progressionState.makeFinalLocationsKey();
@@ -702,4 +728,271 @@ var HINTABLE_LOCATIONS = {
   "E4 DRAKE"         : "E,16,3,0"  ,
   "CHAMPION WALLACE" : "E,16,4,0"  ,
   "STEVEN"           : "E,24,107,0",
+}
+
+var MAP_SCALE = 100;
+var OUTSIDE_MAP_SCALE = 30;
+var INSIDE_MAP_SCALE = 10;
+
+var MAP_BANK_POSITION = {
+
+  // TOWNS
+  "0,0" : {x: MAP_SCALE * 16,  y: MAP_SCALE * 88 } , // Petalburg
+  "0,1" : {x: MAP_SCALE * 72,  y: MAP_SCALE * 96 } , // Slateport
+  "0,2" : {x: MAP_SCALE * 72,  y: MAP_SCALE * 64 } , // Mauville
+  "0,3" : {x: MAP_SCALE * 8,   y: MAP_SCALE * 56 } , // Rustboro
+  "0,4" : {x: MAP_SCALE * 104, y: MAP_SCALE * 16 } , // Fortree
+  "0,5" : {x: MAP_SCALE * 152, y: MAP_SCALE * 40 } , // Lilycove
+  "0,6" : {x: MAP_SCALE * 200, y: MAP_SCALE * 56 } , // Mossdeep
+  "0,7" : {x: MAP_SCALE * 176, y: MAP_SCALE * 72 } , // Sootopolis
+  "0,8" : {x: MAP_SCALE * 224, y: MAP_SCALE * 80 } , // Evergrande
+  "0,9" : {x: MAP_SCALE * 40,  y: MAP_SCALE * 68 } , // little root
+  "0,10": {x: MAP_SCALE * 40,  y: MAP_SCALE * 88 } , // oldale
+  "0,11": {x: MAP_SCALE * 24,  y: MAP_SCALE * 128} , // dewford
+  "0,12": {x: MAP_SCALE * 48,  y: MAP_SCALE * 40 } , // lavaridge
+  "0,13": {x: MAP_SCALE * 32,  y: MAP_SCALE * 16 } , // fallarbour
+  "0,14": {x: MAP_SCALE * 40,  y: MAP_SCALE * 64 } , // verdanturf
+  "0,15": {x: MAP_SCALE * 144, y: MAP_SCALE * 96 } , // pacifidlog
+
+  // ROUTES
+
+  "0,19"  : {x: MAP_SCALE * 5  , y: MAP_SCALE * 82 }, // r104
+  "0,20"  : {x: MAP_SCALE * 8  , y: MAP_SCALE * 100}, // r105
+  "0,21"  : {x: MAP_SCALE * 8  , y: MAP_SCALE * 120}, // r106
+  "0,23"  : {x: MAP_SCALE * 30 , y: MAP_SCALE * 128}, // r108
+  "0,24"  : {x: MAP_SCALE * 72 , y: MAP_SCALE * 115}, // r109
+  "0,25"  : {x: MAP_SCALE * 72 , y: MAP_SCALE * 70} , // r110
+  "0,26"  : {x: MAP_SCALE * 72 , y: MAP_SCALE * 27} , // r111
+  "0,27"  : {x: MAP_SCALE * 62 , y: MAP_SCALE * 30} , // r112
+  "0,28"  : {x: MAP_SCALE * 40 , y: MAP_SCALE * 16} , // r113
+  "0,29"  : {x: MAP_SCALE * 15 , y: MAP_SCALE * 16} , // r114
+  "0,30"  : {x: MAP_SCALE * 8  , y: MAP_SCALE * 45} , // r115
+  "0,31"  : {x: MAP_SCALE * 8  , y: MAP_SCALE * 54} , // r116
+  "0,32"  : {x: MAP_SCALE * 50 , y: MAP_SCALE * 64} , // r117
+  "0,34"  : {x: MAP_SCALE * 90 , y: MAP_SCALE * 16} , // r119
+  "0,35"  : {x: MAP_SCALE * 124, y: MAP_SCALE * 16} , // r120
+  "0,36"  : {x: MAP_SCALE * 132, y: MAP_SCALE * 40} , // r121
+  "0,37"  : {x: MAP_SCALE * 132, y: MAP_SCALE * 45} , // r122
+  "0,38"  : {x: MAP_SCALE * 122, y: MAP_SCALE * 64} , // r123
+  "0,39"  : {x: MAP_SCALE * 172, y: MAP_SCALE * 40} , // r124
+  "0,40"  : {x: MAP_SCALE * 200, y: MAP_SCALE * 46} , // r125
+  "0,46"  : {x: MAP_SCALE * 155, y: MAP_SCALE * 96 }, // r131
+
+  // // UNDERWATER
+
+  "0,51"   : {x: MAP_SCALE * 1, y: MAP_SCALE * 150},
+  "0,53"   : {x: MAP_SCALE * 2, y: MAP_SCALE * 150},
+  "24,5"   : {x: MAP_SCALE * 3, y: MAP_SCALE * 150},
+  "24,26"  : {x: MAP_SCALE * 4, y: MAP_SCALE * 150},
+
+  // LOCATIONS
+
+    // Meteor Falls
+  "24,0"  : {x: MAP_SCALE * 10, y: MAP_SCALE * 150},
+  "24,1"  : {x: MAP_SCALE * 15, y: MAP_SCALE * 150}, 
+  "24,2"  : {x: MAP_SCALE * 20, y: MAP_SCALE * 150}, 
+  "24,3"  : {x: MAP_SCALE * 25, y: MAP_SCALE * 150}, 
+
+    // Rusturf Tunnel
+  "24,4"  : {x: MAP_SCALE * 150, y: MAP_SCALE * 56}, 
+
+    // Underwater
+  "24,5"  : {x: MAP_SCALE * 30, y: MAP_SCALE * 150}, 
+
+    // Desert Ruins
+  "24,6"  : {x: MAP_SCALE * 35, y: MAP_SCALE * 150}, 
+
+    // Granite Cave
+  "24,7"  : {x: MAP_SCALE * 45, y: MAP_SCALE * 150}, 
+  "24,8"  : {x: MAP_SCALE * 50, y: MAP_SCALE * 150}, 
+  "24,9"  : {x: MAP_SCALE * 55, y: MAP_SCALE * 150}, 
+  "24,10" : {x: MAP_SCALE * 60, y: MAP_SCALE * 150}, 
+
+    // Petalburg Woods
+  "24,11" : {x: MAP_SCALE * 4 , y: MAP_SCALE * 82}, 
+
+    // Mt chimney
+  "24,12"  : {x: MAP_SCALE * 65, y: MAP_SCALE * 150},
+    // Jagged pass
+  "24,13"  : {x: MAP_SCALE * 70, y: MAP_SCALE * 150},
+    // Firey Path
+  "24,14"  : {x: MAP_SCALE * 75, y: MAP_SCALE * 150},
+    // Mt Pyer 
+  "24,15"  : {x: MAP_SCALE * 80 , y: MAP_SCALE * 150},
+  "24,16"  : {x: MAP_SCALE * 85 , y: MAP_SCALE * 150},
+  "24,17"  : {x: MAP_SCALE * 95 , y: MAP_SCALE * 150},
+  "24,18"  : {x: MAP_SCALE * 100, y: MAP_SCALE * 150},
+  "24,19"  : {x: MAP_SCALE * 105, y: MAP_SCALE * 150},
+  "24,20"  : {x: MAP_SCALE * 110, y: MAP_SCALE * 150},
+  "24,21"  : {x: MAP_SCALE * 115, y: MAP_SCALE * 150},
+  "24,22"  : {x: MAP_SCALE * 120, y: MAP_SCALE * 150},
+    // Aqua Hideout
+  "24,23"  : {x: MAP_SCALE * 125, y: MAP_SCALE * 150},
+  "24,24"  : {x: MAP_SCALE * 130, y: MAP_SCALE * 150},
+  "24,25"  : {x: MAP_SCALE * 135, y: MAP_SCALE * 150},
+    // Seafloor cavern
+  "24,28"  : {x: MAP_SCALE * 0 , y: MAP_SCALE * 160},
+  "24,29"  : {x: MAP_SCALE * 5 , y: MAP_SCALE * 160},
+  "24,30"  : {x: MAP_SCALE * 10, y: MAP_SCALE * 160},
+  "24,31"  : {x: MAP_SCALE * 15, y: MAP_SCALE * 160},
+  "24,34"  : {x: MAP_SCALE * 20, y: MAP_SCALE * 160},
+  "24,35"  : {x: MAP_SCALE * 25, y: MAP_SCALE * 160},
+  "24,36"  : {x: MAP_SCALE * 30, y: MAP_SCALE * 160},
+    // Cave of origin
+  "24,37"  : {x: MAP_SCALE * 35, y: MAP_SCALE * 160},
+  "24,42"  : {x: MAP_SCALE * 40, y: MAP_SCALE * 160},
+    // Victory road
+  "24,43"  : {x: MAP_SCALE * 45, y: MAP_SCALE * 160},
+  "24,44"  : {x: MAP_SCALE * 50, y: MAP_SCALE * 160},
+  "24,45"  : {x: MAP_SCALE * 55, y: MAP_SCALE * 160},
+    // New Mauville
+  "24,52"  : {x: MAP_SCALE * 60, y: MAP_SCALE * 160},
+  "24,53"  : {x: MAP_SCALE * 65, y: MAP_SCALE * 160},
+    // Abandoned ship
+  "24,54"  : {x: MAP_SCALE * 65 , y: MAP_SCALE * 160},
+  "24,55"  : {x: MAP_SCALE * 70 , y: MAP_SCALE * 160},
+  "24,56"  : {x: MAP_SCALE * 75 , y: MAP_SCALE * 160},
+  "24,57"  : {x: MAP_SCALE * 80 , y: MAP_SCALE * 160},
+  "24,58"  : {x: MAP_SCALE * 85 , y: MAP_SCALE * 160},
+  "24,59"  : {x: MAP_SCALE * 90 , y: MAP_SCALE * 160},
+  "24,60"  : {x: MAP_SCALE * 95 , y: MAP_SCALE * 160},
+  "24,61"  : {x: MAP_SCALE * 100, y: MAP_SCALE * 160},
+  "24,62"  : {x: MAP_SCALE * 105, y: MAP_SCALE * 160},
+  "24,63"  : {x: MAP_SCALE * 110, y: MAP_SCALE * 160},
+  "24,64"  : {x: MAP_SCALE * 115, y: MAP_SCALE * 160},
+  "24,65"  : {x: MAP_SCALE * 120, y: MAP_SCALE * 160},
+    // Island cave
+  "24,67"  : {x: MAP_SCALE * 125, y: MAP_SCALE * 160},
+  "24,68"  : {x: MAP_SCALE * 130, y: MAP_SCALE * 160},
+  "24,73"  : {x: MAP_SCALE * 135, y: MAP_SCALE * 160},
+  "24,77"  : {x: MAP_SCALE * 140, y: MAP_SCALE * 160},
+  "24,78"  : {x: MAP_SCALE * 145, y: MAP_SCALE * 160},
+  "24,79"  : {x: MAP_SCALE * 150, y: MAP_SCALE * 160},
+  "24,80"  : {x: MAP_SCALE * 0, y: MAP_SCALE * 170},
+  "24,81"  : {x: MAP_SCALE * 5, y: MAP_SCALE * 170},
+  "24,82"  : {x: MAP_SCALE * 10, y: MAP_SCALE * 170},
+  "24,84"  : {x: MAP_SCALE * 15, y: MAP_SCALE * 170},
+  "24,85"  : {x: MAP_SCALE * 20, y: MAP_SCALE * 170},
+  "24,86"  : {x: MAP_SCALE * 25, y: MAP_SCALE * 170},
+  "24,87"  : {x: MAP_SCALE * 30, y: MAP_SCALE * 170},
+  "24,88"  : {x: MAP_SCALE * 35, y: MAP_SCALE * 170},
+  "24,89"  : {x: MAP_SCALE * 40, y: MAP_SCALE * 170},
+  "24,90"  : {x: MAP_SCALE * 45, y: MAP_SCALE * 170},
+  "24,91"  : {x: MAP_SCALE * 50, y: MAP_SCALE * 170},
+  "24,92"  : {x: MAP_SCALE * 55, y: MAP_SCALE * 170},
+  "24,93"  : {x: MAP_SCALE * 60, y: MAP_SCALE * 170},
+  "24,94"  : {x: MAP_SCALE * 65, y: MAP_SCALE * 170},
+  "24,95"  : {x: MAP_SCALE * 70, y: MAP_SCALE * 170},
+  "24,96"  : {x: MAP_SCALE * 75, y: MAP_SCALE * 170},
+  "24,97"  : {x: MAP_SCALE * 80, y: MAP_SCALE * 170},
+  "24,103" : {x: MAP_SCALE * 85, y: MAP_SCALE * 170},
+  "24,105" : {x: MAP_SCALE * 90, y: MAP_SCALE * 170},
+  "24,107" : {x: MAP_SCALE * 90, y: MAP_SCALE * 170},
+  "26,10"  : {x: MAP_SCALE * 100, y: MAP_SCALE * 170},
+  "26,56"  : {x: MAP_SCALE * 105, y: MAP_SCALE * 170},
+  "26,57"  : {x: MAP_SCALE * 110, y: MAP_SCALE * 170},
+  "26,58"  : {x: MAP_SCALE * 115, y: MAP_SCALE * 170},
+  "26,60"  : {x: MAP_SCALE * 120, y: MAP_SCALE * 170},
+  "26,66"  : {x: MAP_SCALE * 125, y: MAP_SCALE * 170},
+  "26,68"  : {x: MAP_SCALE * 130, y: MAP_SCALE * 170},
+  "26,69"  : {x: MAP_SCALE * 135, y: MAP_SCALE * 170},
+  "26,70"  : {x: MAP_SCALE * 140, y: MAP_SCALE * 170},
+  "26,74"  : {x: MAP_SCALE * 145, y: MAP_SCALE * 170},
+  "26,75"  : {x: MAP_SCALE * 150, y: MAP_SCALE * 170},
+  "26,87"  : {x: MAP_SCALE * 155, y: MAP_SCALE * 170},
+  "26,9"   : {x: MAP_SCALE * 160, y: MAP_SCALE * 170},
+
+}
+
+var BANK_TO_EXTERNAL_HUB = {
+  "1"  : "0,9"  , // Little Root
+  "2"  : "0,10" , // Oldale
+  "3"  : "0,11" , // Dewford
+  "4"  : "0,12" , // lavaridge
+  "5"  : "0,13" , // fallarbour
+  "6"  : "0,14" , // verdanturf
+  "7"  : "0,15" , // pacifidlog
+  "8"  : "0,0"  , // Petalburg
+  "9"  : "0,1"  , // Slateport
+  "10" : "0,2"  , // Mauville
+  "11" : "0,3"  , // Rustboro
+  "12" : "0,4"  , // Fortree
+  "13" : "0,5"  , // Lilycove
+  "14" : "0,6"  , // Mossdeep
+  "15" : "0,7"  , // Sootopolis
+  "16" : "0,8"  , // Evergrande
+  "17" : "0,19" , // r104
+  "18" : "0,26" , // r111
+  "19" : "0,27" , // r112
+  "20" : "0,29" , // r114
+  "21" : "0,31" , // r116
+  "22" : "0,32" , // r117
+  "23" : "0,36" , // r121
+  "27" : "0,19" , // r104
+  "28" : "0,24" , // r109
+  "29" : "0,25" , // r110
+  "30" : "0,28" , // r113
+  "31" : "0,38" , // r123
+  "32" : "0,34" , // r119
+  "33" : "0,39" , // r124
+}
+
+function nodeToPosition(node) {
+  
+  if (node.data().isWarp) {
+
+    let id = node.data().id;
+    let data = getMapData()[id];
+    let parent = mapBankToPosition(toMapBank(node.data().id), id.split(",")[3]);
+
+    if (!parent) {
+      return {'x':0, 'y':0};
+    }
+
+
+    let jointCoords = data.name.split("-")[3].trim();
+
+    let isOutside = id.split(",")[1] == '0';
+    let scale = isOutside ? OUTSIDE_MAP_SCALE : INSIDE_MAP_SCALE;
+    if (!isOutside) {
+      node.addClass('indoors');
+    }
+
+    let x = parent.x + (scale * parseInt(jointCoords.split(",")[0], 16));
+    let y = parent.y + (scale * parseInt(jointCoords.split(",")[1], 16));
+
+    return {'x':x, 'y':y};
+
+  } 
+
+  return {'x':0, 'y':0};
+}
+
+var missingParentList = new Set();
+
+var addedGroups = new Set();
+function mapBankToPosition(bank, nodeCount) {
+  
+  // Node is within a hub
+  let parentPosition = MAP_BANK_POSITION[bank.substring(2)]
+
+  if (parentPosition) {
+    return parentPosition;
+  } 
+
+
+  // Node is a building withing a hub
+  let externalHub = BANK_TO_EXTERNAL_HUB[bank.split(",")[1]];
+
+  if (externalHub) {
+    parentPosition = MAP_BANK_POSITION[externalHub];
+    if (parentPosition) {
+      parentPosition.y = parentPosition.y - (20 * INSIDE_MAP_SCALE);
+      //parentPosition.x = parentPosition.x - (10 * nodeCount * INSIDE_MAP_SCALE)
+      return parentPosition;
+    } 
+  }
+
+  missingParentList.add(bank);
+  return false;
 }

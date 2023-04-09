@@ -2081,11 +2081,11 @@ var EMERALD_WARPS =
         }
     },
     "E,0,7,13" : {
-        "name": "SOOTOPOLIS CITY - OUTSIDE - New Cave - 30,19",
+        "name": "SOOTOPOLIS CITY - OUTSIDE - New Cave - 15,9",
         "level" : "8",
         "to" : "E,24,39,1",
         "connections" : {
-            "E,0,7,0": true,
+            "E,0,7,1": true,
         }
     },
 /* SOOTOPOLIS CITY - INT */
@@ -2385,11 +2385,13 @@ var EMERALD_WARPS =
         // "connections" : {
         //     "E,16,0,1": true
         // }
+        "tags": ["no_return"]
     },
     "E,16,0,1" : {
         "name": "E4 - INSIDE - Battle 1 Top - 6,2",
         "level": "9", 
         "to" : "E,16,5,0",
+        "tags": ["no_return"]
     },
     "E,16,1,0" : {
         "name": "E4 - INSIDE - Battle 2 Bottom - 6,D",
@@ -2398,11 +2400,13 @@ var EMERALD_WARPS =
         // "connections" : {
         //     "E,16,1,1": true
         // }
+        "tags": ["no_return"]
     },
     "E,16,1,1" : {
         "name": "E4 - INSIDE - Battle 2 Top - 6,2",
         "level": "9", 
         "to" : "E,16,6,0",
+        "tags": ["no_return"]
     },
     "E,16,2,0" : {
         "name": "E4 - INSIDE - Battle 3 Bottom - 6,D",
@@ -2411,11 +2415,13 @@ var EMERALD_WARPS =
         // "connections" : {
         //     "E,16,2,1": true
         // }
+        "tags": ["no_return"]
     },
     "E,16,2,1" : {
         "name": "E4 - INSIDE - Battle 3 Top - 6,2",
         "level": "9", 
         "to" : "E,16,7,0",
+        "tags": ["no_return"]
     },
     "E,16,3,0" : {
         "name": "E4 - INSIDE - Battle 4 Bottom - 6,D",
@@ -2424,16 +2430,19 @@ var EMERALD_WARPS =
         // "connections" : {
         //     "E,16,3,1": true
         // }
+        "tags": ["no_return"]
     },
     "E,16,3,1" : {
         "name": "E4 - INSIDE - Battle 4 Top - 6,2",
         "level": "9", 
         "to" : "E,16,8,0",
+        "tags": ["no_return"]
     },
     "E,16,4,0" : {
         "name": "E4 - INSIDE - Champ - 6,2",
         "level": "9", 
         "to" : "E,16,8,1",
+        "tags": ["no_return"]
     },
 /* LITTLE ROOT TOWN - EXT */
     "E,0,9,0" : {
@@ -3675,7 +3684,8 @@ var EMERALD_WARPS =
     "E,24,67,1" : {
         "name": "ISLAND CAVE - INSIDE - Walk round left / stand still door - 8,14",
         "to" : "E,24,67,2",
-        "level": "6"
+        "level": "6",
+        "tags": ["no_return"]
     },
     "E,24,67,2" : {
         "name": "ISLAND CAVE - INSIDE - Regie Ice - 8,B",
@@ -3949,7 +3959,8 @@ var EMERALD_WARPS =
         "level" : "3",
         "connections" : {
             "E,29,1,1": true
-        }
+        },
+        "tags": ["no_return"]
     },
     "E,29,1,1" : {
         "name" : "ROUTE 110 - INSIDE - Trick House Completed Left - 2,1",
@@ -4163,7 +4174,8 @@ var EMERALD_WARPS =
         "level" : "5",
         "connections" : {
             "E,24,6,0": true
-        }
+        },
+        "tags": ["no_return"]
     },
     "E,24,6,2" : {
         "name" : "ROUTE 111 - INSIDE - Desert Ruins - 8,B",
@@ -4436,7 +4448,7 @@ var EMERALD_WARPS =
         }
     },
     "E,0,29,2" : {
-        "name" : "ROUTE 114 - OUTSIDE - Lannets House - 8,3F",
+        "name" : "ROUTE 114 - OUTSIDE - Lannets House - 1b,24",
         "to" : "E,20,2,0",
         "level" : "4",
         "connections" : {
@@ -4487,7 +4499,8 @@ var EMERALD_WARPS =
         "to" : "E,24,98,0",
         "connections" : {
             "E,20,1,0": true
-        }
+        },
+        "tags": ["no_return"]
     },
     "E,20,2,0" : {
         "name" : "ROUTE 114 - INSIDE - Lanettes House - 5,7",
@@ -4926,7 +4939,8 @@ var EMERALD_WARPS =
         "level" : "6",
         "connections" : {
             "E,24,57,0": true,
-        }
+        },
+        "tags": ["no_return"]
     },
     "E,24,57,6" : {
         "name" : "ABANDONED SHIP - INSIDE - F3 Left Stairs - 0,2",
@@ -5203,7 +5217,8 @@ var EMERALD_WARPS =
         "level" : "6",
         "connections" : {
             "E,24,52,0": true,
-        }
+        },
+        "tags": ["no_return"]
     },
 // Powerplant
     "E,24,53,0" : {
@@ -5336,7 +5351,8 @@ var EMERALD_WARPS =
         "level": "7",
         "connections" : {
             "E,24,68,0": true,
-        }
+        },
+        "tags": ["no_return"]
     },
     "E,24,68,2" : {
         "name" : "ROUTE 120 - INSIDE - Ancient Tomb Regie Steel - 8,B",
@@ -5431,7 +5447,8 @@ var EMERALD_WARPS =
         "connections" : {
             "E,24,15,0": true,
             "E,24,15,1": true,
-        }
+        },
+        "tags": ["no_return"]
     },
 // F2    
     "E,24,16,0" : {
@@ -5457,7 +5474,8 @@ var EMERALD_WARPS =
         "level" : "7",
         "connections" : {
             "E,24,16,0": true,
-        }
+        },
+        "tags": ["no_return"]
     },
     "E,24,16,3" : {
         "name" : "Mt Pyre - INSIDE - F2 Bottom Left Drop - 6,C",
@@ -5465,7 +5483,8 @@ var EMERALD_WARPS =
         "level" : "7",
         "connections" : {
             "E,24,16,0": true,
-        }
+        },
+        "tags": ["no_return"]
     },
     "E,24,16,4" : {
         "name" : "Mt Pyre - INSIDE - F2 Hole - B,9",
@@ -5499,7 +5518,8 @@ var EMERALD_WARPS =
         "level" : "7",
         "connections" : {
             "E,24,17,0": true,
-        }
+        },
+        "tags": ["no_return"]
     },
     "E,24,17,3" : {
         "name" : "Mt Pyre - INSIDE - F3 Left Drop - 1,C",
@@ -5507,7 +5527,8 @@ var EMERALD_WARPS =
         "level" : "7",
         "connections" : {
             "E,24,17,5": true,
-        }
+        },
+        "tags": ["no_return"]
     },
     "E,24,17,4" : {
         "name" : "Mt Pyre - INSIDE - F3 Right Hole - A,C",
@@ -5546,7 +5567,8 @@ var EMERALD_WARPS =
         "level" : "7",
         "connections" : {
             "E,24,18,0": true
-        }
+        },
+        "tags": ["no_return"]
     },
     "E,24,18,3" : {
         "name" : "Mt Pyre - INSIDE - F4 Bottom Right Drop - C,C",
@@ -5554,7 +5576,8 @@ var EMERALD_WARPS =
         "level" : "7",
         "connections" : {
             "E,24,18,5": true
-        }
+        },
+        "tags": ["no_return"]
     },
     "E,24,18,4" : {
         "name" : "Mt Pyre - INSIDE - F4 Center Hole - 9,A",
@@ -5593,7 +5616,8 @@ var EMERALD_WARPS =
         "connections" : {
             "E,24,19,3": true,
             "E,24,19,4": true,
-        }
+        },
+        "tags": ["no_return"]
     },
     "E,24,19,3" : {
         "name" : "Mt Pyre - INSIDE - F5 Top Hole - C,A",
@@ -5884,7 +5908,8 @@ var EMERALD_WARPS =
         "connections" : {
             "E,24,24,16": true,
             "E,24,24,18": true,
-        }
+        },
+        "tags": ["needs_return"]
     },
     "E,24,24,18" : {
         "name" : "AQUA HIDEOUT - INSIDE - F2 Right Side Top-middle Right - 30,9",
@@ -5911,7 +5936,8 @@ var EMERALD_WARPS =
         "connections" : {
             "E,24,24,19": true,
             "E,24,24,21": true,
-        }
+        },
+        "tags": ["needs_return"]
     },
     "E,24,24,21" : {
         "name" : "AQUA HIDEOUT - INSIDE - F2 Right Side Bottom-middle Right - 30,D",
@@ -6267,7 +6293,7 @@ var EMERALD_WARPS =
         "to" : "E,24,31,0",
         "level" : "8",
         "connections" : {
-            "E,24,29,1": "HOENN_STRENGTH",
+            "E,24,29,0": "HOENN_STRENGTH",
         }
     },
     "E,24,29,2" : {

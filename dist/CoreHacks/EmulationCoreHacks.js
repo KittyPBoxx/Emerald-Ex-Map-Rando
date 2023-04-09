@@ -225,6 +225,11 @@ function specialWarpHandling(pkwarp) {
     } else  if (destination == "E,10,0,0") {
         // If Mauville Gym make battle
         new FlagManager().setFlag(IodineGUI.Iodine.IOCore.cpu.read32(EMERALD_SAVE_1_PTR), 0x1270, 0x391, 0);
+    } else if (destination == "E,29,1,0" || destination == "E,29,1,1") {
+        // Make Sure the trick master won't crash the game
+        if (readGameVar("E", 0x4044) > 7) {
+            writeGameVar("E", 0x4044, 7);
+        }
     }
 
     new FlagManager().writeFlags();
