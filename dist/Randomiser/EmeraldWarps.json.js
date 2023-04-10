@@ -4561,6 +4561,7 @@ var EMERALD_WARPS =
         "name" : "METEOR FALLS - INSIDE - F1 Top Left Door - 4,2",
         "to" : "E,24,107,0",
         "level" : "9",
+        "ignore": true
     },
 // F2
     "E,24,1,0" : {
