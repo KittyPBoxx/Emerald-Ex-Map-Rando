@@ -5,6 +5,7 @@ var isWarping = false;
 var randomWarpsEnabled = true;
 var needsPositioningAfterWarp = false;
 var fromEscalator = false;
+var mapHeaderChanged = false;
 
 /******************/
 /* Warp Addresses */
@@ -72,6 +73,12 @@ var usingHomeWarp = false;
 GameBoyAdvanceCPU.prototype.write32WithoutIntercept = GameBoyAdvanceCPU.prototype.write32;
 GameBoyAdvanceCPU.prototype.write32 = function (address, data) { 
 
+
+    if (address == 0x2037f18 && needsPositioningAfterWarp) {
+        // ensure gMapHeader has changed before we try and fix the players position 
+        mapHeaderChanged = true;
+    }
+
     if (address == 0x02038c5c && speedupHackState == SPEEDUP_HACKS_MODE.ON) {
         if (data == -1) {
             disableBypassWait();
@@ -97,16 +104,17 @@ GameBoyAdvanceCPU.prototype.write32 = function (address, data) {
 GameBoyAdvanceCPU.prototype.write16WithoutIntercept = GameBoyAdvanceCPU.prototype.write16;
 GameBoyAdvanceCPU.prototype.write16 = function (address, data) { 
 
-
-    if (needsPositioningAfterWarp) {
+    if (needsPositioningAfterWarp && mapHeaderChanged) {
         if (address == X_VAL_POST_WARP) {
     
             return this.write16WithoutIntercept(address, needsPositioningAfterWarp[0]);
     
         } else if (address == Y_VAL_POST_WARP) {
     
+            console.log("finished warp setting position after")
             let yLocation = needsPositioningAfterWarp[1];
             needsPositioningAfterWarp = false;
+            mapHeaderChanged = false;
             return this.write16WithoutIntercept(address, yLocation);
         }
     } else if (fromEscalator) {
@@ -136,7 +144,6 @@ GameBoyAdvanceCPU.prototype.write16 = function (address, data) {
 GameBoyAdvanceCPU.prototype.read8WithoutIntercept = GameBoyAdvanceCPU.prototype.read8;
 GameBoyAdvanceCPU.prototype.read8 = function (address) {
 
-    
     if (!isWarping) return this.read8WithoutIntercept(address);
 
     if (address == EMERALD_CURRENT_BANK) 
@@ -584,6 +591,21 @@ function readSystemFlag(offset) {
     return manager.getFlag(save1Start, sysFlagOffset, offset);
 
 }
+
+function readBaseFlag(offset) {
+
+    let manager = new FlagManager();
+    manager.readFlags(game);
+
+    let savePtr = EMERALD_SAVE_1_PTR;
+    let save1Start = IodineGUI.Iodine.IOCore.cpu.read32(savePtr);
+
+    let sysFlagOffset = EMERALD_BASE_FLAGS_OFFSET;
+
+    return manager.getFlag(save1Start, sysFlagOffset, offset);
+
+}
+
 function writeGameVar(offset, data) {
 
     let savePtr = EMERALD_SAVE_1_PTR;
