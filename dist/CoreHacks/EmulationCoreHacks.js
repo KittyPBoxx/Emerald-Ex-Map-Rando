@@ -535,7 +535,12 @@ FlagManager.prototype.writeFlags = function () {
     this.setFlag(save1Start, EMERALD_BASE_FLAGS_OFFSET, 0x50, 0);
 
     // Show steven on the bridge
+    // TOOD: we don't need to do this if they alread have the devon scope
     this.setFlag(save1Start, EMERALD_BASE_FLAGS_OFFSET, 0x3CC, 0);
+
+    // Make sure the magma embelem can always be got
+    // TODO: we don't need to do this if they already have the magma embelem
+    writeGameVar(0x40B9, 0);
 }
 
 
