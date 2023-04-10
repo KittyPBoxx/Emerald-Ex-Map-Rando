@@ -286,12 +286,16 @@ function specialWarpHandling(pkwarp, trigger) {
     if (destination == "E,8,1,0") {
         // If catch tutorial hasn't been done we set to that
         // otherwise we set to battle state
-        let normanState = readGameVar(0x4085);
+        let normanState = readGameVar(0x4075);
         if (normanState < 2) {
             writeGameVar(0x4085, 0)
         } else {
             writeGameVar(0x4085, 6)
         }
+
+        // Unlock left of petalburg
+        writeGameVar(0x4057, 1);
+
     } else if (destination == "E,16,0,0") {
         // E4 rooms needs to walk fowards when entering
         writeGameVar(0x409C, 0);
