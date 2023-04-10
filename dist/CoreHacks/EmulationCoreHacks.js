@@ -254,6 +254,7 @@ warpsNeedingPositionForces.set("E,24,96,0"  , [0x12, 0x0C]);
 warpsNeedingPositionForces.set("E,26,74,1"  , [0x05, 0x05]);
 warpsNeedingPositionForces.set("E,26,87,0"  , [0x0E, 0x13]);
 warpsNeedingPositionForces.set("E,0,10,5"   , [0x0A, 0x09]);
+warpsNeedingPositionForces.set("E,11,2,0"   , [0x02, 0x02]);
 
 var escalatorTriggers = new Set();
 escalatorTriggers.add("E,8,5,0"  );
