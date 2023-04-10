@@ -92,8 +92,9 @@ GameBoyAdvanceCPU.prototype.write32 = function (address, data) {
 
     if (usingHomeWarp && address == EMERALD_CURRENT_BANK){
         this.write8(EMERALD_CURRENT_BANK, 0);
-        this.write8(EMERALD_CURRENT_MAP, 9);
-        this.write8(EMERALD_CURRENT_WARP, 1);
+        this.write8(EMERALD_CURRENT_MAP, 10);
+        this.write8(EMERALD_CURRENT_WARP, 5);
+        needsPositioningAfterWarp = warpsNeedingPositionForces.get("E,0,10,5");
         usingHomeWarp = false;
         return;
     }
@@ -252,6 +253,7 @@ warpsNeedingPositionForces.set("E,24,95,0"  , [0x12, 0x0C]);
 warpsNeedingPositionForces.set("E,24,96,0"  , [0x12, 0x0C]);
 warpsNeedingPositionForces.set("E,26,74,1"  , [0x05, 0x05]);
 warpsNeedingPositionForces.set("E,26,87,0"  , [0x0E, 0x13]);
+warpsNeedingPositionForces.set("E,0,10,5"   , [0x0A, 0x09]);
 
 var escalatorTriggers = new Set();
 escalatorTriggers.add("E,8,5,0"  );
