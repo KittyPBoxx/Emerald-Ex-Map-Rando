@@ -21,6 +21,46 @@ ESC (or long swipe down) will bring up the emulation menu where you can change t
 
 ---
 
+## Notes
+
+There are some differences in this randomizer compared to the universal warp randomizer. Here are some things to be aware of: 
+
+- Game mode: Game should be played in 'CEA' mode with 'Plotless' set to 'Full'. No early surf.
+- 'Escape' in menu to avoid any softlocking: 
+    - Menu option available anywhere outside the safari zone
+    - Indoors / In Caves it works the same as an escape rope (normally last place outdoors)
+    - Outside / Underwater it takes you back to Oldale
+    - Sometimes, after the screen fades to black, a 'B' input is needed to load the new map.
+- Speed Hacks: By default speed hacks are 'Always On'. This runs the game at a faster speed while audio remains normal. 
+    - Speed Hacks can be set 'on', 'off' or 'battle only' so only battles are speed up <BR>
+    - Normal Emulator Speedup is also available. Both can be toggled with a keybind. <BR>
+    - Speed hacks cause some screen tearing, makes fishing frame perfect and cause lag during hall of fame / credits loading. 
+- Some warp inclusions/exclusions are different:
+    - Added: 
+        - Lilycove Art Museum
+        - Slateport Dock 
+        - Jagged Pass Emblem Door
+        - Route 125 Shoal Cave Enterance
+        - Ex Exclusive Cave Sootopolis (Right Of Origin)
+        - Outside of safari zone
+        - Trainer Hill Enterance
+    - Removed :
+        - Seafloor cavern tide room with centre cave
+        - Most floors inside cave of origin
+- Progression Changes
+    - Norman/Wattson completable out-of-order without causing softlock. (Badge order should still be possible in logic) <BR>
+    - Entering Normans gym unlocks left of Petalburg (even without doing the catch tutorial)
+    - Delivering letter to steven in granite gave unlocks Slateport -> Mauville
+    - Waterfall can be obtained by talking to the Sootopolis Gym sign if Wallace is not there
+    - Sootopolis gym door always unlocked
+    - Magma Emblem always available by talking to old couple on Mt Pyer (even after teams defeated)
+    - Dive is never needed in the progression logic (although it might speed things up)
+    - Rayquaza can be caught on first visit to Sky Pillar (No need to go back to Sootopolis)
+- Misc
+    - Darkness is removed from all caves (but not Brawly's gym)
+        
+---
+
 ## Credits
 
 ### Randomizer Coding - `KittyPBoxx`
