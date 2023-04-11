@@ -1006,7 +1006,8 @@ var EMERALD_WARPS =
             "E,0,4,6": true,
             "E,0,4,7": true,
             "E,0,4,8": true,
-            "E,0,35,1": "HOENN_SURF"
+            "E,0,35,1": "HOENN_SURF",
+            "E,0,34,0": "WEATHER_INSTITUTE"
         }
     },
     "E,0,4,1" : {
@@ -2341,6 +2342,7 @@ var EMERALD_WARPS =
         "groupMain" : true,
         "connections" : {
             "E,16,10,4": true,
+            "E,16,10,2": "ALL_BADGES",
             // "E,0,8,0": true // Technically you can whiteout to get there but really?
         }
     },
@@ -3679,13 +3681,15 @@ var EMERALD_WARPS =
     "E,24,67,0" : {
         "name": "ISLAND CAVE - INSIDE - Enterance - 8,1D",
         "to" : "E,0,20,0",
-        "level": "6"
+        "level": "6",
+        "connections": {
+            "E,24,67,1": true
+        }
     },
     "E,24,67,1" : {
         "name": "ISLAND CAVE - INSIDE - Walk round left / stand still door - 8,14",
         "to" : "E,24,67,2",
-        "level": "6",
-        "tags": ["no_return"]
+        "level": "6"
     },
     "E,24,67,2" : {
         "name": "ISLAND CAVE - INSIDE - Regie Ice - 8,B",
@@ -4165,7 +4169,7 @@ var EMERALD_WARPS =
         "to" : "E,0,26,1",
         "level" : "5",
         "connections" : {
-            "E,24,6,1": true
+            "E,24,6,1": "HOENN_ROCK_SMASH"
         }
     },
     "E,24,6,1" : {
@@ -4301,8 +4305,8 @@ var EMERALD_WARPS =
         "connections" : {
             "E,0,27,5": "GO_GOGGLES",
             "E,0,26,3": "GO_GOGGLES",
-            "E,0,26,4": "HOENN_ROCK_SMASH"
-
+            "E,0,26,4": "HOENN_ROCK_SMASH",
+            "E,0,27,0": "MAGMA_METEOR_FALLS"
         }
     },
     "E,0,27,5" : {
@@ -4901,6 +4905,7 @@ var EMERALD_WARPS =
             "E,24,57,4": true,
             "E,24,57,6": true,
             "E,24,57,7": true,
+            "E,24,57,4": "STOREAGE_KEY"
         }
     },
     "E,24,57,1" : {
@@ -5210,7 +5215,7 @@ var EMERALD_WARPS =
         "to" : "E,0,25,0",
         "level" : "6",
         "connections" : {
-            "E,24,52,1": "NEW_MAUVILL",
+            "E,24,52,1": "BASEMENT_KEY",
         }
     },
     "E,24,52,1" : {
@@ -5260,6 +5265,7 @@ var EMERALD_WARPS =
         "connections" : {
             "E,0,38,0": true,
             "E,0,34,1": true,
+            "E,0,4,0" : "WEATHER_INSTITUTE"
         }
     },
     "E,0,34,1" : {
@@ -5344,7 +5350,7 @@ var EMERALD_WARPS =
         "to" : "E,0,35,0",
         "level": "7",
         "connections" : {
-            "E,24,68,1": true,
+            "E,24,68,1": "HOENN_FLASH_1",
         }
     },
     "E,24,68,1" : {
@@ -6600,6 +6606,9 @@ var EMERALD_WARPS =
         "name" : "SKY PILLAR - INSIDE - F2 Bottom - 11,D",
         "to" : "E,24,77,1",
         "level" : "8",
+        "connections" : {
+            "E,24,78,1": "SPEAK_TO_WALLACE",
+        },
     },
     "E,24,78,1" : {
         "name" : "SKY PILLAR - INSIDE - F2 Top - E,5",
