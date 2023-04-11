@@ -320,6 +320,22 @@ span.rom-status {
     margin-right: 0;
 }
 
+#load_autosave {
+    margin-top: 3em;
+    margin-left: 2em;
+}
+
+.autosave-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    color: #4a4a4a;
+    margin-top: 1em;
+    gap: 10px;
+    margin-right: 0;
+    margin-bottom: 1em;
+}
+
 .random-row {
     display: flex;
     color: #4a4a4a;

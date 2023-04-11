@@ -157,6 +157,7 @@ GameBoyAdvanceCPU.prototype.read8 = function (address) {
 
 var reverseNextWarp = false; // Set true when loading a save state that was going through a warp
 var forceNextWarp = null;
+var useAutosaves = false;
 GameBoyAdvanceCPU.prototype.handleWarpRedirection = function (address, romCode) {
 
     let bank = this.read8WithoutIntercept(address);
@@ -206,10 +207,20 @@ GameBoyAdvanceCPU.prototype.handleWarpRedirection = function (address, romCode) 
     } else {
         console.log("Warping sending to vanilla"); 
     }
+
+    if (useAutosaves) {
+        saveSateAfterDelay();
+    }
+    
     
     isWarping = false;
 
     return address;
+}
+
+async function saveSateAfterDelay() {
+    await delay(200);
+    IodineGUI.Iodine.saveStateManager.saveMultiState("LATEST");
 }
 
 var warpsNeedingPositionForces = new Map();

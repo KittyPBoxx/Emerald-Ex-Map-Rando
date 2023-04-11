@@ -29,6 +29,10 @@ function registerGUIEvents() {
         toggleMenu();
         IodineGUI.Iodine.restart();
     });
+    addEvent("click", document.getElementById("load_autosave"), () => {
+        IodineGUI.Iodine.saveStateManager.loadMultiState("LATEST");
+        toggleMenu(); 
+    });
     addEvent("click", document.getElementById("eraseAll"), () => {
         localStorage.clear();
         storageManager.delete("lastLoadedRom");
@@ -150,7 +154,11 @@ function registerGUIEvents() {
 
     addEvent("click", document.getElementById("enableWarpsCheckbox"), () => {
         randomWarpsEnabled = document.getElementById("enableWarpsCheckbox").checked;
-    })
+    });
+
+    addEvent("click", document.getElementById("enableAutosave"), () => {
+        useAutosaves = document.getElementById("enableAutosave").checked;
+    });
 
     addEvent("click", document.getElementById("useSpeedup"), () => { CommandExecutor.execute("SpeedUp") });
 
