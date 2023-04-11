@@ -341,7 +341,10 @@ function specialWarpHandling(pkwarp, trigger) {
 
     }
 
-    new FlagManager().writeFlags();
+
+    let bagManager = new BagStoreage();
+    bagManager.readData();
+    new FlagManager(bagManager).writeFlags();
 }
 
 /***********************/
@@ -491,7 +494,6 @@ BagStoreage.prototype.readData = function () {
     this.berryPocket.clear();
 
     let save2Start = IodineGUI.Iodine.IOCore.cpu.read32(EMERALD_SAVE_2_PTR);
-    let xorKey32 = IodineGUI.Iodine.IOCore.cpu.read32(save2Start + EMERALD_XOR_KEY_OFFSET);
     let xorKey16 = IodineGUI.Iodine.IOCore.cpu.read16(save2Start + EMERALD_XOR_KEY_OFFSET);
 
     let save1Start = IodineGUI.Iodine.IOCore.cpu.read32(EMERALD_SAVE_1_PTR);
@@ -576,7 +578,9 @@ BagStoreage.prototype.writeItemSection = function(save1Start, offset, length, st
     }
 }
 
-
+BagStoreage.prototype.hasKeyItem = function(item) {
+    return this.keyItemsPocket.has(item);
+}
 
 /*******************/
 /* Flag Management */
@@ -614,7 +618,7 @@ const EMERALD_BASE_VAR_OFFSET = 0x139c;
 
 const EMERALD_STARTER_CHOICE_OFFSET = 0x4023;
 
-function FlagManager() {
+function FlagManager(bag) {
     this.badge1 = null;
     this.badge2 = null;
     this.badge3 = null;
@@ -624,6 +628,7 @@ function FlagManager() {
     this.badge7 = null;
     this.badge8 = null;
     this.hasRunningShoes = null;
+    this.bag = bag;
 }
 
 FlagManager.prototype.getFlag = function (saveOffset, sectionOffset, flagOffset) {
@@ -684,12 +689,15 @@ FlagManager.prototype.writeFlags = function () {
     this.setFlag(save1Start, EMERALD_BASE_FLAGS_OFFSET, 0x50, 0);
 
     // Show steven on the bridge
-    // TOOD: we don't need to do this if they alread have the devon scope
-    this.setFlag(save1Start, EMERALD_BASE_FLAGS_OFFSET, 0x3CC, 0);
-
+    if (!this.bag.hasKeyItem(ITEM_DATA["DEVON SCOPE"].number)) {
+        this.setFlag(save1Start, EMERALD_BASE_FLAGS_OFFSET, 0x3CC, 0);
+    }
+    
     // Make sure the magma embelem can always be got
-    // TODO: we don't need to do this if they already have the magma embelem
-    writeGameVar(0x40B9, 0);
+    if (!this.bag.hasKeyItem(ITEM_DATA["MAGMA EMBLEM"].number)) {
+        writeGameVar(0x40B9, 0);
+    }
+    
 }
 
 
