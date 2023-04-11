@@ -6606,7 +6606,8 @@ var EMERALD_WARPS =
         "level" : "8",
         "connections" : {
             "E,24,78,0": true,
-        }
+        },
+        "tags": ["no_return"]
     },
 // F3
     "E,24,79,0" : {
