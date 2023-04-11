@@ -486,9 +486,17 @@ function selectRandomWarp(rng, listOfWarps, connectingWarp) {
     let warpNoReturn = connectingWarp.data().noReturn;
 
     if (warpNeedsReturn) {
-      listOfWarps = listOfWarps.filter(w => !w.data().noReturn);
+      listOfWarps = listOfWarps.filter(w => {
+        return typeof w === 'string' ? !cy.getElementById(w).data().noReturn : !w.data().noReturn;
+      });
     } else if (warpNoReturn) {
-      listOfWarps = listOfWarps.filter(w => !w.data().needsReturn);
+      listOfWarps = listOfWarps.filter(w => {
+        return typeof w === 'string' ? !cy.getElementById(w).data().needsReturn : !w.data().needsReturn;
+      });
+    }
+
+    if (listOfWarps.length == 0) {
+      M.toast({html: 'ERROR: Progression logic could not be verified.<BR> Please try a different seed', displayLength:5000});
     }
 
     return listOfWarps[rng.nextRange(0, listOfWarps.length - 1)];
