@@ -4388,7 +4388,8 @@ var EMERALD_WARPS =
         "grouped": ["E,24,13,3"],
         "groupMain" : true,
         "connections" : {
-            "E,24,13,0": true
+            "E,24,13,0": true,
+            "E,24,13,4": "MAGMA_EMBLEM"
         }
     },
     "E,24,13,3" : {

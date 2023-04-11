@@ -89,8 +89,7 @@ var COMPOSITE_FLAGS = {
     // TODO: no dive connections have been added yet
     "HOENN_DIVE"       : { "flag": "HOENN_DIVE"         , "condition"  : ["L_RUSTBORO_CITY_GYM", "L_DEWFORD_TOWN_GYM", "L_MAUVILLE_CITY_GYM", "L_LAVARIDGE_TOWN_GYM", "L_PETALBURG_GYM", "L_FORTREE_CITY_GYM", "L_MOSSDEEP_CITY_GYM", "L_MOSSDEEP_STEVEN_HOUSE", "L_SPACE_CENTER_TOP"] },
 
-    //"HOENN_WATERFALL"  : { "flag": "HOENN_WATERFALL"   , "condition"   : ["L_RUSTBORO_CITY_GYM", "L_DEWFORD_TOWN_GYM", "L_MAUVILLE_CITY_GYM", "L_LAVARIDGE_TOWN_GYM", "L_PETALBURG_GYM", "L_FORTREE_CITY_GYM", "L_MOSSDEEP_CITY_GYM", "L_SOOTOPOLIS_CITY_GYM", "L_ICE_PATH_F1"] },
-    // TODO Also all the flags you need to get waterfall in emerald
+    "HOENN_WATERFALL"  : { "flag": "HOENN_WATERFALL"   , "condition"   : ["L_RUSTBORO_CITY_GYM", "L_DEWFORD_TOWN_GYM", "L_MAUVILLE_CITY_GYM", "L_LAVARIDGE_TOWN_GYM", "L_PETALBURG_GYM", "L_FORTREE_CITY_GYM", "L_MOSSDEEP_CITY_GYM", "L_SOOTOPOLIS_CITY_GYM", "L_SOOTOPOLIS_OUTSIDE_GYM"] },
 
     // STORY
     "HOENN_POKEDEX"        : { "flag": "HOENN_POKEDEX"        , "condition"  : ["L_OLDALE_TOWN"]     },
@@ -98,7 +97,9 @@ var COMPOSITE_FLAGS = {
     "TALK_TO_STONE"        : { "flag": "TALK_TO_STONE"        , "condition"  : ["L_PRESIDENTS_OFFICE"]              },
     "UNLOCK_SLATEPORT"     : { "flag": "UNLOCK_SLATEPORT"     , "condition"  : ["L_GRANITE_STEVEN"]                 },
     "RESCUE_PICO"          : { "flag": "RESCUE_PICO"          , "condition"  : ["L_RUSTBORO_CITY_GYM", "L_RUSTBORO", "L_RUSTURF_TUNNEL"]                                                                         },
-    "NEW_MAUVILL"          : { "flag": "NEW_MAUVILL"          , "condition"  : ["L_RUSTBORO_CITY_GYM", "L_DEWFORD_TOWN_GYM", "L_MAUVILLE_CITY_GYM", "L_LAVARIDGE_TOWN_GYM", "L_PETALBURG_GYM", "L_MAUVILLE_CITY"]}
+    "NEW_MAUVILL"          : { "flag": "NEW_MAUVILL"          , "condition"  : ["L_RUSTBORO_CITY_GYM", "L_DEWFORD_TOWN_GYM", "L_MAUVILLE_CITY_GYM", "L_LAVARIDGE_TOWN_GYM", "L_PETALBURG_GYM", "L_MAUVILLE_CITY"]},
+    "GO_GOGGLES"           : { "flag": "GO_GOGGLES"           , "condition"  : ["L_RUSTBORO_CITY_GYM", "L_DEWFORD_TOWN_GYM", "L_MAUVILLE_CITY_GYM", "L_LAVARIDGE_TOWN_GYM", "L_LAVARIDGE_TOWN"]},
+    "MAGMA_EMBLEM"         : { "flag": "MAGMA_EMBLEM"         , "condition"  : ["L_MT_PYRE_SUMMIT"]}
 
 }
 
@@ -121,6 +122,8 @@ var LOCATIONS_TRIGGER = {
     "E,0,12,1" : "L_LAVARIDGE_TOWN",
     "E,10,2,0" : "L_MAUVILLE_CITY_ROCK_SMASH",
     "E,24,4,0" : "L_RUSTURF_TUNNEL",
+    "E,24,22,1": "L_MT_PYRE_SUMMIT",
+    "E,0,7,2"  : "L_SOOTOPOLIS_OUTSIDE_GYM",
     "E,14,7,0" : "L_MOSSDEEP_STEVEN_HOUSE",
     "E,14,10,0": "L_SPACE_CENTER_TOP",
     "E,15,0,0" : "L_SOOTOPOLIS_CITY_GYM",
