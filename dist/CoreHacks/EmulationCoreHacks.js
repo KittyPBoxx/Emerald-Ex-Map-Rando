@@ -7,6 +7,8 @@ var needsPositioningAfterWarp = false;
 var fromEscalator = false;
 var mapHeaderChanged = false;
 
+var autosaveState = 0;
+
 /******************/
 /* Warp Addresses */
 /******************/
@@ -77,6 +79,9 @@ GameBoyAdvanceCPU.prototype.write32 = function (address, data) {
     if (address == 0x2037f18 && needsPositioningAfterWarp) {
         // ensure gMapHeader has changed before we try and fix the players position 
         mapHeaderChanged = true;
+    } else if (address == 0x2037f18 && autosaveState == 1) {
+        IodineGUI.Iodine.saveStateManager.saveMultiState("LATEST");
+        autosaveState = 0;
     }
 
     if (address == 0x02038c5c && speedupHackState == SPEEDUP_HACKS_MODE.ON) {
@@ -209,18 +214,13 @@ GameBoyAdvanceCPU.prototype.handleWarpRedirection = function (address, romCode) 
     }
 
     if (useAutosaves) {
-        saveSateAfterDelay();
+        autosaveState = 1;
     }
     
     
     isWarping = false;
 
     return address;
-}
-
-async function saveSateAfterDelay() {
-    await delay(200);
-    IodineGUI.Iodine.saveStateManager.saveMultiState("LATEST");
 }
 
 var warpsNeedingPositionForces = new Map();
