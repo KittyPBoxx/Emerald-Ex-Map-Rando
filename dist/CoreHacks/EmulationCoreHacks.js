@@ -436,6 +436,148 @@ const EMERALD_SAVE_1_PTR = 0x03004cac;
 // DYNAMIC SAV2 PTRs
 const EMERALD_SAVE_2_PTR = 0x03004cb0;
 
+
+/**************************/
+/* Bag Storage Management */
+/**************************/
+/**
+ * 
+ *  Bag storeage requires special handling as quantities are xor'd with a special key 
+ *  that changes and will be different for each game
+ *
+ */
+
+// XOR Key
+const EMERALD_XOR_KEY_OFFSET = 0xAC;
+const EMERALD_XOR_KEY_LENGTH = 4;
+
+// ITEM POCKET
+const EMERALD_ITEM_OFFSET = 0x0560;
+const EMERALD_ITEM_LENGTH = 120;
+
+// KEY ITEM POCKET
+const EMERALD_KEY_ITEM_OFFSET = 0x05D8;
+const EMERALD_KEY_ITEM_LENGTH = 120;
+
+// BALLS
+const EMERALD_BALL_OFFSET = 0x0650;
+const EMERALD_BALL_LENGTH = 64;
+
+// TM Case
+const EMERALD_TM_OFFSET = 0x0690;
+const EMERALD_TM_LENGTH = 256;
+
+// Berry Pocket
+const EMERALD_BERRIES_OFFSET = 0x0790;
+const EMERALD_BERRIES_LENGTH = 184;
+
+
+function BagStoreage() {
+
+    //this.pcItems = new Map();
+    this.itemPocket = new Map();
+    this.keyItemsPocket = new Map();
+    this.ballItemPocket = new Map();
+    this.tmCase = new Map();
+    this.berryPocket = new Map();
+}
+
+
+BagStoreage.prototype.readData = function () {
+    this.itemPocket.clear();
+    this.keyItemsPocket.clear();
+    this.ballItemPocket.clear();
+    this.tmCase.clear();
+    this.berryPocket.clear();
+
+    let save2Start = IodineGUI.Iodine.IOCore.cpu.read32(EMERALD_SAVE_2_PTR);
+    let xorKey32 = IodineGUI.Iodine.IOCore.cpu.read32(save2Start + EMERALD_XOR_KEY_OFFSET);
+    let xorKey16 = IodineGUI.Iodine.IOCore.cpu.read16(save2Start + EMERALD_XOR_KEY_OFFSET);
+
+    let save1Start = IodineGUI.Iodine.IOCore.cpu.read32(EMERALD_SAVE_1_PTR);
+
+    // read items
+    this.readItemSection(save1Start, EMERALD_ITEM_OFFSET, EMERALD_ITEM_LENGTH, this.itemPocket, xorKey16);
+
+    // read key items
+    this.readItemSection(save1Start, EMERALD_KEY_ITEM_OFFSET, EMERALD_KEY_ITEM_LENGTH, this.keyItemsPocket, xorKey16);
+
+    // read balls
+    this.readItemSection(save1Start, EMERALD_BALL_OFFSET, EMERALD_BALL_LENGTH, this.ballItemPocket, xorKey16);
+
+    // read tms
+    this.readItemSection(save1Start, EMERALD_TM_OFFSET, EMERALD_TM_LENGTH, this.tmCase, xorKey16);
+
+    // read berries
+    this.readItemSection(save1Start, EMERALD_BERRIES_OFFSET, EMERALD_BERRIES_LENGTH, this.berryPocket, xorKey16);
+}
+
+BagStoreage.prototype.writeData = function (isLoadingScreen) {
+    let save2Start = IodineGUI.Iodine.IOCore.cpu.read32(EMERALD_SAVE_2_PTR);
+    let xorKey16 = IodineGUI.Iodine.IOCore.cpu.read16(save2Start + EMERALD_XOR_KEY_OFFSET);
+
+    let save1Start = IodineGUI.Iodine.IOCore.cpu.read32(EMERALD_SAVE_1_PTR);
+
+    // write items
+    this.writeItemSection(save1Start, EMERALD_ITEM_OFFSET, EMERALD_ITEM_LENGTH, this.itemPocket, xorKey16, isLoadingScreen);
+
+    // write key items
+    this.writeItemSection(save1Start, EMERALD_KEY_ITEM_OFFSET, EMERALD_KEY_ITEM_LENGTH, this.keyItemsPocket, xorKey16, false);
+
+    // write balls
+    this.writeItemSection(save1Start, EMERALD_BALL_OFFSET, EMERALD_BALL_LENGTH, this.ballItemPocket, xorKey16, isLoadingScreen);
+
+    // write tms
+    this.writeItemSection(save1Start, EMERALD_TM_OFFSET, EMERALD_TM_LENGTH, this.tmCase, xorKey16, isLoadingScreen);
+
+    // write berries
+    this.writeItemSection(save1Start, EMERALD_BERRIES_OFFSET, EMERALD_BERRIES_LENGTH, this.berryPocket, xorKey16, isLoadingScreen);
+}
+
+BagStoreage.prototype.readItemSection = function(save1Start, offset, length, storeTo, xorKey16) {
+    for (let i = 0;  i < offset + length; i+=4) {
+        let item = IodineGUI.Iodine.IOCore.cpu.read16(save1Start + offset + i);
+
+        if (item == 0) { break; }
+
+        let ballQuantity = IodineGUI.Iodine.IOCore.cpu.read16(save1Start + offset + i + 2) ^ xorKey16;
+        storeTo.set(item, ballQuantity);
+    }
+}
+
+BagStoreage.prototype.writeItemSection = function(save1Start, offset, length, store, xorKey16, clear) {
+
+    var storeArr = [...store];
+
+    for (let i = 0;  i < offset + length; i+=4) {
+
+        let index = i / 4;
+        if (storeArr.length > index) {
+
+            let item = (storeArr[i / 4])[0];
+            let quantity = (storeArr[i / 4])[1] ^ xorKey16;
+
+            IodineGUI.Iodine.IOCore.cpu.write16(save1Start + offset + i, item);
+            IodineGUI.Iodine.IOCore.cpu.write16(save1Start + offset + i + 2, quantity);
+
+        } else {
+
+            // No more items to copy
+            if(clear) {
+                let item = ITEM_DATA.Nothing.number;
+                let quantity = 0 ^ xorKey16;
+                
+                IodineGUI.Iodine.IOCore.cpu.write16(save1Start + offset + i, item);
+                IodineGUI.Iodine.IOCore.cpu.write16(save1Start + offset + i + 2, quantity);
+            } else {
+                break;
+            }
+        }
+    }
+}
+
+
+
 /*******************/
 /* Flag Management */
 /*******************/

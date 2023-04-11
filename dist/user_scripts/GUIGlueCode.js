@@ -292,6 +292,37 @@ function registerGUIEvents() {
         }
     });
 
+    addEvent("click", document.getElementById("addToBag"), () => {
+        let itemName = document.getElementById("autocomplete-items").value;
+        let quant = document.getElementById("item-quantity-input").value;
+        let item = ITEM_DATA[itemName];
+
+        let bag = new BagStoreage();
+        bag.readData(IodineGUI.Iodine.IOCore.cartridge.romCode);
+
+        switch(item.pocket) {
+            case "balls"    : bag.ballItemPocket.set(item.number, quant); break;
+            case "item"     : bag.itemPocket.set(item.number, quant); break;
+            case "berries"  : bag.berryPocket.set(item.number, quant); break;
+            case "key"      : bag.keyItemsPocket.set(item.number, quant); break;
+            case "tmhm"     : bag.tmCase.set(item.number, quant); break;
+        }
+
+        bag.writeData(IodineGUI.Iodine.IOCore.cartridge.romCode, false);
+    });
+
+    addEvent("click", document.getElementById("item-quantity-input-inc"), () => incNumeric("item-quantity-input"));
+    addEvent("click", document.getElementById("item-quantity-input-dec"), () => decNumeric("item-quantity-input"));
+
+    document.getElementById("item-quantity-input").addEventListener('input', (e) => {
+        let elmnt = e.target;
+        let value = elmnt.value;
+        let newValue = Math.max(+value, elmnt.getAttribute("min"));
+        newValue = Math.min(+value, elmnt.getAttribute("max"));
+        elmnt.setAttribute("value", newValue)
+        elmnt.value = newValue;
+    });
+
     setupTouchControls();
 
     addEvent("resize", window, resizeCanvasFunc);
