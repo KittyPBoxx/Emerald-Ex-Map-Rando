@@ -6650,9 +6650,7 @@ var EMERALD_WARPS =
         "to" : "E,24,79,2",
         "level" : "8",
         "connections" : {
-            "E,24,79,0": true,
-            "E,24,79,2": true,
-            "E,24,80,1": "BIKE",
+            "E,24,80,1": true,
         }
     },
     "E,24,80,1" : {
@@ -6660,9 +6658,7 @@ var EMERALD_WARPS =
         "to" : "E,24,81,0",
         "level" : "8",
         "connections" : {
-            "E,24,79,0": true,
-            "E,24,79,2": true,
-            "E,24,80,0": "BIKE",
+            "E,24,80,0": true,
         }
     },
 // F5
