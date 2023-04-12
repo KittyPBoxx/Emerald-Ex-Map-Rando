@@ -265,6 +265,12 @@ warpsNeedingPositionForces.set("E,24,96,0"  , [0x12, 0x0C]);
 warpsNeedingPositionForces.set("E,26,74,1"  , [0x05, 0x05]);
 warpsNeedingPositionForces.set("E,26,87,0"  , [0x0E, 0x13]);
 warpsNeedingPositionForces.set("E,0,10,5"   , [0x0A, 0x09]);
+warpsNeedingPositionForces.set("E,16,0,1"   , [0x06, 0x03]);
+warpsNeedingPositionForces.set("E,16,1,1"   , [0x06, 0x03]);
+warpsNeedingPositionForces.set("E,16,2,1"   , [0x06, 0x03]);
+warpsNeedingPositionForces.set("E,16,3,1"   , [0x06, 0x03]);
+
+// OLDALE WARP
 warpsNeedingPositionForces.set("E,11,2,0"   , [0x02, 0x02]);
 
 var escalatorTriggers = new Set();
@@ -332,12 +338,14 @@ function specialWarpHandling(pkwarp, trigger) {
         if (readGameVar("E", 0x4044) > 7) {
             writeGameVar("E", 0x4044, 7);
         }
-    } else if (warpsNeedingPositionForces.get(destination)) {
+    } 
+    
+    if (warpsNeedingPositionForces.get(destination)) {
 
         // Some warps will break expected connections if we use an escalator / teleport 
         // so we need to fix the post warp position manually
         
-        needsPositioningAfterWarp = warpsNeedingPositionForces.get(destination);
+        needsPositioningAfterWarp = [...warpsNeedingPositionForces.get(destination)];
 
         // If the trigger was an escalator we need to apply the movement script to the position correction  
         if (escalatorTriggers.has(trigger)) {
