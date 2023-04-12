@@ -58,6 +58,9 @@ There are some differences in this randomizer compared to the universal warp ran
     - Rayquaza can be caught on first visit to Sky Pillar (No need to go back to Sootopolis)
 - Misc
     - Darkness is removed from all caves (but not Brawly's gym)
+
+- KNOWN GLITCHES 
+    - Overworld sprites breaking if certain legendaries like Rayquaza or Hoho are first in the party
         
 ---
 
