@@ -715,6 +715,9 @@ FlagManager.prototype.writeFlags = function () {
     // Make sure the magma embelem can always be got
     if (!this.bag.hasKeyItem(ITEM_DATA["MAGMA EMBLEM"].number)) {
         writeGameVar(0x40B9, 0);
+    } else {
+        // Hide Jagged Pass Magma guard if we have magma emblem
+        this.setFlag(save1Start, EMERALD_BASE_FLAGS_OFFSET, 0x34F, 1);
     }
     
 }
