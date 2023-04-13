@@ -123,7 +123,7 @@ var EMERALD_WARPS =
         "groupMain" : true,
         "connections" : {
             "E,8,4,2": true,
-            "E,0,0,3": true
+            "E,0,0,3": "WHITEOUT"
         }
     },
     "E,8,4,1" : {
@@ -400,7 +400,7 @@ var EMERALD_WARPS =
         "level" : "3",
         "connections" : {
             "E,9,11,2": true,
-            "E,0,1,0": true
+            "E,0,1,0": "WHITEOUT"
         }
     },
     "E,9,11,1" : {
@@ -587,7 +587,7 @@ var EMERALD_WARPS =
         "level" : "3",
         "connections" : {
             "E,10,5,2": true,
-            "E,0,2,1": true
+            "E,0,2,1": "WHITEOUT"
         }
     },
     "E,10,5,1" : {
@@ -824,7 +824,7 @@ var EMERALD_WARPS =
         "groupMain" : true,
         "connections": {
             "E,11,5,2": true,
-            "E,0,3,3" : true
+            "E,0,3,3" : "WHITEOUT"
         }
     },
     "E,11,5,1" : {
@@ -1024,7 +1024,7 @@ var EMERALD_WARPS =
         "to" : "E,12,1,0",
         "level": "6",
         "connections": {
-            "E,0,4,0": "DEVON_SCOPE",
+            "E,0,4,0": true,
         }
     },
     "E,0,4,3" : {
@@ -1111,7 +1111,7 @@ var EMERALD_WARPS =
         "groupMain" : true,
         "connections": {
             "E,12,2,2": true,
-            "E,0,4,0": true
+            "E,0,4,0": "WHITEOUT"
         }
     },
     "E,12,2,1" : {
@@ -1488,7 +1488,7 @@ var EMERALD_WARPS =
         "groupMain" : true,
         "connections" : {
             "E,13,6,2": true,
-            "E,0,5,2": true
+            "E,0,5,2": "WHITEOUT"
         }
     },
     "E,13,6,1" : {
@@ -1851,7 +1851,7 @@ var EMERALD_WARPS =
         "groupMain" : true,
         "connections" : {
             "E,14,3,2": true,
-            "E,0,6,2": true
+            "E,0,6,2": "WHITEOUT"
         }
     },
     "E,14,3,1" : {
@@ -2111,7 +2111,7 @@ var EMERALD_WARPS =
         "groupMain" : true,
         "connections" : {
             "E,15,2,2": true,
-            "E,0,7,0": true
+            "E,0,7,0": "WHITEOUT"
         }
     },
     "E,15,2,1" : {
@@ -2591,7 +2591,7 @@ var EMERALD_WARPS =
             "E,0,10,1": true,
             "E,0,10,3": true,
             "E,0,25,1": "HOENN_SURF",
-            "E,0,0,3": "HOENN_POKEDEX",
+            "E,0,0,3": true,
         }
     },
     "E,0,10,3" : { 
@@ -2639,7 +2639,7 @@ var EMERALD_WARPS =
         "groupMain" : true,
         "connections" : {
             "E,2,2,2": true,
-            "E,0,10,2": true
+            "E,0,10,2": "WHITEOUT"
         }
     },
     "E,2,2,1" : {
@@ -2752,7 +2752,7 @@ var EMERALD_WARPS =
         "groupMain" : true,
         "connections" : {
             "E,3,1,2": true,
-            "E,0,11,1": true
+            "E,0,11,1": "WHITEOUT"
         }
     },
     "E,3,1,1" : {
@@ -2931,7 +2931,7 @@ var EMERALD_WARPS =
         "connections" : {
             "E,4,5,2": true,
             "E,4,5,3": true,
-            "E,0,12,3": true
+            "E,0,12,3": "WHITEOUT"
         }
     },
     "E,4,5,1" : {
@@ -3054,7 +3054,7 @@ var EMERALD_WARPS =
         "groupMain" : true,
         "connections" : {
             "E,5,4,2": true,
-            "E,0,13,2": true
+            "E,0,13,2": "WHITEOUT"
         }
     },
     "E,5,4,1" : {
@@ -3208,7 +3208,7 @@ var EMERALD_WARPS =
         "groupMain" : true,
         "connections" : {
             "E,6,4,2": true,
-            "E,0,14,2": true
+            "E,0,14,2": "WHITEOUT"
         }
     },
     "E,6,4,1" : {
@@ -3335,7 +3335,7 @@ var EMERALD_WARPS =
         "groupMain" : true,
         "connections" : {
             "E,7,0,2": true,
-            "E,0,15,0": true
+            "E,0,15,0": "WHITEOUT"
         }
     },
     "E,7,0,1" : {
@@ -5334,10 +5334,7 @@ var EMERALD_WARPS =
     "E,0,35,1" : {
         "name" : "ROUTE 120 - OUTSIDE - Scorched Slab Enterance - 13,17",
         "to" : "E,24,73,0",
-        "level": "6",
-        "connections": {
-            "E,0,4,0": "DEVON_SCOPE",
-        }
+        "level": "6"
     },
 /* ROUTE 120 - INT */
     "E,24,73,0" : {

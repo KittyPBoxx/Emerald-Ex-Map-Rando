@@ -71,13 +71,12 @@
 var COMPOSITE_FLAGS = {
 
     // ITEMS
-    "BIKE_1"           : { "flag":"BIKE"            , "condition" : ["L_MAUVILLE_BIKE_SHOP"]                                                                                                                 },
-    "GO_GOGGLES"       : { "flag":"GO_GOGGLES"      , "condition" : ["L_RUSTBORO_CITY_GYM", "L_DEWFORD_TOWN_GYM", "L_MAUVILLE_CITY_GYM", "L_LAVARIDGE_TOWN_GYM", "L_LAVARIDGE_TOWN"]                         },
-    "DEVON_SCOPE"      : { "flag":"DEVON_SCOPE"     , "condition" : ["L_DEVEN_CORP_PRESIDENT_OFFICE"]                                                                                                        },
-    "GO_GOGGLES"       : { "flag": "GO_GOGGLES"     , "condition" : ["L_RUSTBORO_CITY_GYM", "L_DEWFORD_TOWN_GYM", "L_MAUVILLE_CITY_GYM", "L_LAVARIDGE_TOWN_GYM", "L_LAVARIDGE_TOWN"]                         },
-    "MAGMA_EMBLEM"     : { "flag": "MAGMA_EMBLEM"   , "condition" : ["L_MT_PYRE_SUMMIT"]                                                                                                                     },
-    "STOREAGE_KEY"     : { "flag": "STOREAGE_KEY"   , "condition" : ["L_ABANDONED_SHIP_KEY_ROOM"]                                                                                                            },
-    "BASEMENT_KEY"     : { "flag": "BASEMENT_KEY"   , "condition" : ["L_RUSTBORO_CITY_GYM", "L_DEWFORD_TOWN_GYM", "L_MAUVILLE_CITY_GYM", "L_LAVARIDGE_TOWN_GYM", "L_PETALBURG_GYM", "L_MAUVILLE_CITY"]       },
+    "BIKE_1"           : { "flag":"BIKE"           , "condition" : ["L_MAUVILLE_BIKE_SHOP"]                                                                                                                 },
+    "GO_GOGGLES"       : { "flag":"GO_GOGGLES"     , "condition" : ["L_RUSTBORO_CITY_GYM", "L_DEWFORD_TOWN_GYM", "L_MAUVILLE_CITY_GYM", "L_LAVARIDGE_TOWN_GYM", "L_LAVARIDGE_TOWN"]                         },
+    // "DEVON_SCOPE" // Only blocks locations in fortree and if you have fortree access you can already get it 
+    "MAGMA_EMBLEM"     : { "flag":"MAGMA_EMBLEM"   , "condition" : ["L_MT_PYRE_SUMMIT"]                                                                                                                     },
+    "STOREAGE_KEY"     : { "flag":"STOREAGE_KEY"   , "condition" : ["L_ABANDONED_SHIP_KEY_ROOM"]                                                                                                            },
+    "BASEMENT_KEY"     : { "flag":"BASEMENT_KEY"   , "condition" : ["L_RUSTBORO_CITY_GYM", "L_DEWFORD_TOWN_GYM", "L_MAUVILLE_CITY_GYM", "L_LAVARIDGE_TOWN_GYM", "L_PETALBURG_GYM", "L_MAUVILLE_CITY"]       },
         
     // HMS
     "HOENN_CUT_1"        : { "flag": "HOENN_CUT"        , "condition"  : ["L_RUSTBORO_CITY_GYM", "L_CUTTERS_HOUSE"]                                                                                                                                                                         }, 
@@ -89,7 +88,6 @@ var COMPOSITE_FLAGS = {
     "HOENN_WATERFALL"    : { "flag": "HOENN_WATERFALL"  , "condition"  : ["L_RUSTBORO_CITY_GYM", "L_DEWFORD_TOWN_GYM", "L_MAUVILLE_CITY_GYM", "L_LAVARIDGE_TOWN_GYM", "L_PETALBURG_GYM", "L_FORTREE_CITY_GYM", "L_MOSSDEEP_CITY_GYM", "L_SOOTOPOLIS_CITY_GYM", "L_SOOTOPOLIS_OUTSIDE_GYM"]  },
 
     // STORY
-    "HOENN_POKEDEX"        : { "flag": "HOENN_POKEDEX"        , "condition"  : ["L_OLDALE_TOWN"]                                                                                                                                                                     },
     "HOENN_CATCH_TUTORIAL" : { "flag": "HOENN_CATCH_TUTORIAL" , "condition"  : ["L_PETALBURG_GYM"]                                                                                                                                                                   },
     "TALK_TO_STONE"        : { "flag": "TALK_TO_STONE"        , "condition"  : ["L_PRESIDENTS_OFFICE"]                                                                                                                                                               },
     "UNLOCK_SLATEPORT"     : { "flag": "UNLOCK_SLATEPORT"     , "condition"  : ["L_GRANITE_STEVEN"]                                                                                                                                                                  },

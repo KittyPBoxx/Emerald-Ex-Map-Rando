@@ -730,12 +730,113 @@ var HINTABLE_LOCATIONS = {
   "WINONA"           : "E,12,1,0"  ,
   "TATE AND LIZA"    : "E,14,0,0"  ,
   "JUAN"             : "E,15,0,0"  , 
-  "E4 SIDNEY"        : "E,16,0,0"  ,
-  "E4 PHOEBE"        : "E,16,1,0"  ,
-  "E4 GLACIA"        : "E,16,2,0"  ,
-  "E4 DRAKE"         : "E,16,3,0"  ,
-  "CHAMPION WALLACE" : "E,16,4,0"  ,
+  "SIDNEY"           : "E,16,0,0"  ,
+  "PHOEBE"           : "E,16,1,0"  ,
+  "GLACIA"           : "E,16,2,0"  ,
+  "DRAKE"            : "E,16,3,0"  ,
+  "WALLACE"          : "E,16,4,0"  ,
   "STEVEN"           : "E,24,107,0",
+}
+
+var PATH_FINDING_LOCATIONS = {
+  "CUT"       : "E,11,11,0",       
+  "FLASH"     : "E,24,7,0" ,         
+  "ROCKSMASH" : "E,10,2,0" ,             
+  "STRENGTH"  : "E,24,4,0" ,            
+  "WATERFALL" : "E,0,7,2"  ,             
+  
+  "HOHO"      : "E,26,75,0" ,     
+  "LUGIA"     : "E,26,87,0" ,      
+  "KYOGRE"    : "E,24,103,0",       
+  "GRAUDON"   : "E,24,105,0",        
+  "RAYQUAZA"  : "E,24,85,0" ,         
+  
+  "BIKE SHOP"    : "E,10,1,0" , 
+  "MAGMA EMBLEM" : "E,24,22,1",    
+  "STOREAGE KEY" : "E,24,63,0",
+  
+  "STONE OFFICE"         : "E,11,2,0" , 
+  "STEVEN LETTER"        : "E,24,10,0",  
+  "WEATHER INSTITUTE F2" : "E,32,1,0" , 
+  "WALLACE ORIGIN CAVE"  : "E,24,42,0", 
+  "METEOR FALLS F1"      : "E,24,0,0" ,  
+
+  "PETALBURG" : "E,0,0,3" ,
+  "SLATEPORT" : "E,0,1,0" ,
+  "MAUVILLE"  : "E,0,2,1" ,
+  "RUSTBORO"  : "E,0,3,3" ,
+  "FORTREE"   : "E,0,4,0" ,
+  "LILYCOVE"  : "E,0,5,2" ,
+  "MOSSDEEP"  : "E,0,6,2" ,
+  "SOOTOPOLIS": "E,0,7,0" ,
+  "DEWFORD"   : "E,0,11,1",
+  "LAVARIDGE" : "E,0,12,3",
+  "FALLARBOR" : "E,0,13,2",
+  "VERDANTURF": "E,0,14,2",
+  "PACIFIDLOG": "E,0,15,0",
+ 
+  "ROXANNE"          : "E,11,3,0"  ,
+  "BRAWLY"           : "E,3,3,0"   ,
+  "WATTSON"          : "E,10,0,0"  ,
+  "FLANNERY"         : "E,4,1,0"   ,
+  "NORMAN"           : "E,8,1,0"   ,
+  "WINONA"           : "E,12,1,0"  ,
+  "TATE AND LIZA"    : "E,14,0,0"  ,
+  "JUAN"             : "E,15,0,0"  , 
+  "SIDNEY"           : "E,16,0,0"  ,
+  "PHOEBE"           : "E,16,1,0"  ,
+  "GLACIA"           : "E,16,2,0"  ,
+  "DRAKE"            : "E,16,3,0"  ,
+  "WALLACE"          : "E,16,4,0"  ,
+  "STEVEN"           : "E,24,107,0",
+}
+
+function flagWeight(edge) {
+  if (edge.data().isWarp) {
+    return 1;
+  } 
+
+  var difficulty = getMapData()[edge.data().source].connections[edge.data().target];
+
+  if (difficulty === true) {
+    return 1;
+  } else {
+    return Object.values(COMPOSITE_FLAGS).filter(f => f.flag == difficulty)[0].condition.length * 100;
+  }
+}
+
+function shortestPath(location) {
+  var fw = cy.elements().floydWarshall({weight: flagWeight,  directed : true})
+  let path = fw.path(cy.getElementById("E,0,10,2"), cy.getElementById(PATH_FINDING_LOCATIONS[location])).map(n =>  {
+     if(n.isNode()) {
+       return getMapData()[n.data().id];
+     } else if (n.data().isWarp) {
+       return {name: n.data().id, type: "WARP"}
+     } else {
+       return {name: n.data().id, type: "WALK", conditions: [getMapData()[n.data().source].connections[n.data().target]]}
+     }
+  });
+
+  for (i = 0; i < (path.length - 2); i++) {
+    if (path[i].type == "WALK" && path[i+2].type == "WALK") {
+      path[i+1].collapse = true;
+      path[i+2].collapse = true;
+
+      path[i].conditions.push(path[i+1].conditions);
+      path[i].conditions.push(path[i+2].conditions);
+    }
+  }
+
+  return path.filter(n => !n.collapse).map(n => {
+    if (n.type && n.conditions) {
+      let requirements = "(" + n.conditions.filter(c => typeof c === 'string').join(",") + ")";
+      return requirements == "()" ? n.type : n.type + requirements;
+    } else if (n.type) {
+      return n.type
+    }
+
+    return n.name
+  });
 }
 
 var MAP_SCALE = 100;
