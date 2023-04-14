@@ -717,8 +717,7 @@ function getHint(location) {
     return "NOT PRESENT";
   }
   let info = mapData.get(warp.toRomCode + "," + warp.toBank + "," + warp.toMap + "," + warp.toWarpNo).name;
-  let hint = warp.toRomCode == "E" ? "HOENN - " : (warp.toRomCode == "C" ? "JOHTO - " : "KANTO - ");
-  return hint + info.split("-")[0].trim() + " - " + info.split("-")[1].trim();
+  return info.split("-")[0].trim() + " - " + info.split("-")[1].trim();
 }
 
 var HINTABLE_LOCATIONS = {
@@ -807,7 +806,7 @@ function flagWeight(edge) {
 
 function shortestPath(location) {
   var fw = cy.elements().floydWarshall({weight: flagWeight,  directed : true})
-  let path = fw.path(cy.getElementById("E,0,10,2"), cy.getElementById(PATH_FINDING_LOCATIONS[location])).map(n =>  {
+  let path = fw.path(cy.getElementById("E,0,10,2"), PATH_FINDING_LOCATIONS[location] ? cy.getElementById(PATH_FINDING_LOCATIONS[location]) : cy.getElementById(location)).map(n =>  {
      if(n.isNode()) {
        return getMapData()[n.data().id];
      } else if (n.data().isWarp) {
@@ -817,23 +816,22 @@ function shortestPath(location) {
      }
   });
 
-  for (i = 0; i < (path.length - 2); i++) {
-    if (path[i].type == "WALK" && path[i+2].type == "WALK") {
-      path[i+1].collapse = true;
-      path[i+2].collapse = true;
+  for (i = path.length - 1; i >= 2; i--) {
+    if (path[i].type == "WALK" && path[i-2].type == "WALK") {
+      path[i].collapse = true;
+      path[i-1].collapse = true;
 
-      path[i].conditions.push(path[i+1].conditions);
-      path[i].conditions.push(path[i+2].conditions);
+      path[i-2].conditions = path[i-2].conditions.concat(path[i].conditions);
     }
   }
 
   return path.filter(n => !n.collapse).map(n => {
     if (n.type && n.conditions) {
-      let requirements = "(" + n.conditions.filter(c => typeof c === 'string').join(",") + ")";
+      let requirements = "(" + Array.from(new Set(n.conditions.filter(c => typeof c === 'string'))).join(",") + ")";
       return requirements == "()" ? n.type : n.type + requirements;
     } else if (n.type) {
       return n.type
-    }
+    } 
 
     return n.name
   });

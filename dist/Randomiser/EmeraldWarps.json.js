@@ -5559,7 +5559,7 @@ var EMERALD_WARPS =
         }
     },
     "E,24,18,1" : {
-        "name" : "Mt Pyre - INSIDE - F4 Top Right - 2,5",
+        "name" : "Mt Pyre - INSIDE - F4 Top Left - 2,5",
         "to" : "E,24,17,1",
         "level" : "7",
         "connections" : {
@@ -5744,10 +5744,7 @@ var EMERALD_WARPS =
         "to" : "E,0,5,6",
         "level" : "7",
         "grouped": ["E,24,23,1"],
-        "groupMain" : true,
-        "connections" : {
-            "E,24,23,2": true,
-        }
+        "groupMain" : true
     },
     "E,24,23,1" : {
         "name" : "AQUA HIDEOUT - INSIDE - F1 Enterance - E,1B",
@@ -6003,7 +6000,7 @@ var EMERALD_WARPS =
         "to" : "E,24,24,3",
         "level" : "7",
         "connections" : {
-            "E,24,25,3": true
+            "E,24,25,5": true
         }
     },
     "E,24,25,3" : {

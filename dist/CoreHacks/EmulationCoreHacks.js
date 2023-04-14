@@ -719,6 +719,12 @@ FlagManager.prototype.writeFlags = function () {
         // Hide Jagged Pass Magma guard if we have magma emblem
         this.setFlag(save1Start, EMERALD_BASE_FLAGS_OFFSET, 0x34F, 1);
     }
+
+    // Unblock Tunnlers rest house 
+    this.setFlag(save1Start, EMERALD_BASE_FLAGS_OFFSET, 0x8F, 1);
+
+    // Unblock Devon corp f1
+    this.setFlag(save1Start, EMERALD_BASE_FLAGS_OFFSET, 0x90, 1);
     
 }
 
