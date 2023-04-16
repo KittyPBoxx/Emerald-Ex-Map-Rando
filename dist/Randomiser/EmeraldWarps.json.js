@@ -2005,8 +2005,7 @@ var EMERALD_WARPS =
         // CAVE OF ORIGIN
         "name": "SOOTOPOLIS CITY - OUTSIDE - Cave Of Origin - 1F,10",
         "level" : "8",
-        "to" : "E,24,37,0",
-        "ignore": true
+        "to" : "E,24,37,0"
     },
     "E,0,7,4"  : {
         "name": "SOOTOPOLIS CITY - OUTSIDE - Left Side Top - 9,6",
@@ -4582,9 +4581,9 @@ var EMERALD_WARPS =
         "to" : "E,24,2,0",
         "level" : "9",
         "connections" : {
-            "E,24,0,0": true,
-            "E,24,0,2": true,
-            "E,24,0,3": true
+            "E,24,1,0": true,
+            "E,24,1,2": true,
+            "E,24,1,3": true
         }
     },
     "E,24,1,2" : {
@@ -4592,8 +4591,8 @@ var EMERALD_WARPS =
         "to" : "E,24,2,1",
         "level" : "9",
         "connections" : {
-            "E,24,0,0": true,
-            "E,24,0,3": true
+            "E,24,1,0": true,
+            "E,24,1,3": true
         }
     },
     "E,24,1,3" : {
@@ -6669,7 +6668,7 @@ var EMERALD_WARPS =
         "to" : "E,24,82,0",
         "level" : "8",
         "connections" : {
-            "E,24,82,0": true,
+            "E,24,81,0": true,
         }
     },
     "E,24,81,2" : {

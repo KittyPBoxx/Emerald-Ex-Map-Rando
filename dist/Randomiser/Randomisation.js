@@ -790,7 +790,35 @@ var PATH_FINDING_LOCATIONS = {
   "STEVEN"           : "E,24,107,0",
 }
 
-function flagWeight(edge) {
+var LOCATIONS_DISABLED_FLAGS = {
+  "CUT"                  : ["HOENN_CUT"],       
+  "FLASH"                : ["HOENN_FLASH"],         
+  "ROCKSMASH"            : ["HOENN_ROCK_SMASH"],             
+  "STRENGTH"             : ["HOENN_STRENGTH"],            
+  "WATERFALL"            : ["HOENN_WATERFALL"],   
+
+  "BIKE SHOP"            : ["BIKE"], 
+  "MAGMA EMBLEM"         : ["MAGMA_EMBLEM"],    
+  "STOREAGE KEY"         : ["STOREAGE_KEY"],
+
+  "STONE OFFICE"         : ["TALK_TO_STONE"], 
+  "STEVEN LETTER"        : ["UNLOCK_SLATEPORT"],  
+  "WEATHER INSTITUTE F2" : ["WEATHER_INSTITUTE"], 
+  "WALLACE ORIGIN CAVE"  : ["SPEAK_TO_WALLACE"], 
+  "METEOR FALLS F1"      : ["MAGMA_METEOR_FALLS"],
+  
+  "ROXANNE"              : ["HOENN_CUT", "HOENN_FLASH", "HOENN_ROCK_SMASH", "HOENN_STRENGTH", "HOENN_SURF", "HOENN_WATERFALL"],
+  "BRAWLY"               : ["HOENN_FLASH", "HOENN_ROCK_SMASH", "HOENN_STRENGTH", "HOENN_SURF", "HOENN_WATERFALL"],
+  "WATTSON"              : ["HOENN_ROCK_SMASH", "HOENN_STRENGTH", "HOENN_SURF", "HOENN_WATERFALL"],
+  "FLANNERY"             : ["HOENN_STRENGTH", "HOENN_SURF", "HOENN_WATERFALL"],
+  "NORMAN"               : ["HOENN_SURF", "HOENN_WATERFALL"],
+  "WINONA"               : ["HOENN_WATERFALL"],
+  "TATE AND LIZA"        : ["HOENN_WATERFALL"],
+  "JUAN"                 : ["HOENN_WATERFALL"]
+}
+
+
+function flagWeight(edge, location) {
   if (edge.data().isWarp) {
     return 1;
   } 
@@ -798,17 +826,24 @@ function flagWeight(edge) {
   var difficulty = getMapData()[edge.data().source].connections[edge.data().target];
 
   if (difficulty === true) {
+    // If the path is always traversable give a weight of 1
     return 1;
-  } else {
-    return Object.values(COMPOSITE_FLAGS).filter(f => f.flag == difficulty)[0].condition.length * 100;
+  } else if (LOCATIONS_DISABLED_FLAGS[location]) {
+    // If player is searching for a flag location try and avoid suggesting a route locked behind said flag
+    if (LOCATIONS_DISABLED_FLAGS[location].includes(difficulty)) {
+      return 99999;
+    }
   }
+
+  // Otherwise use standard wieghts (prioritize least flags flags completed)
+  return Object.values(COMPOSITE_FLAGS).filter(f => f.flag == difficulty)[0].condition.length * 100;
 }
 
 function shortestPath(location) {
-  var fw = cy.elements().floydWarshall({weight: flagWeight,  directed : true})
+  var fw = cy.elements().floydWarshall({weight: (edge) => flagWeight(edge, location),  directed : true})
   let path = fw.path(cy.getElementById("E,0,10,2"), PATH_FINDING_LOCATIONS[location] ? cy.getElementById(PATH_FINDING_LOCATIONS[location]) : cy.getElementById(location)).map(n =>  {
      if(n.isNode()) {
-       return getMapData()[n.data().id];
+       return Object.assign({}, getMapData()[n.data().id]);
      } else if (n.data().isWarp) {
        return {name: n.data().id, type: "WARP"}
      } else {
@@ -816,16 +851,22 @@ function shortestPath(location) {
      }
   });
 
+  let allFlagsRequired = [];
+
   for (i = path.length - 1; i >= 2; i--) {
     if (path[i].type == "WALK" && path[i-2].type == "WALK") {
       path[i].collapse = true;
       path[i-1].collapse = true;
 
       path[i-2].conditions = path[i-2].conditions.concat(path[i].conditions);
+    } 
+    
+    if (path[i].type == "WALK") {
+      allFlagsRequired = allFlagsRequired.concat(path[i].conditions);
     }
   }
 
-  return path.filter(n => !n.collapse).map(n => {
+  let instructions = path.filter(n => !n.collapse).map(n => {
     if (n.type && n.conditions) {
       let requirements = "(" + Array.from(new Set(n.conditions.filter(c => typeof c === 'string'))).join(",") + ")";
       return requirements == "()" ? n.type : n.type + requirements;
@@ -835,6 +876,8 @@ function shortestPath(location) {
 
     return n.name
   });
+
+  return {"route": instructions, "flags": new Set(allFlagsRequired.filter(c => typeof c === 'string'))}
 }
 
 var MAP_SCALE = 100;

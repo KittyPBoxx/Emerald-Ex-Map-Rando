@@ -61,6 +61,7 @@ There are some differences in this randomizer compared to the universal warp ran
 
 - KNOWN GLITCHES 
     - Overworld sprites breaking if certain legendaries like Rayquaza or Hoho are first in the party
+    - Sootopolis Wallace dialog invisible if map was loaded from a house on the right
         
 ---
 

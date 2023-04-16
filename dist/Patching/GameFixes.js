@@ -12,15 +12,22 @@ function patchGameIssues() {
         IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x71d25C, 0x17);
         IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x71d25D, 0xd8);
 
-        // Patch Wallace Waterfall text to say 'Gymsign'
-        let GYM_SIGN = [0xc1, 0xd3, 0xc7, 0xcd, 0xc3, 0xc1, 0xc8];
-        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x20EE77 + 0, GYM_SIGN[0]);
-        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x20EE77 + 1, GYM_SIGN[1]);
-        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x20EE77 + 2, GYM_SIGN[2]);
-        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x20EE77 + 3, GYM_SIGN[3]);
-        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x20EE77 + 4, GYM_SIGN[4]);
-        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x20EE77 + 5, GYM_SIGN[5]);
-        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x20EE77 + 6, GYM_SIGN[6]);
+        // Make sure archie will never block off the gym
+        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x71d1b8, 0x20);
+
+        // Make the guy from the top of sootopolis stand in front of the gym
+        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x71d0B0, 0x1c);
+        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x71d0B2, 0x23);
+
+        // Stop the guy moving around
+        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x71d0B5, 0x01);
+
+        // Make the guy from top of sootopolis give waterfall 
+        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x71d0BC, 0x17);
+        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x71d0BD, 0xd8);
+        
+        // Make the guy from top of sootopolis dress like wallace
+        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x71d0AD, 0x85);
     }
 
 }

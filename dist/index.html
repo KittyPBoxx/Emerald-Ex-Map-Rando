@@ -496,7 +496,12 @@
                             <td class="hint-text">&nbsp;HINT</td>
                             </tr>
                           </table>
-                          </div>
+                        </div>
+                        <div class="hint-button-group">
+                           <div id="toggleRouteFinder" class="btn-small plaint-btn" onclick="toggleSidebar()">
+                             <span>ROUTE FINDER</span>
+                           </div>
+                        </div>
                       </a>
                       <a class="carousel-item" href="#clock!">
                         <div class="menu-title center-align"><h5 class="left-menu-button">L</h5><h4 class="center-align">Clock</h4><h5 class="right-menu-button">R</h5></div>
@@ -554,6 +559,31 @@
               </div>
             </div>
         </div>
+        <ul id="slide-out" class="sidenav">
+          <li class="nav-title"><h5>FIND ROUTE</h5></li>
+          <li><i class="material-icons">From</i> OLDALE</li>
+          <li>
+            <div class="input-field col s6 hint-inputs">
+              <span><i class="material-icons">To</i></span>
+              <input id="autocomplete-hints" autocomplete="off" class="autocomplete" type="text" value="ROXANNE" data-length="25">
+            </div>
+          </li>
+          <li class="nav-button">
+            <div id="searchRouteFinder" class="btn-small plaint-btn" onclick="searchRoute()">
+              <span>SEARCH</span>
+            </div>
+          </li>
+          <li><div class="divider"></div></li>
+          <li class="flags-container">
+            <div class="subheader">Required Flags :</div>
+            <ul id="route-finder-flags"></ul>
+          </li>
+          <li class="route-container">
+            <div class="subheader">Route :</div>
+            <ol id="route-finder-route">
+            </ol>
+          </li>
+        </ul>
         <div class="overlayControls" id="overlayControls" hidden="true">
           <div class="touch-dpad">
             <button id="touch-up">↑</button><br>

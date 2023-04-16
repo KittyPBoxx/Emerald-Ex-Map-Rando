@@ -710,6 +710,8 @@ FlagManager.prototype.writeFlags = function () {
     // Show steven on the bridge
     if (!this.bag.hasKeyItem(ITEM_DATA["DEVON SCOPE"].number)) {
         this.setFlag(save1Start, EMERALD_BASE_FLAGS_OFFSET, 0x3CC, 0);
+    } else {
+        this.setFlag(save1Start, EMERALD_BASE_FLAGS_OFFSET, 0x3CC, 1);
     }
     
     // Make sure the magma embelem can always be got
@@ -725,7 +727,17 @@ FlagManager.prototype.writeFlags = function () {
 
     // Unblock Devon corp f1
     this.setFlag(save1Start, EMERALD_BASE_FLAGS_OFFSET, 0x90, 1);
-    
+
+    // Hide Steven and wallace in sootopolis
+    this.setFlag(save1Start, EMERALD_BASE_FLAGS_OFFSET, 0x3CD, 1);
+    this.setFlag(save1Start, EMERALD_BASE_FLAGS_OFFSET, 0x330, 1);
+
+    // Hide the old man blocking the cave of origin
+    this.setFlag(save1Start, EMERALD_BASE_FLAGS_OFFSET, 0x493, 1);
+
+    // Unhide man from the top of sootopolice
+    // We patched him to give waterfall, dress like wallace and stand in front of the gym
+    this.setFlag(save1Start, EMERALD_BASE_FLAGS_OFFSET, 0x347, 0);
 }
 
 
@@ -771,7 +783,7 @@ function modifyBaseFlag(offset, shouldGiveOrRemoveBit) {
 function readSystemFlag(offset) {
 
     let manager = new FlagManager();
-    manager.readFlags(game);
+    manager.readFlags();
 
     let savePtr = EMERALD_SAVE_1_PTR;
     let save1Start = IodineGUI.Iodine.IOCore.cpu.read32(savePtr);
@@ -785,7 +797,7 @@ function readSystemFlag(offset) {
 function readBaseFlag(offset) {
 
     let manager = new FlagManager();
-    manager.readFlags(game);
+    manager.readFlags();
 
     let savePtr = EMERALD_SAVE_1_PTR;
     let save1Start = IodineGUI.Iodine.IOCore.cpu.read32(savePtr);

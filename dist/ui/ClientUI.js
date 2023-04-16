@@ -1,5 +1,5 @@
-const fileSystem = null;//window.__TAURI__ ? window.__TAURI__.fs : null;
-const VERSION_NUMBER = "0.6.0-ALPHA";
+const fileSystem = null;
+const VERSION_NUMBER = "0.7.0-ALPHA";
 
 var debugConsole;
 document.addEventListener('DOMContentLoaded', function() {
@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById("warp-value-input").value = locationParts[3];
         M.FormSelect.getInstance(document.getElementById("game-value-input"))._handleSelectChangeBound();
      }});
+     M.Autocomplete.init(document.getElementById("autocomplete-hints"), { limit: 4, data : Object.fromEntries(Object.keys(PATH_FINDING_LOCATIONS).map(l => [l, null]))});
 
     populateHints(); 
 
@@ -36,7 +37,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.querySelectorAll("input[type=text]").forEach(e => e.addEventListener('focusin', (event) => userInputEnabled = false));
     document.querySelectorAll("input[type=text]").forEach(e => e.addEventListener('focusout', (event) => userInputEnabled = true));
+
+    let sidebar = document.querySelectorAll('.sidenav');
+    M.Sidenav.init(sidebar, {});
 });
+
+function toggleSidebar() {
+  let sidebar = M.Sidenav.getInstance(document.getElementById("slide-out"))
+  if (sidebar.isOpen) {
+    sidebar.close()
+  } else {
+    sidebar.open()
+  }
+}
+
+CommandExecutor.register("toggleRouteFinder", args => toggleSidebar());
 
 
 function debounce(func, timeout = 300){
@@ -337,3 +352,66 @@ document.addEventListener('swiped-down', e => {
     toggleMenu()
   }
 });
+
+/* Route Finding */
+function searchRoute() {
+  document.getElementById("searchRouteFinder").innerHTML = "<span>PROCESSING</span>"
+  // Ensure the netowrk has been generated before we search it
+  if (typeof cy === 'undefined') {
+    let seed = document.getElementById("input_seed_text").value;
+    setTimeout(() => {
+      mapWarps(seed).then(searchRouteAux());
+    }, 50);
+  } else {
+    searchRouteAux();
+  }
+} 
+
+function searchRouteAux() {
+
+  let location = document.getElementById("autocomplete-hints").value;
+  let result = shortestPath(location);
+
+  let flagsElement = document.getElementById("route-finder-flags");
+  flagsElement.innerHTML = '';
+
+  if (result.flags.size == 0) {
+    flagsElement.appendChild(createFlagItem("NONE"))
+  } else {
+    result.flags.forEach(f => flagsElement.appendChild(createFlagItem(f)));
+  }
+
+  let routeElement = document.getElementById("route-finder-route");
+  routeElement.innerHTML = '';
+
+  result.route.forEach(r => routeElement.appendChild(createRouteItem(r)));
+
+  document.getElementById("searchRouteFinder").innerHTML = "<span>SEARCH</span>"
+}
+
+function createFlagItem (name) {
+  let element = document.createElement("li");
+  element.innerHTML = name;
+  return element;
+}
+
+function createRouteItem(name) {
+
+  if (name.substring(0,4) == "WALK") {
+    let element = document.createElement("div");
+    element.innerHTML = "WALK TO" + " " + name.slice(4);
+    element.setAttribute("class", "walk-to")
+    return element;
+  } else if (name.substring(0,4) == "WARP") {
+    let element = document.createElement("div");
+    element.innerHTML = "WARP TO" + " " + name.slice(4);
+    element.setAttribute("class", "warp-to")
+    return element;
+  }
+
+
+  let element = document.createElement("li");
+  let nameParts = name.split("-").map(p => p.trim());
+  element.innerHTML = nameParts[0] + " - " + nameParts[1] + "<br/>" + nameParts[2];
+  return element;
+}

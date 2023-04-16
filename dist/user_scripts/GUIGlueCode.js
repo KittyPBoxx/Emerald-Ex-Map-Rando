@@ -335,6 +335,8 @@ function registerGUIEvents() {
 
     addEvent("resize", window, resizeCanvasFunc);
 
+    // Controls for the sidebar navigator
+
     //Run on init as well:
     storageManager.find("RANDOM_MAPPING", () => {
         document.getElementById("input_seed_text").value = "KITTY";

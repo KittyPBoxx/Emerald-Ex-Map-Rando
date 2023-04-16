@@ -577,6 +577,86 @@ li.collection-item.speedup {
     margin-top: 1.5em;
 }
 
+.hint-button-group {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 10px;
+    margin-top: 1.5em;
+    margin-right: 3em;
+}
+
+#slide-out {
+    opacity: 0.8;
+    border-width: 8px 5px;
+    border-style: solid;
+    border-color: #403c44;
+    border-radius: 5px;
+    box-shadow: #302d3a 0px 1px 0px 3px;
+    background: #e5e5e5;
+    height: 100%;
+}
+
+#slide-out .nav-title {
+    display: flex;
+    justify-content: center;
+    margin-left: -1em;
+}
+
+.nav-button {
+    display: flex;
+    flex-direction: row-reverse;
+    margin-right: 2em;
+    margin-top: 0.5em;
+    margin-bottom: -1em;
+}
+
+#slide-out li {
+    margin-left: 1em;
+}
+
+#slide-out > .route-container > *,
+#slide-out > .flags-container > * {
+    line-height: 1em;
+}
+
+ol#route-finder-route > li {
+    margin-left: -1em;
+    font-size: 0.8em;
+    line-height: 1em;
+}
+
+.route-container .subheader{
+    margin-bottom: 1em;
+}
+
+.hint-inputs {
+    display: flex;
+    gap: 20px;
+    padding-right: 2em;
+}
+
+.hint-inputs ul {
+    overflow: hidden;
+}
+
+.warp-to,
+.walk-to {
+    font-size: 0.8em;
+    line-height: 1em;
+    margin-right: 2em;
+    margin-top: 1em;
+    margin-left: -2em;
+    margin-bottom: 0.2em;
+}
+
+.walk-to {
+    background: #ffffff;
+}
+
+.warp-to {
+    background: #9d9d9d;
+}
+
 .btn-small.randomiser-button {
     background: transparent;
     color: black;
