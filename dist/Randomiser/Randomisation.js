@@ -25,6 +25,10 @@ function getFlagData() {
   return FLAG_DATA;
 }
 
+function getEscapePaths() {
+  return EMERALD_ESCAPE_PATHS;
+}
+
 function mappingToWarps(mappingData) {
     let mappedList = new Map();
 
@@ -45,8 +49,9 @@ async function mapWarps(seed) {
 
     let config = getRandomisationConfig();
     let mapData = getFilteredData();
-    let flagData = getFlagData()
-    remappingsData = getRandomisationAlgorithm().apply(null, [seed, mapData, flagData, config]);
+    let flagData = getFlagData();
+    let escapePaths = getEscapePaths();
+    remappingsData = getRandomisationAlgorithm().apply(null, [seed, mapData, flagData, config, escapePaths]);
     warpList = mappingToWarps(getAugmetedRemappingData(remappingsData));
     updateHashDisplay();
 
@@ -55,10 +60,12 @@ async function mapWarps(seed) {
     }
 }
 
-function generateRandomMappings(seed, mapData, flagData, config) {
+function generateRandomMappings(seed, mapData, flagData, config, escapePaths) {
     
     let rng = new RNG(getHash(seed));
     let progressionState = initMappingGraph(mapData, isHeadless, new ProgressionState(flagData, config))
+
+    progressionState = generateEscapeWarps(escapePaths, mapData, rng, progressionState);
 
     var root = getInitialWarp(config);
 
@@ -66,7 +73,13 @@ function generateRandomMappings(seed, mapData, flagData, config) {
 
     var moreWarpsToMap = true;
     while(moreWarpsToMap) {
-        moreWarpsToMap = doNextMapping(rng, root, progressionState);
+        try {
+          moreWarpsToMap = doNextMapping(rng, root, progressionState);
+        } catch (e) {
+          console.error("An error occured mapping warps " + e);
+          M.toast({html: 'ERROR: Error assigning valid connections.<BR> Please try a different seed or config', displayLength:5000});
+          moreWarpsToMap = false;
+        }
         progressionState = updateProgressionState(progressionState, root);
     }
 
@@ -97,9 +110,21 @@ function filterByConfig(usabledWarps, config) {
     return usabledWarps;
 }
 
+function generateEscapeWarps(escapePaths, mapData, rng, progressionState) {
+  let filteredWarpIds = new Set(mapData.keys());
+  let escapeCandidateSet = escapePaths.map(s => s.filter(n => filteredWarpIds.has(n))).filter(s => s.length > 0);
+  let randomMustLinkHomeWarps = escapeCandidateSet.flatMap(s => s[rng.nextRange(0, s.length - 1)]);
+  progressionState.randomMustLinkHomeWarps = randomMustLinkHomeWarps;
+  return progressionState;
+}
+
 function filteGroupedNotMain(mapData) {
     return new Map([...mapData].filter(k => k[1].groupMain || !k[1].grouped));
 } 
+
+function removeRemovableLocations(mapData) {
+  return new Map([...mapData].filter(n => !(n[1].tags && n[1].tags.includes("removeable"))));
+}
 
 function toMapBank(s) { 
     let arr = s.split(","); 
@@ -344,6 +369,10 @@ function getFilteredData() {
     warpIdData = filterIgnored(warpIdData);
     warpIdData = filteGroupedNotMain(warpIdData);
     warpIdData = filterByConfig(warpIdData, getRandomisationConfig());
+
+    // In future this could be config. Remove some deadends that litterally only have dialog to speed things up
+    warpIdData = removeRemovableLocations(warpIdData);
+
     return warpIdData;
 }
 
@@ -363,6 +392,38 @@ function findAccessibleUnmappedNodes(cy, root) {
   return nodeSet;
 }
 
+/**
+ * TLDR How the mapping works
+ * 
+ * TERMS:
+ * Components - a set of warps that could be connected. 
+ *              If you can get from one door to another without going through a door then they are in the same component
+ *              i.e All the warps in SLATEPORT + DEWFORD + PETALBURG e.t.c are one component because you could surf between them
+ * Node       - A warp tile / warp tile group (i.e for when you have a double door)
+ * Hub        - A group of nodes where the dones have at least on connection
+ * Deadend    - A node where the node only has one connection
+ * Connection - A path from one node to another without going through a warp
+ * Conditional Connection - A path from one node to another that is only avaiable when certain game conditions have been met
+ * Flag Locations - A location that, by itself or with other locations, will allow a conditional connection to be available  
+ * Key Locations  - locations that are importaint but unlock any conditional connections e.g the champion battle
+ * Escape Warps   - A single node (or single random node from a set of nodes) where access is directional
+ *                These warps eventually have to lead back home to the root node (In Oldale)
+ *                e.g   a node after a ledge hop where you can't get back.
+ *                e.g.2 one of the warps in Dewford has to be an escape warp in case you whiteout to there
+ * 
+ * Each time we do a mapping we search the graph for the nodes that can be accessed but have not been linked to another node yet.
+ * 
+ * 1. Start by mapping one node from each of the components. Until we can reach at least one place in every component
+ * 2. Build a list of all the warps that can access the root node without traversing conditional connections and link an escape warps to them (until there are no more escape warps)
+ * 3. Randomly add flag locations to the free nodes. Each time we add a flag check if any conditional connections are now available and update available warps
+ * 4. Add a node from any hubs that still can't be reached (probably only the case if there is a one way path in a component) (after this only dead ends are left)
+ * 5. Randomly add all the key locations (if a key loacation is not a dead end it will have already been added)
+ * 6. Randomly add the rest of the dead ends
+ * 7. Link up any remaning unmapped nodes to each other (if there is an odd number we link the final warp to the ice secion in shoal cave, otherwise the cave is left out)   
+ *
+ * NB: Some teleport tile nodes needed to be walked over for the player to access another area / item
+ *     In these special cases we have to make sure that they don't link to a one-way 
+ */
 function doNextMapping(rng, root, progressionState) {
     let accessibleNodes = progressionState.cachedNodes ? progressionState.cachedNodes : findAccessibleUnmappedNodes(window.cy, root);
     let inacessibleNodes = cy.nodes().not(accessibleNodes).filter(e => e.data().isWarp && !e.data().isMapped);
@@ -371,37 +432,136 @@ function doNextMapping(rng, root, progressionState) {
 
     if(accessibleNodes.size == 0 && inacessibleNodes.length == 0) { 
       return false; 
+    } else if (accessibleNodes.size == 0 && (inaccesibleFlagLocations.length > 0 || inaccesibleKeyLocations.length > 0)) {
+
+      M.toast({html: 'ERROR: At least 1 importaint location was detected to be inaccessible. <BR>' +  
+                     'It may be impossible to complete this seed <BR> ' +
+                     'Please try a different seed or config', displayLength:10000});
+      return false;
+
+    } else if (accessibleNodes.size == 0) {
+
+      console.warn("Had to leave some dead ends inaccessible");
+      // M.toast({html: 'WARNING: Some unimportant dead ends had to be left inaccessible for the current seed/config to be possible.' + 
+      //                '<BR> You should still be able to complete the seed.', displayLength:10000});
+      return false;
+
     }
 
-    let warp1 = [...accessibleNodes][rng.nextRange(0, accessibleNodes.size - 1)];
-    accessibleNodes.delete(warp1);
-    
+    // To make the game more playable we want to certain warps have path that lead back to the start
+    if (progressionState.randomMustLinkHomeWarps.length > 0) {
+      let preferedList = Array.from(accessibleNodes).filter(n => !progressionState.randomMustLinkHomeWarps.includes(n.data().id));
+
+      // If the accessible nodes only include the ones we want for escapes there's nothing we can do otherwise we can filter them from the list
+      if (preferedList.length > 0) {
+        accessibleNodes = new Set(preferedList);
+      } else {
+        // We can't use the prefered node list so we have to clear the list
+        progressionState.randomMustLinkHomeWarps = [];
+      }
+    }
+
+    let warp1 = null;
     let warp2 = null;
     let shouldCacheNodes = false;
     let inacessibleHubs = inacessibleNodes.filter(e => e.degree(true) > 0);
 
     if (progressionState.unconnectedComponents.length > 0) {
 
+      warp1 = [...accessibleNodes][rng.nextRange(0, accessibleNodes.size - 1)];
+      accessibleNodes.delete(warp1);
+
       // Add a node from every component of the graph (with the assumption no warps are present but all flags are met)
-      let randomComponent = progressionState.unconnectedComponents[rng.nextRange(0, progressionState.unconnectedComponents.length - 1)];
-      let randomNodeIdFromComponent = selectRandomWarp(rng, randomComponent, warp1);
+      // however avoid joining on 'escape' warps that would be needed to avoid self soft lock (e.g only warp after going down a ledge)
+      let candidateUnconnectedComponentNodes = progressionState.unconnectedComponents.flat();
+
+      let preferedcandidateUnconnectedComponentNodes = candidateUnconnectedComponentNodes.filter(n => !progressionState.randomMustLinkHomeWarps.includes(n));
+      if (preferedcandidateUnconnectedComponentNodes.length > 0) {
+        candidateUnconnectedComponentNodes = preferedcandidateUnconnectedComponentNodes;
+      } else {
+        console.warn("Clearing must link home warps even though some were not satisfied");
+        progressionState.randomMustLinkHomeWarps = [];
+      }
+
+      let randomNodeIdFromComponent = selectRandomWarp(rng, candidateUnconnectedComponentNodes, warp1);
 
       warp2 = cy.getElementById(randomNodeIdFromComponent);
-      progressionState.unconnectedComponents = progressionState.unconnectedComponents.filter(c => c != randomComponent);
+      progressionState.unconnectedComponents = progressionState.unconnectedComponents.filter(c => !c.includes(randomNodeIdFromComponent));
+
+      console.log("HUBS")
+
+    } else if (progressionState.randomMustLinkHomeWarps.length > 0 && accessibleNodes.size > 1) {
+
+      let warp1Candidates = cy.nodes().filter(n => !n.data().isMapped && progressionState.randomMustLinkHomeWarps.includes(n.data().id));
+
+      if (warp1Candidates.length > 0) {
+        warp1 = [...warp1Candidates][rng.nextRange(0, warp1Candidates.length - 1)];
+      } else {
+        warp1 = [...accessibleNodes][rng.nextRange(0, accessibleNodes.size - 1)];
+        console.warn("Clearing must link home warps even though some were not satisfied");
+        progressionState.randomMustLinkHomeWarps = [];
+      }
+
+      accessibleNodes.delete(warp1);
+      
+      // Find all the nodes that have a path back to home and make sure the escape warps link back to them 
+      let preferedCandidateList = null;
+      if (progressionState.homeEscapesList) {
+
+        preferedCandidateList = progressionState.homeEscapesList;
+
+      } else {
+
+        let fw = cy.elements().floydWarshall({directed : true});
+        progressionState.homeEscapesList = Array.from(accessibleNodes).filter(n => fw.distance(cy.getElementById(root), n) != "Infinity")
+        preferedCandidateList = progressionState.homeEscapesList;
+
+        // None of the nodes in the the randomMustLinkHomeWarps should already be mapped. 
+        // However some may be in the homeEscapesList. In which case we can remove them (because they already link back home)
+        progressionState.homeEscapesList.forEach(n => {
+          if (progressionState.randomMustLinkHomeWarps.includes(n.data().id)) {
+            progressionState.randomMustLinkHomeWarps.splice(progressionState.randomMustLinkHomeWarps.indexOf(n.data().id), 1);
+          }
+        })
+      }
+
+      // Don't error if we've run out of warps that link back
+      preferedCandidateList = preferedCandidateList.length == 0 ? accessibleNodes : preferedCandidateList;
+      warp2 = selectRandomWarp(rng, preferedCandidateList, warp1);
+
+
+      accessibleNodes.delete(warp2);
+      progressionState.randomMustLinkHomeWarps.splice(progressionState.randomMustLinkHomeWarps.indexOf(warp1.data().id), 1);
+      progressionState.homeEscapesList = (progressionState.homeEscapesList.filter(n => n.data().id != warp2.data().id));
+
+      console.log("HOME LINKS")
 
     } else if (inaccesibleFlagLocations.length > 0) { 
+
+      warp1 = [...accessibleNodes][rng.nextRange(0, accessibleNodes.size - 1)];
+      accessibleNodes.delete(warp1);
 
       // Add inacessible dead-ends that might allow flags givinb access to new locations
       warp2 = selectRandomWarp(rng, inaccesibleFlagLocations, warp1);
       warp2.addClass("significant");
 
+      console.log("FLAGS")
+
     } else if (inacessibleHubs.length > 0) {
+
+      warp1 = [...accessibleNodes][rng.nextRange(0, accessibleNodes.size - 1)];
+      accessibleNodes.delete(warp1);
 
       // Add any hubs that there is still no access to... I'm not sure there would even be any left...
       inacessibleNodes = inacessibleNodes.filter(e => e.degree(true) > 0);
       warp2 = selectRandomWarp(rng, inacessibleNodes, warp1);
 
+      console.log("MORE HUBS")
+
     } else if (inaccesibleKeyLocations.length > 0) {
+
+      warp1 = [...accessibleNodes][rng.nextRange(0, accessibleNodes.size - 1)];
+      accessibleNodes.delete(warp1);
 
       // Add key inacessible locations 
       warp2 = selectRandomWarp(rng, inaccesibleKeyLocations, warp1); 
@@ -409,35 +569,54 @@ function doNextMapping(rng, root, progressionState) {
       accessibleNodes.delete(warp2);
       warp2.addClass("significant");
 
+      console.log("KEY LOCATIONS")
+
     } else if (inacessibleNodes.length > 0) {
+
+      warp1 = [...accessibleNodes][rng.nextRange(0, accessibleNodes.size - 1)];
+      accessibleNodes.delete(warp1);
 
       // Add other inacessible dead-ends 
       warp2 = selectRandomWarp(rng, inacessibleNodes, warp1); 
       shouldCacheNodes = true;
       accessibleNodes.delete(warp2);
 
-    } else if (accessibleNodes.size > 0) {
+      console.log("DEADENDS");
+
+    } else if (accessibleNodes.size > 1) {
+
+      warp1 = [...accessibleNodes][rng.nextRange(0, accessibleNodes.size - 1)];
+      accessibleNodes.delete(warp1);
 
       // map together nodes that are already accessible
       warp2 = selectRandomWarp(rng, [...accessibleNodes], warp1);
       shouldCacheNodes = true;
       accessibleNodes.delete(warp2);
 
+      console.log("MORE CONNECTIONS");
+
     } else {
+
+      warp1 = [...accessibleNodes][rng.nextRange(0, accessibleNodes.size - 1)];
+      accessibleNodes.delete(warp1);
+
       //console.warn("Unevenly matched warps. " + warp1.data().id + " had to map to itself");
       // warp2 = warp1
 
       // if one warp is left hanging we connect it to altering cave from fire red
-      warp2 = cy.add(new WarpNode(['E,24,106,0', getMapData()["E,24,106,0"]]));
+      warp2 = cy.add(new WarpNode(['E,24,83,0', getMapData()["E,24,83,0"]]));
       shouldCacheNodes = true;
       accessibleNodes.delete(warp2);
 
     }
 
+
+    // TODO: CACHE IS CAUSING ISSUES WITH NEW ALGORITHM SO IT'S BEEN DISABLED FOR NOW
+
     // Once it's only dead ends left we can cache which nodes are accessible from the root 
-    if (shouldCacheNodes && !progressionState.cachedNodes) {
-        progressionState.cachedNodes = accessibleNodes;
-    }
+    // if (shouldCacheNodes && !progressionState.cachedNodes) {
+    //     progressionState.cachedNodes = accessibleNodes;
+    // }
 
     if (!warp1) {
       
@@ -471,6 +650,15 @@ function doNextMapping(rng, root, progressionState) {
           window.cy.add(new WarpEdge(warp2.data().id, warp1.data().id))
     }
     
+
+    if (warp1.data().isMapped) {
+      throw new Error(warp1.data().id + " (warp1) is already mapped. We shouldn't be trying to remap it")
+    }
+
+    if (warp2.data().isMapped) {
+      throw new Error(warp2.data().id + " (warp2) is already mapped. We shouldn't be trying to remap it")
+    }
+
     warp1.data().isMapped = true;
     warp2.data().isMapped = true;
 

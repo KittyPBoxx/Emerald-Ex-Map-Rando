@@ -28,6 +28,10 @@ function patchGameIssues() {
         
         // Make the guy from top of sootopolis dress like wallace
         IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x71d0AD, 0x85);
+
+        // Make sure we can go backwards through the trick master house
+        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x292FD2, 0x0B);
+        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x292FD4, 0x00);
     }
 
 }

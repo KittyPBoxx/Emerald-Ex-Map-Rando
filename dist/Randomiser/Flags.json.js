@@ -141,7 +141,8 @@ var KEY_LOCATIONS = {
     "E,16,2,0" : "L_HOENN_LEAGUE_3",
     "E,16,3,0" : "L_HOENN_LEAGUE_4",
     "E,16,4,0" : "L_HOENN_LEAGUE_CHAMP",
-    "E,24,107,0" : "L_STEVEN_FINAL_BOSS"
+    "E,24,107,0" : "L_STEVEN_FINAL_BOSS",
+    "E,8,0,0"    : "L_WALLY_HOUSE" // Is key because you are warped here after beating norman
 }
 
 var FLAG_DATA = {

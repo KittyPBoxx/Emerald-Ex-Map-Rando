@@ -93,26 +93,30 @@ var EMERALD_WARPS =
         "to": "E,0,0,0",
         "level": "1", 
         "grouped": ["E,8,2,1"],
-        "groupMain" : true
+        "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,8,2,1" : {
         "name": "PETALBURG CITY - INSIDE - Left - 4,8",
         "to": "E,0,0,0",
         "level": "1", 
-        "grouped": ["E,8,2,1"]
+        "grouped": ["E,8,2,1"],
+        "tags": ["removeable"]
     },
     "E,8,3,0" : {
         "name": "PETALBURG CITY - INSIDE - Right - 3,7",
         "to": "E,0,0,4",
         "level": "1", 
         "grouped": ["E,8,3,1"],
-        "groupMain" : true
+        "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,8,3,1" : {
         "name": "PETALBURG CITY - INSIDE - Right - 4,7",
         "to": "E,0,0,4",
         "level": "1", 
-        "grouped": ["E,8,3,0"]
+        "grouped": ["E,8,3,0"],
+        "tags": ["removeable"]
     },
     "E,8,4,0" : {
         // PK
@@ -384,12 +388,14 @@ var EMERALD_WARPS =
         "grouped": ["E,9,10,0"],
         "groupMain" : true,
         "level" : "3",
+        "tags": ["removeable"]
     },
     "E,9,10,1" : {
         "name" : "SLATEPORT CITY - INSIDE - House Bottom - 4,7",
         "to": "E,0,1,10",
         "grouped": ["E,9,10,1"],
         "level" : "3",
+        "tags": ["removeable"]
     },
     "E,9,11,0" : {
         // PK
@@ -891,7 +897,8 @@ var EMERALD_WARPS =
     "E,11,9,0" : {
         "name": "RUSTBORO CITY - INSIDE - Wanda House (PC Boxart) F2 Stairs - 2,1",
         "level": "1", 
-        "to" : "E,11,8,2"
+        "to" : "E,11,8,2",
+        "tags": ["removeable"]
     },
     "E,11,10,0" : {
         "name": "RUSTBORO CITY - INSIDE - Right of Gym (seedot/ralts trade) - 5,7",
@@ -924,7 +931,8 @@ var EMERALD_WARPS =
         "level": "1", 
         "to" : "E,0,3,9",
         "grouped" : ["E,11,12,1"],
-        "groupMain" : true
+        "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,11,12,1" : {
         "name": "RUSTBORO CITY - INSIDE - Above School - 6,8",
@@ -975,20 +983,23 @@ var EMERALD_WARPS =
     "E,11,15,0" : {
         "name": "RUSTBORO CITY - INSIDE - Bottom Left Appartments F3 (stairs) - 1,1",
         "level": "1", 
-        "to" : "E,11,14,1"
+        "to" : "E,11,14,1",
+        "tags": ["removeable"]
     },
     "E,11,16,0" : {
         "name": "RUSTBORO CITY - OUTSIDE - Bottom Right - 5,8",
         "level": "1", 
         "to" : "E,0,3,11",
         "grouped" : ["E,11,16,1"],
-        "groupMain" : true
+        "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,11,16,1" : {
         "name": "RUSTBORO CITY - OUTSIDE - Bottom Right - 6,8",
         "level": "1", 
         "to" : "E,0,3,11",
-        "grouped" : ["E,11,16,0"]
+        "grouped" : ["E,11,16,0"],
+        "tags": ["removeable"]
     },
 /* FORTREE CITY - EXT */
     "E,0,4,0" : {
@@ -1166,12 +1177,14 @@ var EMERALD_WARPS =
         "level" : "6",
         "grouped": ["E,12,6,1"],
         "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,12,6,1" : {
         "name" : "FORTREE CITY - INSIDE - Right Above GYM - 4,5",
         "to" : "E,0,4,5",
         "level" : "6",
         "grouped": ["E,12,6,0"],
+        "tags": ["removeable"]
     },
     "E,12,7,0" : {
         "name" : "FORTREE CITY - INSIDE - Right Side Top - 3,5",
@@ -1192,12 +1205,14 @@ var EMERALD_WARPS =
         "level" : "6",
         "grouped": ["E,12,8,1"],
         "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,12,8,1" : {
         "name" : "FORTREE CITY - INSIDE - Bottom Left - 4,5",
         "to" : "E,0,4,7",
         "level" : "6",
         "grouped": ["E,12,8,0"],
+        "tags": ["removeable"]
     },
     "E,12,9,0" : {
         "name" : "FORTREE CITY - INSIDE - Bottom Right - 3,5",
@@ -1517,12 +1532,14 @@ var EMERALD_WARPS =
         "level" : "7",
         "grouped": ["E,13,9,1"],
         "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,13,9,1" : {
         "name" : "LILYCOVE CITY - INSIDE - Right of PkCenter - 5,D",
         "to" : "E,0,5,5",
         "level" : "7",
         "grouped": ["E,13,9,0"],
+        "tags": ["removeable"]
     },
     "E,13,10,0" : {
         "name" : "LILYCOVE CITY - INSIDE - Dock - B,E",
@@ -1556,12 +1573,14 @@ var EMERALD_WARPS =
         "level" : "7",
         "grouped": ["E,13,12,1"],
         "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,13,12,1" : {
         "name" : "LILYCOVE CITY - INSIDE - Top Right - 4,8",
         "to" : "E,0,5,8",
         "level" : "7",
         "grouped": ["E,13,12,0"],
+        "tags": ["removeable"]
     },
     "E,13,13,0" : {
         "name" : "LILYCOVE CITY - INSIDE - Center Right (ledge) - 3,8",
@@ -1582,12 +1601,14 @@ var EMERALD_WARPS =
         "level" : "7",
         "grouped": ["E,13,14,1"],
         "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,13,14,1" : {
         "name" : "LILYCOVE CITY - INSIDE - Left of contest Hall - 4,8",
         "to" : "E,0,5,10",
         "level" : "7",
         "grouped": ["E,13,14,0"],
+        "tags": ["removeable"]
     },
     "E,13,15,0" : {
         "name" : "LILYCOVE CITY - INSIDE - Left of PkCenter - 3,8",
@@ -1595,12 +1616,14 @@ var EMERALD_WARPS =
         "level" : "7",
         "grouped": ["E,13,15,1"],
         "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,13,15,1" : {
         "name" : "LILYCOVE CITY - INSIDE - Left of PkCenter - 4,8",
         "to" : "E,0,5,11",
         "level" : "7",
         "grouped": ["E,13,15,0"],
+        "tags": ["removeable"]
     },
     "E,13,16,0" : {
         "name" : "LILYCOVE CITY - INSIDE - Dept Store F1 Door - 8,7",
@@ -1918,13 +1941,15 @@ var EMERALD_WARPS =
         "level": "7", 
         "to": "E,0,6,7",
         "grouped": ["E,14,8,1"],
-        "groupMain" : true
+        "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,14,8,1" : {
         "name": "MOSSDEEP CITY - INSIDE - Left of PkCenter - 4,7",
         "level": "7", 
         "to": "E,0,6,7",
         "grouped": ["E,14,8,0"],
+        "tags": ["removeable"]
     },
     "E,14,9,0" : {
         "name": "MOSSDEEP CITY - INSIDE - Space Center F1 Door - 7,9",
@@ -1980,6 +2005,7 @@ var EMERALD_WARPS =
             "E,0,7,11": true,
             "E,0,7,7": true,
             "E,0,7,5": true,
+            "E,0,7,2": "HOENN_SURF",
         }
     },
     "E,0,7,1"  : {
@@ -1993,13 +2019,18 @@ var EMERALD_WARPS =
             "E,0,7,6": true,
             "E,0,7,4": true,
             "E,0,7,13": true,
+            "E,0,7,2": "HOENN_SURF",
         }
     },
     "E,0,7,2"  : {
         // GYM
         "name": "SOOTOPOLIS CITY - OUTSIDE - Gym - 1F,20",
         "level" : "8",
-        "to" : "E,15,0,0"
+        "to" : "E,15,0,0",
+        "connections" : {
+            "E,0,7,1": "HOENN_SURF",
+            "E,0,7,2": "HOENN_SURF",
+        }
     },
     "E,0,7,3"  : {
         // CAVE OF ORIGIN
@@ -2077,7 +2108,7 @@ var EMERALD_WARPS =
         "level" : "8",
         "to" : "E,15,13,0",
         "connections" : {
-            "E,0,7,1": true,
+            "E,0,7,0": true,
         }
     },
     "E,0,7,13" : {
@@ -2165,12 +2196,14 @@ var EMERALD_WARPS =
         "to": "E,0,7,5",
         "grouped": ["E,15,6,1"],
         "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,15,6,1" : {
         "name": "SOOTOPOLIS CITY - INSIDE - Right side top - 4,6",
         "level": "8", 
         "to": "E,0,7,5",
-        "grouped": ["E,15,6,0"]
+        "grouped": ["E,15,6,0"],
+        "tags": ["removeable"]
     },
     "E,15,7,0" : {
         "name": "SOOTOPOLIS CITY - INSIDE - Left side Middle top - 3,6",
@@ -2178,12 +2211,14 @@ var EMERALD_WARPS =
         "to": "E,0,7,6",
         "grouped": ["E,15,7,1"],
         "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,15,7,1" : {
         "name": "SOOTOPOLIS CITY - INSIDE - Left side Middle top - 4,6",
         "level": "8", 
         "to": "E,0,7,6",
-        "grouped": ["E,15,7,0"]
+        "grouped": ["E,15,7,0"],
+        "tags": ["removeable"]
     },
     "E,15,8,0" : {
         "name": "SOOTOPOLIS CITY - INSIDE - Right side middle top - 3,6",
@@ -2191,12 +2226,14 @@ var EMERALD_WARPS =
         "to": "E,0,7,7",
         "grouped": ["E,15,8,1"],
         "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,15,8,1" : {
         "name": "SOOTOPOLIS CITY - INSIDE - Right side middle top - 4,6",
         "level": "8", 
         "to": "E,0,7,7",
-        "grouped": ["E,15,8,0"]
+        "grouped": ["E,15,8,0"],
+        "tags": ["removeable"]
     },
     "E,15,9,0" : {
         "name": "SOOTOPOLIS CITY - INSIDE - Left side middle bottom - 3,6",
@@ -2204,12 +2241,14 @@ var EMERALD_WARPS =
         "to": "E,0,7,8",
         "grouped": ["E,15,9,1"],
         "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,15,9,1" : {
         "name": "SOOTOPOLIS CITY - INSIDE - Left side middle bottom - 4,6",
         "level": "8", 
         "to": "E,0,7,8",
-        "grouped": ["E,15,9,0"]
+        "grouped": ["E,15,9,0"],
+        "tags": ["removeable"]
     },
     "E,15,10,0" : {
         "name": "SOOTOPOLIS CITY - INSIDE - Right side Middle Right - 3,6",
@@ -2230,12 +2269,14 @@ var EMERALD_WARPS =
         "to": "E,0,7,10",
         "grouped": ["E,15,11,1"],
         "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,15,11,1" : {
         "name": "SOOTOPOLIS CITY - INSIDE - Left side bottom - 4,6",
         "level": "8", 
         "to": "E,0,7,10",
-        "grouped": ["E,15,11,0"]
+        "grouped": ["E,15,11,0"],
+        "tags": ["removeable"]
     },
     "E,15,12,0" : {
         "name": "SOOTOPOLIS CITY - INSIDE - Right Side Middle Left- 3,6",
@@ -2256,12 +2297,14 @@ var EMERALD_WARPS =
         "to": "E,0,7,12",
         "grouped": ["E,15,13,1"],
         "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,15,13,1" : {
         "name": "SOOTOPOLIS CITY - INSIDE - Right Side Bottom - 4,6",
         "level": "8", 
         "to": "E,0,7,12",
-        "grouped": ["E,15,13,0"]
+        "grouped": ["E,15,13,0"],
+        "tags": ["removeable"]
     },
 /* EVER GRANDE CITY - EXT */
     "E,0,8,0" : {
@@ -2608,26 +2651,30 @@ var EMERALD_WARPS =
         "level": "1", 
         "to": "E,0,10,1",
         "grouped": ["E,2,0,1"],
-        "groupMain" : true
+        "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,2,0,1" : {
         "name": "OLDALE TOWN - INSIDE - Left - 4,8",
         "level": "1", 
         "to": "E,0,10,0",
-        "grouped": ["E,2,0,0"]
+        "grouped": ["E,2,0,0"],
+        "tags": ["removeable"]
     },
     "E,2,1,0" : {
         "name": "OLDALE TOWN - INSIDE - Right - 3,7",
         "level": "1", 
         "to": "E,0,10,1",
         "grouped": ["E,2,1,1"],
-        "groupMain" : true
+        "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,2,1,1" : {
         "name": "OLDALE TOWN - INSIDE - Right - 4,7",
         "level": "1", 
         "to": "E,0,10,1",
-        "grouped": ["E,2,1,0"]
+        "grouped": ["E,2,1,0"],
+        "tags": ["removeable"]
     },
     "E,2,2,0" : {
         // PK
@@ -2735,13 +2782,15 @@ var EMERALD_WARPS =
         "level": "2", 
         "to" : "E,0,11,3",
         "grouped": ["E,3,0,1"],
-        "groupMain" : true
+        "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,3,0,1" : {
         "name": "DEWFORD TOWN - INSIDE - Bottom Right - 4,7",
         "level": "2", 
         "to" : "E,0,11,3",
-        "grouped": ["E,3,0,0"]
+        "grouped": ["E,3,0,0"],
+        "tags": ["removeable"]
     },
     "E,3,1,0" : {
         "name": "DEWFORD TOWN - INSIDE - PkCenter - 7,8",
@@ -3081,13 +3130,15 @@ var EMERALD_WARPS =
         "level": "4", 
         "to": "E,0,13,3",
         "grouped": ["E,5,6,1"],
-        "groupMain" : true
+        "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,5,6,1" : {
         "name": "FALLARBOR TOWN - INSIDE - Bottom House - 4,7",
         "level": "4", 
         "to": "E,0,13,3",
-        "grouped": ["E,5,6,0"]
+        "grouped": ["E,5,6,0"],
+        "tags": ["removeable"]
     },
     "E,5,7,0" : {
         "name": "FALLARBOR TOWN - INSIDE - Move Relearner - 3,7",
@@ -3235,13 +3286,15 @@ var EMERALD_WARPS =
         "level": "3", 
         "to" : "E,0,14,3",
         "grouped": ["E,6,6,1"],
-        "groupMain" : true
+        "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,6,6,1" : {
         "name": "VERDANTURF TOWN - INSIDE - Center House - 8,7",
         "level": "3", 
         "to" : "E,0,14,3",
-        "grouped": ["E,6,6,0"]
+        "grouped": ["E,6,6,0"],
+        "tags": ["removeable"]
     },
     "E,6,7,0" : {
         "name": "VERDANTURF TOWN - INSIDE - Left House - 3,7",
@@ -3261,13 +3314,15 @@ var EMERALD_WARPS =
         "level": "3", 
         "to" : "E,0,14,6",
         "grouped": ["E,6,8,1"],
-        "groupMain" : true
+        "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,6,8,1" : {
         "name": "VERDANTURF TOWN - INSIDE - Right House - 4,8",
         "level": "3", 
         "to" : "E,0,14,6",
-        "grouped": ["E,6,8,0"]
+        "grouped": ["E,6,8,0"],
+        "tags": ["removeable"]
     },
 /* PACIFIDLOG TOWN - EXT */
     "E,0,15,0" : {
@@ -3363,12 +3418,14 @@ var EMERALD_WARPS =
         "to" : "E,0,15,1",
         "grouped": ["E,7,2,1"],
         "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,7,2,1" : {
         "name": "PACIFIDLOG TOWN - INSIDE - Top Right - 5,8",
         "level": "8", 
         "to" : "E,0,15,1",
-        "grouped": ["E,7,2,0"]
+        "grouped": ["E,7,2,0"],
+        "tags": ["removeable"]
     },
     "E,7,3,0" : {
         "name": "PACIFIDLOG TOWN - INSIDE - Bottom Left - 4,8",
@@ -3402,12 +3459,14 @@ var EMERALD_WARPS =
         "to" : "E,0,15,4",
         "grouped": ["E,7,5,1"],
         "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,7,5,1" : {
         "name": "PACIFIDLOG TOWN - INSIDE - Top Left - 5,8",
         "level": "8", 
         "to" : "E,0,15,4",
-        "grouped": ["E,7,5,0"]
+        "grouped": ["E,7,5,0"],
+        "tags": ["removeable"]
     },
     "E,7,6,0" : {
         "name": "PACIFIDLOG TOWN - INSIDE - Bottom Right - 4,8",
@@ -3415,12 +3474,14 @@ var EMERALD_WARPS =
         "to" : "E,0,15,5",
         "grouped": ["E,7,6,1"],
         "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,7,6,1" : {
         "name": "PACIFIDLOG TOWN - INSIDE - Bottom Right - 5,8",
         "level": "8", 
         "to" : "E,0,15,5",
-        "grouped": ["E,7,6,0"]
+        "grouped": ["E,7,6,0"],
+        "tags": ["removeable"]
     },
 /* ROUTE 104 - OUSIDE */ 
     "E,0,19,0" : {
@@ -3962,16 +4023,15 @@ var EMERALD_WARPS =
         "level" : "3",
         "connections" : {
             "E,29,1,1": true
-        },
-        "tags": ["no_return"]
+        }
     },
     "E,29,1,1" : {
         "name" : "ROUTE 110 - INSIDE - Trick House Completed Left - 2,1",
         "to" : "E,29,2,0",
         "level" : "3",
-        // "connections" : {
-        //     "E,29,1,0": true
-        // }
+        "connections" : {
+            "E,29,1,0": true
+        }
     },
     "E,29,2,0" : {
         "name" : "ROUTE 110 - INSIDE - Trick House Hall Top - D,3",
@@ -4504,6 +4564,7 @@ var EMERALD_WARPS =
         "connections" : {
             "E,20,1,0": true
         },
+        "ignore" : true,
         "tags": ["no_return"]
     },
     "E,20,2,0" : {
@@ -5452,6 +5513,7 @@ var EMERALD_WARPS =
             "E,24,15,0": true,
             "E,24,15,1": true,
         },
+        "ignore": true,
         "tags": ["no_return"]
     },
 // F2    
@@ -5479,6 +5541,7 @@ var EMERALD_WARPS =
         "connections" : {
             "E,24,16,0": true,
         },
+        "ignore": true,
         "tags": ["no_return"]
     },
     "E,24,16,3" : {
@@ -5488,6 +5551,7 @@ var EMERALD_WARPS =
         "connections" : {
             "E,24,16,0": true,
         },
+        "ignore": true,
         "tags": ["no_return"]
     },
     "E,24,16,4" : {
@@ -5523,7 +5587,8 @@ var EMERALD_WARPS =
         "connections" : {
             "E,24,17,0": true,
         },
-        "tags": ["no_return"]
+        "tags": ["no_return"],
+        "ignore": true
     },
     "E,24,17,3" : {
         "name" : "Mt Pyre - INSIDE - F3 Left Drop - 1,C",
@@ -5532,6 +5597,7 @@ var EMERALD_WARPS =
         "connections" : {
             "E,24,17,5": true,
         },
+        "ignore": true,
         "tags": ["no_return"]
     },
     "E,24,17,4" : {
@@ -5572,7 +5638,8 @@ var EMERALD_WARPS =
         "connections" : {
             "E,24,18,0": true
         },
-        "tags": ["no_return"]
+        "tags": ["no_return"],
+        "ignore": true
     },
     "E,24,18,3" : {
         "name" : "Mt Pyre - INSIDE - F4 Bottom Right Drop - C,C",
@@ -5581,7 +5648,8 @@ var EMERALD_WARPS =
         "connections" : {
             "E,24,18,5": true
         },
-        "tags": ["no_return"]
+        "tags": ["no_return"],
+        "ignore": true
     },
     "E,24,18,4" : {
         "name" : "Mt Pyre - INSIDE - F4 Center Hole - 9,A",
@@ -5621,7 +5689,8 @@ var EMERALD_WARPS =
             "E,24,19,3": true,
             "E,24,19,4": true,
         },
-        "tags": ["no_return"]
+        "tags": ["no_return"],
+        "ignore": true
     },
     "E,24,19,3" : {
         "name" : "Mt Pyre - INSIDE - F5 Top Hole - C,A",
@@ -5735,6 +5804,11 @@ var EMERALD_WARPS =
         }
     },
 /* Route 125 - INT */
+    "E,24,83,0" : {
+        "ignore": true,
+        "name" : "ROUTE 125 - INSIDE - Shoal Cave - 11,A",
+        "to" : "E,24,49,3",
+    },
 // TODO: Shoal Cave
 /* Aqua Hideout */
 // F1
@@ -6224,21 +6298,25 @@ var EMERALD_WARPS =
     },
 /* Underwater */
     "E,0,51,0" : {
+        "ignore" : true,
         "name" : "UNDERWATER - Outside - Sootopolis Enterance - 2D,41",
         "to" : "E,24,5,0",
         "level" : "8"
     },
     "E,0,53,0" : {
+        "ignore" : true,
         "name" : "UNDERWATER - Outside - Outside Submarine Cave - 26,1A",
         "to" : "E,24,26,0",
         "level" : "8"
     },
     "E,24,5,0" : {
+        "ignore" : true,
         "name" : "UNDERWATER - Outside - Inside Sootopolis - 9,8",
         "to" : "E,0,51,0",
         "level" : "8"
     },
     "E,24,26,0" : {
+        "ignore" : true,
         "name" : "UNDERWATER - Outside - Submarine - 6,7",
         "to" : "E,0,53,0",
         "level" : "8"
@@ -6889,13 +6967,15 @@ var EMERALD_WARPS =
         "to" : "E,26,9,0",
         "level" : "9",
         "grouped" : ["E,26,10,1"],
-        "groupMain" : true
+        "groupMain" : true,
+        "ignore": true
     },
     "E,26,10,1" : {
         "name" : "SOTHERN ISLAND - INSIDE - Trees Enterance - E,12",
         "to" : "E,26,9,1",
         "level" : "9",
         "grouped" : ["E,26,10,0"],
+        "ignore": true
     },
 /* FAR AWAY ISLAND */
     "E,26,56,0" : {
@@ -6903,7 +6983,10 @@ var EMERALD_WARPS =
         "to" : "E,26,57,0",
         "level" : "9",
         "grouped" : ["E,26,56,1"],
-        "groupMain" : true
+        "groupMain" : true,
+        "connections" : {
+            "E,13,10,0": true,
+        }
     },
     "E,26,56,1" : {
         "name" : "FAR AWAY ISLAND - OUTSIDE - Trees Enterance - 16,7",
@@ -7041,3 +7124,126 @@ var EMERALD_WARPS =
         "level" : "9",
     },
 }
+
+// Sets of warps where at least 1 needs to lead back home to prevent softlocks
+// To meet the criterea warps there should:
+// 1) Be a way to get to a warp / set of warps
+// 2) And unable to get back (e.g whiteout, teleported, ledge hop, game state change, from forced surf)
+var EMERALD_ESCAPE_PATHS = [
+
+    // Several areas areas are not included in the list because they are big hubs (10+ warps can be accessed)
+    // For example Rustboro (entering through Rest House or Metor falls exit or whiteout) could lock you if all houses were dead ends
+    // In this case a player would have to whiteout or use the escape option in the menu
+    // This is not mathmatically perfect but should make the game more playable
+
+    // Dewford / Granite enterance (For enterance by whiteout)
+    ["E,0,11,0", "E,0,11,1", "E,0,11,2", "E,0,11,3", "E,0,11,4", "E,0,21,0"],
+
+    // Sootopolis Gym (Surf after cut scene)
+    ["E,0,7,2"],
+
+    // Sootopolis Left Side (Surf after cut scene)
+    ["E,0,7,10", "E,0,7,1", "E,0,7,8", "E,0,7,6", "E,0,7,4", "E,0,7,3", "E,0,7,13"],
+
+    // Sootopolis Right Side (Whiteout / Surf after cut scene)
+    ["E,0,7,0", "E,0,7,12", "E,0,7,9", "E,0,7,11", "E,0,7,7", "E,0,7,5"],
+
+    // Evergrande top (Whiteout)
+    ["E,0,8,0", "E,0,8,3"],
+
+    // Evergrande bottom (Whiteout)
+    ["E,0,8,1", "E,0,8,2"],
+
+    // Firey Path bottom (Exit from desert, Hop down from Lavaridge)
+    ["E,0,27,4"],
+
+    // E4 - 1 Exit
+    ["E,16,0,1"],
+
+    // E4 - 2 Exit
+    ["E,16,1,1"],
+
+    // E4 - 3 Exit
+    ["E,16,2,1"],
+
+    // E4 - 4 Exit
+    ["E,16,3,1"],
+
+    // Meteor Falls (Ledge hop)
+    ["E,24,1,0", "E,24,1,3"],
+
+    // Grannite Cave F1 (Ledge Hop)
+    ["E,24,7,0", "E,24,7,2"],
+
+    // Grannite Cave F3 (After falling)
+    ["E,24,9,2"],
+
+    // Jagged Pass (After ledge hop / magma emblem door)
+    ["E,24,13,0"],
+
+    // Mt Pyre F1 (after Drop)
+    // (Ignoring 24,15,5)
+    //["E,24,15,0", "E,24,15,1", "E,24,15,4"],
+
+    // Mt Pyre F2 (after Drop)
+    // (Ignoring 24,16,3 / 24,16,2)
+    ["E,24,16,0", "E,24,16,1", "E,24,16,4"],
+
+    // Mt Pyre F3 Left bottom (after drop)
+    // Ignore 24,17,3
+    // ["E,24,17,5"],
+
+    // Mt Pyre F3 Right (after drop)
+    // Ignore 24,18,2
+    //["E,24,18,0", "E,24,18,1", "E,24,18,4"],
+
+    // Mt Pyre F4 Top (after drop)
+    // Ignore 24,18,3
+    //["E,24,18,5"],
+
+    // Mt Pyre F4 (after drop)
+    // Ingore 24,19,2
+    // ["E,24,19,3", "E,24,19,4"],
+
+    // Seafloor Cavern after ledge hop
+    ["E,24,31,3"],
+
+    // V. Road F2 bottom (after ledge hop)
+    ["E,24,44,0"],
+
+    // V. Road F2 top (after ledge hop without strength)
+    ["E,24,44,4"],
+
+    // V.Road F3 (after ledge hop)
+    ["E,24,45,0"],
+
+    // New Mauville (without basement key)
+    ["E,24,52,0"],
+
+    // Abandoned Ship Hub (through locked door without storeage key)
+    ["E,24,57,0", "E,24,57,1", "E,24,57,2", "E,24,57,3", "E,24,57,4", "E,24,57,6", "E,24,57,7"],
+
+    // Desert Ruins (From locked door)
+    ["E,24,6,0"],
+
+    // Ancient Tomb (From locked door)
+    ["E,24,68,0"],
+
+    // Sky Pillar (Without talking to Wallace)
+    ["E,24,78,0"],
+
+    // Sky Pillar F1 (From Drop) // Currently not possible because sky pillar is always in unbroken state
+    // ["E,24,79,0"],
+
+    // Sky Pillar F3 (From side drop)
+    ["E,24,81,0", "E,24,81,1"],
+
+    // Sky Pillar F3 (From center drop)
+    ["E,24,81,2"],
+
+    // Magma Hideout From (ledge hop)
+    ["E,24,86,1"],
+
+    // Mirrage tower (Drops from any higher floors)
+    ["E,24,94,0", "E,24,94,1"]
+]

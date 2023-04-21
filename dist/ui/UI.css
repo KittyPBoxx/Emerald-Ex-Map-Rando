@@ -682,7 +682,11 @@ ol#route-finder-route > li {
 .available-warp-select-wrapper {
     display: flex;
     gap: 20px;
-    margin-top: 20px;
+    margin-top: 10px;
+}
+
+.warp-config-group {
+    margin-top: 1em;
 }
 
 .select-wrapper input.select-dropdown {
