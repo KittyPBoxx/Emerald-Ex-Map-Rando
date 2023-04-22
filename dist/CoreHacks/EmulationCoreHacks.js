@@ -360,21 +360,17 @@ function specialWarpHandling(pkwarp, trigger) {
 
     }
 
-    let bagManager = new BagStoreage();
-    bagManager.readData();
-    new FlagManager(bagManager).writeFlags();
-
-    // if (syncMultiplayerStates) {
-    //     let bagManager = new BagStoreage();
-    //     bagManager.readData();
-    //     let flagManager = new FlagManager(bagManager);
-    //     gameSyncState.update(flagManager);
-    //     flagManager.writeFlags();
-    // } else {
-    //     let bagManager = new BagStoreage();
-    //     bagManager.readData();
-    //     new FlagManager(bagManager).writeFlags();
-    // }
+    if (syncMultiplayerStates) {
+        let bagManager = new BagStoreage();
+        bagManager.readData();
+        let flagManager = new FlagManager(bagManager);
+        gameSyncState.update(flagManager);
+        flagManager.writeFlags();
+    } else {
+        let bagManager = new BagStoreage();
+        bagManager.readData();
+        new FlagManager(bagManager).writeFlags();
+    }
 }
 
 /***********************/
@@ -753,6 +749,9 @@ FlagManager.prototype.writeFlags = function () {
     // Unhide man from the top of sootopolice
     // We patched him to give waterfall, dress like wallace and stand in front of the gym
     this.setFlag(save1Start, EMERALD_BASE_FLAGS_OFFSET, 0x347, 0);
+
+    // Remove the brigde Kecleon so we can ride up from lilycove
+    this.setFlag(save1Start, EMERALD_BASE_FLAGS_OFFSET, 0x3CA, 1);
 }
 
 
@@ -851,7 +850,7 @@ function readGameVar(offset) {
 // Allows syncing certain progress between games
 
 var syncMultiplayerStates = false;
-var gameSyncState = new SyncState();
+var gameSyncState = new SyncManager();
 
 
 function SyncState() {
@@ -896,14 +895,14 @@ SyncManager.prototype.update = function (flagManager) {
 
     let save1Start = IodineGUI.Iodine.IOCore.cpu.read32(EMERALD_SAVE_1_PTR);
 
-    flagManager.setFlag(save1Start, EMERALD_SYS_FLAGS_OFFSET, EMERALD_BADGE1_OFFSET, this.localSyncState.badge1);
-    flagManager.setFlag(save1Start, EMERALD_SYS_FLAGS_OFFSET, EMERALD_BADGE2_OFFSET, this.localSyncState.badge2);
-    flagManager.setFlag(save1Start, EMERALD_SYS_FLAGS_OFFSET, EMERALD_BADGE3_OFFSET, this.localSyncState.badge3);
-    flagManager.setFlag(save1Start, EMERALD_SYS_FLAGS_OFFSET, EMERALD_BADGE4_OFFSET, this.localSyncState.badge4);
-    flagManager.setFlag(save1Start, EMERALD_SYS_FLAGS_OFFSET, EMERALD_BADGE5_OFFSET, this.localSyncState.badge5);
-    flagManager.setFlag(save1Start, EMERALD_SYS_FLAGS_OFFSET, EMERALD_BADGE6_OFFSET, this.localSyncState.badge6);
-    flagManager.setFlag(save1Start, EMERALD_SYS_FLAGS_OFFSET, EMERALD_BADGE7_OFFSET, this.localSyncState.badge7);
-    flagManager.setFlag(save1Start, EMERALD_SYS_FLAGS_OFFSET, EMERALD_BADGE8_OFFSET, this.localSyncState.badge8);
+    flagManager.setFlag(save1Start, EMERALD_SYS_FLAGS_OFFSET, EMERALD_BADGE1_OFFSET, this.localSyncState.badge1 ? 1 : 0);
+    flagManager.setFlag(save1Start, EMERALD_SYS_FLAGS_OFFSET, EMERALD_BADGE2_OFFSET, this.localSyncState.badge2 ? 1 : 0);
+    flagManager.setFlag(save1Start, EMERALD_SYS_FLAGS_OFFSET, EMERALD_BADGE3_OFFSET, this.localSyncState.badge3 ? 1 : 0);
+    flagManager.setFlag(save1Start, EMERALD_SYS_FLAGS_OFFSET, EMERALD_BADGE4_OFFSET, this.localSyncState.badge4 ? 1 : 0);
+    flagManager.setFlag(save1Start, EMERALD_SYS_FLAGS_OFFSET, EMERALD_BADGE5_OFFSET, this.localSyncState.badge5 ? 1 : 0);
+    flagManager.setFlag(save1Start, EMERALD_SYS_FLAGS_OFFSET, EMERALD_BADGE6_OFFSET, this.localSyncState.badge6 ? 1 : 0);
+    flagManager.setFlag(save1Start, EMERALD_SYS_FLAGS_OFFSET, EMERALD_BADGE7_OFFSET, this.localSyncState.badge7 ? 1 : 0);
+    flagManager.setFlag(save1Start, EMERALD_SYS_FLAGS_OFFSET, EMERALD_BADGE8_OFFSET, this.localSyncState.badge8 ? 1 : 0);
 
     if (this.localSyncState.hm01) { flagManager.bag.tmCase.set(ITEM_DATA["HM01 CUT"].number       , 1); }
     if (this.localSyncState.hm02) { flagManager.bag.tmCase.set(ITEM_DATA["HM02 FLY"].number       , 1); }
@@ -964,20 +963,20 @@ SyncManager.prototype.updateFromRemote = function () {
     this.localSyncState.badge7 = this.localSyncState.badge7 || this.remoteSyncState.badge7;
     this.localSyncState.badge8 = this.localSyncState.badge8 || this.remoteSyncState.badge8;
 
-    this.localSyncState.hm01 = this.loaclSyncState.hm01 || this.remoteSyncState.hm01;
-    this.localSyncState.hm02 = this.loaclSyncState.hm02 || this.remoteSyncState.hm02;
-    this.localSyncState.hm03 = this.loaclSyncState.hm03 || this.remoteSyncState.hm03;
-    this.localSyncState.hm04 = this.loaclSyncState.hm04 || this.remoteSyncState.hm04;
-    this.localSyncState.hm05 = this.loaclSyncState.hm05 || this.remoteSyncState.hm05;
-    this.localSyncState.hm06 = this.loaclSyncState.hm06 || this.remoteSyncState.hm06;
-    this.localSyncState.hm07 = this.loaclSyncState.hm07 || this.remoteSyncState.hm07;
-    this.localSyncState.hm08 = this.loaclSyncState.hm08 || this.remoteSyncState.hm08;
+    this.localSyncState.hm01 = this.localSyncState.hm01 || this.remoteSyncState.hm01;
+    this.localSyncState.hm02 = this.localSyncState.hm02 || this.remoteSyncState.hm02;
+    this.localSyncState.hm03 = this.localSyncState.hm03 || this.remoteSyncState.hm03;
+    this.localSyncState.hm04 = this.localSyncState.hm04 || this.remoteSyncState.hm04;
+    this.localSyncState.hm05 = this.localSyncState.hm05 || this.remoteSyncState.hm05;
+    this.localSyncState.hm06 = this.localSyncState.hm06 || this.remoteSyncState.hm06;
+    this.localSyncState.hm07 = this.localSyncState.hm07 || this.remoteSyncState.hm07;
+    this.localSyncState.hm08 = this.localSyncState.hm08 || this.remoteSyncState.hm08;
 
-    this.localSyncState.magmaEmblem = this.loaclSyncState.magmaEmblem || this.remoteSyncState.magmaEmblem;
-    this.localSyncState.devonScope  = this.loaclSyncState.devonScope  || this.remoteSyncState.devonScope;
-    this.localSyncState.basementKey = this.loaclSyncState.basementKey || this.remoteSyncState.basementKey;
-    this.localSyncState.storeageKey = this.loaclSyncState.storeageKey || this.remoteSyncState.storeageKey;
-    this.localSyncState.goGoggles   = this.loaclSyncState.goGoggles   || this.remoteSyncState.goGoggles;
+    this.localSyncState.magmaEmblem = this.localSyncState.magmaEmblem || this.remoteSyncState.magmaEmblem;
+    this.localSyncState.devonScope  = this.localSyncState.devonScope  || this.remoteSyncState.devonScope;
+    this.localSyncState.basementKey = this.localSyncState.basementKey || this.remoteSyncState.basementKey;
+    this.localSyncState.storeageKey = this.localSyncState.storeageKey || this.remoteSyncState.storeageKey;
+    this.localSyncState.goGoggles   = this.localSyncState.goGoggles   || this.remoteSyncState.goGoggles;
 
 }
 

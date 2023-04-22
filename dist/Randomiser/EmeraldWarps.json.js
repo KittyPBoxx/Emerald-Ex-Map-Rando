@@ -3836,7 +3836,7 @@ var EMERALD_WARPS =
         }
     },
     "E,24,8,3" : {
-        "name" : "GRANITE CAVE - INSIDE - F2 - Bottom Right Ladder - 1C,15",
+        "name" : "GRANITE CAVE - INSIDE - F2 Bottom Right Ladder - 1C,15",
         "to" : "E,24,9,1",
         "level" : "2",
         "connections" : {
@@ -7164,6 +7164,24 @@ var EMERALD_ESCAPE_PATHS = [
 
     // Evergrande bottom (Whiteout)
     ["E,0,8,1", "E,0,8,2"],
+
+    // Pacifidlog (Whiteout)
+    ["E,0,15,0", "E,0,15,1", "E,0,15,2", "E,0,15,3", "E,0,15,4", "E,0,15,5"],
+
+    // Mossdeep (whiteout)
+    ["E,0,6,0", "E,0,6,1", "E,0,6,2", "E,0,6,3", "E,0,6,4", "E,0,6,5", "E,0,6,6", "E,0,6,7", "E,0,6,8", "E,0,6,9"],
+
+    // Slateport (whiteout)
+    ["E,0,1,0", "E,0,1,1", "E,0,1,2", "E,0,1,3", "E,0,1,4", "E,0,1,6", "E,0,1,8", "E,0,1,10", "E,0,24,0", "E,0,25,4"],
+
+    // Mauville/Verdanterf (whiteout)
+    ["E,0,25,1", "E,0,25,2", "E,0,2,0", "E,0,2,1", "E,0,2,2", "E,0,2,3", "E,0,2,4", "E,0,2,5", "E,0,2,6", "E,0,26,0", "E,0,26,4", "E,0,32,0", "E,0,14,0", "E,0,14,1", "E,0,14,2", "E,0,14,3", "E,0,14,4", "E,0,14,5", "E,0,14,6"],
+
+    // Fallabough (whiteout)
+    ["E,0,26,2", "E,0,27,5", "E,0,28,0", "E,0,13,0", "E,0,13,1", "E,0,13,2", "E,0,13,3", "E,0,13,4", "E,0,29,0", "E,0,29,1", "E,0,29,2"],
+
+    // Lilycove / Fortree (whiteout)
+    ["E,0,5,0", "E,0,5,1", "E,0,5,2", "E,0,5,3", "E,0,5,4", "E,0,5,5", "E,0,5,7", "E,0,5,8", "E,0,5,9", "E,0,5,10", "E,0,5,11", "E,0,5,12", "E,0,36,0"],
 
     // Firey Path bottom (Exit from desert, Hop down from Lavaridge)
     ["E,0,27,4", "E,0,27,0"],
