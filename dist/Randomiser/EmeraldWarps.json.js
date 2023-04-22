@@ -5080,13 +5080,15 @@ var EMERALD_WARPS =
         "to" : "E,24,64,0",
         "level" : "6",
         "grouped": ["E,24,60,1"],
-        "groupMain" : true
+        "groupMain" : true,
+        "ignore" : true,
     },
     "E,24,60,1" : {
         "name" : "ABANDONED SHIP - INSIDE - F6 Door - 4,7",
         "to" : "E,24,64,0",
         "level" : "6",
-        "grouped": ["E,24,60,0"]
+        "grouped": ["E,24,60,0"],
+        "ignore" : true,
     },
 // F7
     "E,24,61,0" : {
@@ -5145,7 +5147,8 @@ var EMERALD_WARPS =
     "E,24,64,0" : {
         "name" : "ABANDONED SHIP - INSIDE - F10 Door - 3,1",
         "to" : "E,24,60,0",
-        "level" : "6"
+        "level" : "6",
+        "ignore" : true,
     },
 // F11
     "E,24,65,0" : {
@@ -7245,5 +7248,8 @@ var EMERALD_ESCAPE_PATHS = [
     ["E,24,86,1"],
 
     // Mirrage tower (Drops from any higher floors)
-    ["E,24,94,0", "E,24,94,1"]
+    ["E,24,94,0", "E,24,94,1"],
+
+    // Wally's house inside (Teleported there after fight with norman)
+    ["E,8,0,0"]
 ]
