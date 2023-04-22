@@ -360,10 +360,21 @@ function specialWarpHandling(pkwarp, trigger) {
 
     }
 
-
     let bagManager = new BagStoreage();
     bagManager.readData();
     new FlagManager(bagManager).writeFlags();
+
+    // if (syncMultiplayerStates) {
+    //     let bagManager = new BagStoreage();
+    //     bagManager.readData();
+    //     let flagManager = new FlagManager(bagManager);
+    //     gameSyncState.update(flagManager);
+    //     flagManager.writeFlags();
+    // } else {
+    //     let bagManager = new BagStoreage();
+    //     bagManager.readData();
+    //     new FlagManager(bagManager).writeFlags();
+    // }
 }
 
 /***********************/
@@ -601,6 +612,10 @@ BagStoreage.prototype.hasKeyItem = function(item) {
     return this.keyItemsPocket.has(item);
 }
 
+BagStoreage.prototype.hasHm = function(item) {
+    return this.tmCase.has(item);
+}
+
 /*******************/
 /* Flag Management */
 /*******************/
@@ -827,3 +842,145 @@ function readGameVar(offset) {
 
     return IodineGUI.Iodine.IOCore.cpu.read16(save1Start + baseVarOffset + ((offset - 0x4000) * 2));
 }
+
+/*******************/
+/*  Sync Manager   */
+/*******************/
+
+// Sync manager is for Coop multiplayer
+// Allows syncing certain progress between games
+
+var syncMultiplayerStates = false;
+var gameSyncState = new SyncState();
+
+
+function SyncState() {
+    // Badges to sync
+    this.badge1 = null;
+    this.badge2 = null;
+    this.badge3 = null;
+    this.badge4 = null;
+    this.badge5 = null;
+    this.badge6 = null;
+    this.badge7 = null;
+    this.badge8 = null;
+
+    // HMs to sync
+    this.hm01 = null;
+    this.hm02 = null;
+    this.hm03 = null;
+    this.hm04 = null;
+    this.hm05 = null;
+    this.hm06 = null;
+    this.hm07 = null;
+    this.hm08 = null;
+
+    // Key Items to Sync
+    this.magmaEmblem = null;
+    this.devonScope = null;
+    this.basementKey = null;
+    this.storeageKey = null;
+    this.goGoggles = null;
+}
+
+
+function SyncManager() {
+    this.localSyncState = new SyncState();
+    this.remoteSyncState = new SyncState();
+}
+
+SyncManager.prototype.update = function (flagManager) {
+
+    this.localUpdate(flagManager);
+    this.updateFromRemote();
+
+    let save1Start = IodineGUI.Iodine.IOCore.cpu.read32(EMERALD_SAVE_1_PTR);
+
+    flagManager.setFlag(save1Start, EMERALD_SYS_FLAGS_OFFSET, EMERALD_BADGE1_OFFSET, this.localSyncState.badge1);
+    flagManager.setFlag(save1Start, EMERALD_SYS_FLAGS_OFFSET, EMERALD_BADGE2_OFFSET, this.localSyncState.badge2);
+    flagManager.setFlag(save1Start, EMERALD_SYS_FLAGS_OFFSET, EMERALD_BADGE3_OFFSET, this.localSyncState.badge3);
+    flagManager.setFlag(save1Start, EMERALD_SYS_FLAGS_OFFSET, EMERALD_BADGE4_OFFSET, this.localSyncState.badge4);
+    flagManager.setFlag(save1Start, EMERALD_SYS_FLAGS_OFFSET, EMERALD_BADGE5_OFFSET, this.localSyncState.badge5);
+    flagManager.setFlag(save1Start, EMERALD_SYS_FLAGS_OFFSET, EMERALD_BADGE6_OFFSET, this.localSyncState.badge6);
+    flagManager.setFlag(save1Start, EMERALD_SYS_FLAGS_OFFSET, EMERALD_BADGE7_OFFSET, this.localSyncState.badge7);
+    flagManager.setFlag(save1Start, EMERALD_SYS_FLAGS_OFFSET, EMERALD_BADGE8_OFFSET, this.localSyncState.badge8);
+
+    if (this.localSyncState.hm01) { flagManager.bag.tmCase.set(ITEM_DATA["HM01 CUT"].number       , 1); }
+    if (this.localSyncState.hm02) { flagManager.bag.tmCase.set(ITEM_DATA["HM02 FLY"].number       , 1); }
+    if (this.localSyncState.hm03) { flagManager.bag.tmCase.set(ITEM_DATA["HM03 SURF"].number      , 1); }
+    if (this.localSyncState.hm04) { flagManager.bag.tmCase.set(ITEM_DATA["HM04 STRENGTH"].number  , 1); }
+    if (this.localSyncState.hm05) { flagManager.bag.tmCase.set(ITEM_DATA["HM05 FLASH"].number     , 1); }
+    if (this.localSyncState.hm06) { flagManager.bag.tmCase.set(ITEM_DATA["HM06 ROCK SMASH"].number, 1); }
+    if (this.localSyncState.hm07) { flagManager.bag.tmCase.set(ITEM_DATA["HM07 WATERFALL"].number , 1); }
+    if (this.localSyncState.hm08) { flagManager.bag.tmCase.set(ITEM_DATA["HM08 DIVE"].number      , 1); }
+
+    if (this.localSyncState.magmaEmblem) { flagManager.bag.keyItemsPocket.set(ITEM_DATA["MAGMA EMBLEM"].number     , 1); }
+    if (this.localSyncState.devonScope)  { flagManager.bag.keyItemsPocket.set(ITEM_DATA["DEVON SCOPE"].number      , 1); }
+    if (this.localSyncState.basementKey) { flagManager.bag.keyItemsPocket.set(ITEM_DATA["BASEMENT KEY"].number     , 1); }
+    if (this.localSyncState.storeageKey) { flagManager.bag.keyItemsPocket.set(ITEM_DATA["STORAGE KEY"].number      , 1); }
+    if (this.localSyncState.goGoggles)   { flagManager.bag.keyItemsPocket.set(ITEM_DATA["GO GOGGLES"].number       , 1); }
+
+    flagManager.bag.writeData(true);
+}
+
+SyncManager.prototype.localUpdate = function (flagManager) {
+
+    flagManager.readFlags();
+
+    this.localSyncState.badge1 = flagManager.badge1;
+    this.localSyncState.badge2 = flagManager.badge2;
+    this.localSyncState.badge3 = flagManager.badge3;
+    this.localSyncState.badge4 = flagManager.badge4;
+    this.localSyncState.badge5 = flagManager.badge5;
+    this.localSyncState.badge6 = flagManager.badge6;
+    this.localSyncState.badge7 = flagManager.badge7;
+    this.localSyncState.badge8 = flagManager.badge8;
+
+    this.localSyncState.hm01 = flagManager.bag.hasHm(ITEM_DATA["HM01 CUT"].number);
+    this.localSyncState.hm02 = flagManager.bag.hasHm(ITEM_DATA["HM02 FLY"].number);
+    this.localSyncState.hm03 = flagManager.bag.hasHm(ITEM_DATA["HM03 SURF"].number);
+    this.localSyncState.hm04 = flagManager.bag.hasHm(ITEM_DATA["HM04 STRENGTH"].number);
+    this.localSyncState.hm05 = flagManager.bag.hasHm(ITEM_DATA["HM05 FLASH"].number);
+    this.localSyncState.hm06 = flagManager.bag.hasHm(ITEM_DATA["HM06 ROCK SMASH"].number);
+    this.localSyncState.hm07 = flagManager.bag.hasHm(ITEM_DATA["HM07 WATERFALL"].number);
+    this.localSyncState.hm08 = flagManager.bag.hasHm(ITEM_DATA["HM08 DIVE"].number);
+
+    this.localSyncState.magmaEmblem = flagManager.bag.hasKeyItem(ITEM_DATA["MAGMA EMBLEM"].number);
+    this.localSyncState.devonScope  = flagManager.bag.hasKeyItem(ITEM_DATA["DEVON SCOPE"].number);
+    this.localSyncState.basementKey = flagManager.bag.hasKeyItem(ITEM_DATA["BASEMENT KEY"].number);
+    this.localSyncState.storeageKey = flagManager.bag.hasKeyItem(ITEM_DATA["STORAGE KEY"].number);
+    this.localSyncState.goGoggles   = flagManager.bag.hasKeyItem(ITEM_DATA["GO GOGGLES"].number);
+
+}
+
+SyncManager.prototype.updateFromRemote = function () {
+
+    this.localSyncState.badge1 = this.localSyncState.badge1 || this.remoteSyncState.badge1;
+    this.localSyncState.badge2 = this.localSyncState.badge2 || this.remoteSyncState.badge2;
+    this.localSyncState.badge3 = this.localSyncState.badge3 || this.remoteSyncState.badge3;
+    this.localSyncState.badge4 = this.localSyncState.badge4 || this.remoteSyncState.badge4;
+    this.localSyncState.badge5 = this.localSyncState.badge5 || this.remoteSyncState.badge5;
+    this.localSyncState.badge6 = this.localSyncState.badge6 || this.remoteSyncState.badge6;
+    this.localSyncState.badge7 = this.localSyncState.badge7 || this.remoteSyncState.badge7;
+    this.localSyncState.badge8 = this.localSyncState.badge8 || this.remoteSyncState.badge8;
+
+    this.localSyncState.hm01 = this.loaclSyncState.hm01 || this.remoteSyncState.hm01;
+    this.localSyncState.hm02 = this.loaclSyncState.hm02 || this.remoteSyncState.hm02;
+    this.localSyncState.hm03 = this.loaclSyncState.hm03 || this.remoteSyncState.hm03;
+    this.localSyncState.hm04 = this.loaclSyncState.hm04 || this.remoteSyncState.hm04;
+    this.localSyncState.hm05 = this.loaclSyncState.hm05 || this.remoteSyncState.hm05;
+    this.localSyncState.hm06 = this.loaclSyncState.hm06 || this.remoteSyncState.hm06;
+    this.localSyncState.hm07 = this.loaclSyncState.hm07 || this.remoteSyncState.hm07;
+    this.localSyncState.hm08 = this.loaclSyncState.hm08 || this.remoteSyncState.hm08;
+
+    this.localSyncState.magmaEmblem = this.loaclSyncState.magmaEmblem || this.remoteSyncState.magmaEmblem;
+    this.localSyncState.devonScope  = this.loaclSyncState.devonScope  || this.remoteSyncState.devonScope;
+    this.localSyncState.basementKey = this.loaclSyncState.basementKey || this.remoteSyncState.basementKey;
+    this.localSyncState.storeageKey = this.loaclSyncState.storeageKey || this.remoteSyncState.storeageKey;
+    this.localSyncState.goGoggles   = this.loaclSyncState.goGoggles   || this.remoteSyncState.goGoggles;
+
+}
+
+SyncManager.prototype.updateRemoteSyncState = function(syncState) {
+    this.remoteSyncState = syncState;
+} 

@@ -25,7 +25,7 @@ ESC (or long swipe down) will bring up the emulation menu where you can change t
 
 There are some differences in this randomizer compared to the universal warp randomizer. Here are some things to be aware of: 
 
-- Game mode: Game should be played in 'CEA' mode with 'Plotless' set to 'Full'. No early surf.
+- Game mode: Game should be played with 'Plotless' set to 'Full'. No early surf.
 - 'Escape' in menu to avoid any softlocking: 
     - Menu option available anywhere outside the safari zone
     - Indoors / In Caves it works the same as an escape rope (normally last place outdoors)

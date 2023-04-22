@@ -473,6 +473,8 @@ function doNextMapping(rng, root, progressionState) {
 
       // Add a node from every component of the graph (with the assumption no warps are present but all flags are met)
       // however avoid joining on 'escape' warps that would be needed to avoid self soft lock (e.g only warp after going down a ledge)
+      // Techically this could cause an issue with hubs that allow flags by themself but that's only meteor falls
+
       let candidateUnconnectedComponentNodes = progressionState.unconnectedComponents.flat();
 
       let preferedcandidateUnconnectedComponentNodes = candidateUnconnectedComponentNodes.filter(n => !progressionState.randomMustLinkHomeWarps.includes(n));

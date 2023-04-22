@@ -1301,13 +1301,9 @@ var EMERALD_WARPS =
         "to" : "E,24,23,0",
         "connections" : {
             "E,0,5,2": true,
-            "E,0,40,0": true,
-            "E,0,6,2": true,
-            "E,0,46,0": true,
-            "E,0,15,0": true,
-            "E,0,1,0": true,
-            "E,0,39,0": true,
-            "E,0,8,1": "HOENN_WATERFALL"
+            // Technically this lets us surf without surf
+            // And with surf we can get to mossdeep but we break the chain
+            // to allow better distribution
         }
     },
     "E,0,5,7" : {
@@ -1763,7 +1759,14 @@ var EMERALD_WARPS =
             "E,0,6,7": true,
             "E,0,6,8": true,
             "E,0,6,9": true,
-            "E,0,5,6": "HOENN_SURF" 
+
+            // Ignore the fact we can surf to lilycove for better distrobution
+            // "E,0,5,6": "HOENN_SURF",
+            "E,0,40,0": "HOENN_SURF",
+            "E,0,46,0": "HOENN_SURF",
+            "E,0,15,0": "HOENN_SURF",
+            "E,0,39,0": "HOENN_SURF",
+            "E,0,8,1": "HOENN_WATERFALL"
         }
     },
     "E,0,6,3" : {
@@ -2323,7 +2326,7 @@ var EMERALD_WARPS =
         "to" : "E,16,12,0",
         "connections" : {
             "E,0,8,2": true,
-            "E,0,5,6": "HOENN_SURF" 
+            "E,0,6,2": "HOENN_SURF" 
         }
     },
     "E,0,8,2" : {
@@ -2385,7 +2388,7 @@ var EMERALD_WARPS =
         "connections" : {
             "E,16,10,4": true,
             "E,16,10,2": "ALL_BADGES",
-            // "E,0,8,0": true // Technically you can whiteout to get there but really?
+            "E,0,8,0": "WHITEOUT" 
         }
     },
     "E,16,10,1" : {
@@ -3336,8 +3339,13 @@ var EMERALD_WARPS =
             "E,0,15,3": true,
             "E,0,15,4": true,
             "E,0,15,5": true,
-            "E,0,5,6": "HOENN_SURF",
-            "E,0,1,0": "HOENN_SURF"
+
+            // Technically we can get to Lilycove and Slateport but breaking the chain here
+            // will give a better location distribution
+            //"E,0,5,6": "HOENN_SURF",
+            //"E,0,1,0": "HOENN_SURF"
+            "E,0,6,2": "HOENN_SURF"
+
         }
     },
     "E,0,15,1" : {
@@ -5780,7 +5788,7 @@ var EMERALD_WARPS =
         "to" : "E,33,0,0",
         "level" : "7",
         "connections" : {
-            "E,0,5,6": "HOENN_SURF" 
+            "E,0,6,2": "HOENN_SURF" 
         }
     },
 /* Route 124 - INT */
@@ -5803,7 +5811,7 @@ var EMERALD_WARPS =
         "to" : "E,24,46,0",
         "level" : "7",
         "connections" : {
-            "E,0,5,6": "HOENN_SURF" 
+            "E,0,6,2": "HOENN_SURF" 
         }
     },
 /* Route 125 - INT */
@@ -6296,7 +6304,7 @@ var EMERALD_WARPS =
         "to" : "E,24,77,0",
         "level" : "8",
         "connections" : {
-            "E,0,5,6": "HOENN_SURF" 
+            "E,0,6,2": "HOENN_SURF" 
         }
     },
 /* Underwater */
@@ -7158,7 +7166,7 @@ var EMERALD_ESCAPE_PATHS = [
     ["E,0,8,1", "E,0,8,2"],
 
     // Firey Path bottom (Exit from desert, Hop down from Lavaridge)
-    ["E,0,27,4"],
+    ["E,0,27,4", "E,0,27,0"],
 
     // E4 - 1 Exit
     ["E,16,0,1"],

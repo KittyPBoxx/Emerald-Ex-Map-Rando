@@ -32,6 +32,15 @@ function patchGameIssues() {
         // Make sure we can go backwards through the trick master house
         IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x292FD2, 0x0B);
         IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x292FD4, 0x00);
+
+        // Patch magma grunts so they don't block the cable car
+        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x71F6A0, 0x1B);
+        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x71F6A2, 0x1C);
+        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x71F6A5, 0x08);
+
+        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x71F718, 0x1E);
+        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x71F71A, 0x1C);
+        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x71F71D, 0x08);
     }
 
 }
