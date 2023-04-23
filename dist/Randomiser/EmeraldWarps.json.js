@@ -4592,6 +4592,7 @@ var EMERALD_WARPS =
     "E,24,98,0" : {
         "name" : "DESSERT PASS - INSIDE - Door - A,C",
         "to" : "E,20,1,2",
+        "ignore" : true
     },
 /* METEOR FALLS */
 // F1
@@ -7133,6 +7134,27 @@ var EMERALD_WARPS =
         "name" : "NAVEL ROCK - OUTSIDE - LUGIA - E,13",
         "to" : "E,26,86,0",
         "level" : "9",
+    },
+// More ignored locations so we can randomize odd-one-out warp
+// Frontier Mart
+    "E,26,55,0" : {
+        "name" : "FRONTIER - INSIDE - MART - 3,7",
+        "to": "E,26,4,4",
+        "grouped": ["E,26,55,1"],
+        "groupMain" : true,
+        "ignore" : true,
+    },
+    "E,26,55,1" : {
+        "name" : "FRONTIER - INSIDE - MART - 4,7",
+        "to": "E,26,4,4",
+        "grouped": ["E,26,55,0"],
+        "level" : "3",
+        "ignore" : true
+    },
+    "E,24,72,0" : {
+        "name" : "SEALED CHAMBER - INSIDE - Enterance - A,13",
+        "to": "E,24,71,0",
+        "ignore" : true,
     },
 }
 
