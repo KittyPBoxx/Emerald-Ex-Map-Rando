@@ -1052,10 +1052,60 @@ blockquote {
     gap: 3em;
     align-items: center;
     padding-top: 3em;
-    padding-left: 3em;
     flex-wrap: wrap;
+}
+
+.network-button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    margin-top: -0.5em;
+}
+
+.player-list-title {
+    margin-top: 1.5em;
+    color: #302d3a;
 }
 
 .newtwort-input {
     width: 10em;
+}
+
+.newtork-input-actions-container {
+    position: absolute;
+    right: 0;
+    top: -5px;
+    display: flex;
+    flex-direction: row;
+    font-size: 2em;
+}
+.newtork-input-actions-container span{
+    opacity: 0.3;
+    transition: all 0.2s;
+}
+
+.newtork-input-actions-container span:hover{
+    opacity: 1;
+}
+
+.collection-item.avatar {
+    display: flex;
+    align-items: center;
+}
+
+.collection-item.avatar .circle {
+    width: 3.5em;
+    height: 3.5em;
+}
+
+.collection-item.avatar.host  {
+    box-shadow: inset 0px 0px 2px 2px #DBA632;
+}
+
+.collection-item.avatar.client  {
+    box-shadow: inset 0px 0px 2px 2px #15640a;
+}
+
+i {
+    color: #302d3a;
 }

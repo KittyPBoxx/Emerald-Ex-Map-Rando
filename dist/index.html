@@ -119,6 +119,10 @@
         <script src="Patching/WarpFixes.js"></script>  
         <script src="Patching/GameFixes.js"></script>  
 
+        <!-- NETWORKING -->
+        <script src="Network/Network.js"></script>  
+        <script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js"></script>
+
         <!-- Config Defaults -->
         <script src="ApplicationData/Config/Keybind-Config.json.js"></script>
     </head>
@@ -508,15 +512,35 @@
                       <a class="carousel-item" href="#coop!">
                         <div class="menu-title center-align"><h5 class="left-menu-button">L</h5><span class="large icon icon-compass icon-group prefix tilt"></span><h4 class="center-align">Co-Op</h4><h5 class="right-menu-button">R</h5></div>
                         <div class="menu-group"><blockquote>This will sync badges, HMs and some key items between games</blockquote></div>
-                        <div class="network-opts-container">
-                          <div class="input-field col s6 newtwort-input">
-                            <span>Nickname</span>
-                            <input type="text" value="KITTY" data-length="10" maxlength="10">
+                        <div class="menu-group">
+                          <div class="network-opts-container">
+                            <div class="input-field col s6 newtwort-input">
+                              <span>Nickname</span>
+                              <input id="networkNickname" type="text" value="KITTY" data-length="10" maxlength="10">
+                            </div>
+                            <div class="input-field col s6 newtwort-input">
+                              <span>Link Code</span>
+                              <input id="networkLinkCode" type="password" class="validate">
+                              <div class="newtork-input-actions-container">
+                                <span class="icon icon-eye" onclick="toggleLinkCodeVisibility()"></span>
+                                <span class="icon icon-notepad" onclick="copyLinkCodeToClipboard()"></span>
+                              </div>
+                            </div>
+                            <div class="network-button-container">
+                              <div class="btn-small plaint-btn" onclick="connectAsHost()">
+                                <span>HOST GAME</span>
+                              </div>
+                              <div class="btn-small plaint-btn" onclick="connectAsClient()">
+                                <span>CONNECT TO HOST</span>
+                              </div>
+                            </div>
                           </div>
-                          <div class="input-field col s6 newtwort-input">
-                            <span>Link Code</span>
-                            <input id="passcode" type="password" class="validate">
-                          </div>
+                        </div>
+                        <div class="menu-group">
+                          <h5 class="player-list-title">Player List</h5>
+                          <ul id="playerList" class="collection">
+                            <i>Host game or connect to host with their link code</i>
+                          </ul>
                         </div>
                       </a>
                       <a class="carousel-item" href="#clock!">

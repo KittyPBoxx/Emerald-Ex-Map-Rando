@@ -1,5 +1,5 @@
 const fileSystem = null;
-const VERSION_NUMBER = "0.7.0-ALPHA";
+const VERSION_NUMBER = "0.8.0-ALPHA";
 
 var debugConsole;
 document.addEventListener('DOMContentLoaded', function() {

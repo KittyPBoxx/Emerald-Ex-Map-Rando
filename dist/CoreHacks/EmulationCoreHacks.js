@@ -911,6 +911,8 @@ function SyncManager() {
     this.remoteSyncState = new SyncState();
 }
 
+SyncManager.prototype.onUpdateFinished = function () {}
+
 SyncManager.prototype.update = function (flagManager) {
 
     this.localUpdate(flagManager);
@@ -943,6 +945,8 @@ SyncManager.prototype.update = function (flagManager) {
     if (this.localSyncState.goGoggles)   { flagManager.bag.keyItemsPocket.set(ITEM_DATA["GO GOGGLES"].number       , 1); }
 
     flagManager.bag.writeData(true);
+
+    this.onUpdateFinished();
 }
 
 SyncManager.prototype.localUpdate = function (flagManager) {
@@ -1002,6 +1006,36 @@ SyncManager.prototype.updateFromRemote = function () {
     this.localSyncState.goGoggles   = this.localSyncState.goGoggles   || this.remoteSyncState.goGoggles;
 
 }
+
+SyncManager.prototype.mergeNewRemoteSyncState = function (newRemoteSyncState) {
+
+    this.remoteSyncState.badge1 = this.remoteSyncState.badge1 || newRemoteSyncState.badge1;
+    this.remoteSyncState.badge2 = this.remoteSyncState.badge2 || newRemoteSyncState.badge2;
+    this.remoteSyncState.badge3 = this.remoteSyncState.badge3 || newRemoteSyncState.badge3;
+    this.remoteSyncState.badge4 = this.remoteSyncState.badge4 || newRemoteSyncState.badge4;
+    this.remoteSyncState.badge5 = this.remoteSyncState.badge5 || newRemoteSyncState.badge5;
+    this.remoteSyncState.badge6 = this.remoteSyncState.badge6 || newRemoteSyncState.badge6;
+    this.remoteSyncState.badge7 = this.remoteSyncState.badge7 || newRemoteSyncState.badge7;
+    this.remoteSyncState.badge8 = this.remoteSyncState.badge8 || newRemoteSyncState.badge8;
+
+    this.remoteSyncState.hm01 = this.remoteSyncState.hm01 || newRemoteSyncState.hm01;
+    this.remoteSyncState.hm02 = this.remoteSyncState.hm02 || newRemoteSyncState.hm02;
+    this.remoteSyncState.hm03 = this.remoteSyncState.hm03 || newRemoteSyncState.hm03;
+    this.remoteSyncState.hm04 = this.remoteSyncState.hm04 || newRemoteSyncState.hm04;
+    this.remoteSyncState.hm05 = this.remoteSyncState.hm05 || newRemoteSyncState.hm05;
+    this.remoteSyncState.hm06 = this.remoteSyncState.hm06 || newRemoteSyncState.hm06;
+    this.remoteSyncState.hm07 = this.remoteSyncState.hm07 || newRemoteSyncState.hm07;
+    this.remoteSyncState.hm08 = this.remoteSyncState.hm08 || newRemoteSyncState.hm08;
+
+    this.remoteSyncState.magmaEmblem = this.remoteSyncState.magmaEmblem || newRemoteSyncState.magmaEmblem;
+    this.remoteSyncState.devonScope  = this.remoteSyncState.devonScope  || newRemoteSyncState.devonScope;
+    this.remoteSyncState.basementKey = this.remoteSyncState.basementKey || newRemoteSyncState.basementKey;
+    this.remoteSyncState.storeageKey = this.remoteSyncState.storeageKey || newRemoteSyncState.storeageKey;
+    this.remoteSyncState.goGoggles   = this.remoteSyncState.goGoggles   || newRemoteSyncState.goGoggles;
+
+}
+
+
 
 SyncManager.prototype.updateRemoteSyncState = function(syncState) {
     this.remoteSyncState = syncState;
