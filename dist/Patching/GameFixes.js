@@ -41,6 +41,14 @@ function patchGameIssues() {
         IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x71F718, 0x1E);
         IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x71F71A, 0x1C);
         IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x71F71D, 0x08);
+
+        // Make it so the champion battle dosn't start untill we talk to wallace
+        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x250b63, 0x36);
+
+        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x729450, 0x6c);
+        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x729451, 0x0b);
+        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x729452, 0x25);
+        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x729453, 0x08);
     }
 
 }

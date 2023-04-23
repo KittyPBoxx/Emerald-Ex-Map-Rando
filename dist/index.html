@@ -94,6 +94,8 @@
         <script src="ui/ClientUI.js"></script>
         <link rel="stylesheet" href="ui/UI.css">
 
+        <link rel="stylesheet" href="ui/helium.css">
+
         <script src="ui/swip_events.min.js"></script>
 
         <!-- Persitance -->
@@ -127,7 +129,7 @@
                   
                     <div class="carousel" id="menuCarousel">
                       <a class="carousel-item" href="#roms!">
-                        <div class="menu-title center-align"><h5 class="left-menu-button">L</h5><h4 class="center-align">ROMS</h4><h5 class="right-menu-button">R</h5></div>
+                        <div class="menu-title center-align"><h5 class="left-menu-button">L</h5><span class="large icon icon-design prefix tilt"></span><h4 class="center-align"></span>ROM</h4><h5 class="right-menu-button">R</h5></div>
                         <div class="menu-group" id="e-group">
                             <div class="rom-header"><h5 class="e-text">EMERALD EX SPEEDCHOICE 0.4.0</h5><span class="rom-status" id="e-status">(Not Loaded)</span></div>
                             <div class="file-field input-field">
@@ -168,7 +170,7 @@
                         <span class="version-label" id="version"></span>
                       </a>
                       <a class="carousel-item" href="#controls!">
-                        <div class="menu-title center-align"><h5 class="left-menu-button">L</h5><h4 class="center-align">Controls</h4><h5 class="right-menu-button">R</h5></div>
+                        <div class="menu-title center-align"><h5 class="left-menu-button">L</h5><span class="large icon icon-gamepad prefix"></span><h4 class="center-align">Controls</h4><h5 class="right-menu-button">R</h5></div>
                         <div class="table-container">
                         <table id="key-binding-table">
                           <tr>
@@ -188,7 +190,7 @@
                         </div>
                       </a>
                       <a class="carousel-item" href="#saves!">
-                        <div class="menu-title center-align"><h5 class="left-menu-button">L</h5><h4 class="center-align">Saves</h4><h5 class="right-menu-button">R</h5></div>
+                        <div class="menu-title center-align"><h5 class="left-menu-button">L</h5><span class="large icon icon-flash prefix"></span><h4 class="center-align">Saves</h4><h5 class="right-menu-button">R</h5></div>
                         <div class="menu-group">
                           <div class="random-row">
                             <div class="switch autosave-box">
@@ -256,7 +258,7 @@
                         </div>
                       </a>
                       <a class="carousel-item" href="#randmonise!">
-                        <div class="menu-title center-align"><h5 class="left-menu-button">L</h5><h4 class="center-align">Random Warps</h4><h5 class="right-menu-button">R</h5></div>
+                        <div class="menu-title center-align"><h5 class="left-menu-button">L</h5><span class="large icon icon-crop prefix tilt"></span><h4 class="center-align">Random Warps</h4><h5 class="right-menu-button">R</h5></div>
                         <div class="random-row">
                           <div class="switch random-warp">
                             <span>RANDOM WARPS</span>
@@ -386,7 +388,7 @@
                         </div> 
                       </a>
                       <a class="carousel-item" href="#hacks!">
-                        <div class="menu-title center-align"><h5 class="left-menu-button">L</h5><h4 class="center-align">Hacks</h4><h5 class="right-menu-button">R</h5></div>
+                        <div class="menu-title center-align"><h5 class="left-menu-button">L</h5><span class="large icon icon-magic prefix"></span><h4 class="center-align">Hacks</h4><h5 class="right-menu-button">R</h5></div>
                         <div class="menu-group">
                           <div class="rom-header"><h5 class="bios-text">SPEEDUP AMOUNT</h5></div>
                           <div class="speed-menu">
@@ -436,7 +438,7 @@
                         </div>
                       </a>
                       <a class="carousel-item" href="#progression!">
-                        <div class="menu-title center-align"><h5 class="left-menu-button">L</h5><h4 class="center-align">FLAGS</h4><h5 class="right-menu-button">R</h5></div>
+                        <div class="menu-title center-align"><h5 class="left-menu-button">L</h5><span class="large icon icon-flag prefix tilt"></span><h4 class="center-align">FLAGS</h4><h5 class="right-menu-button">R</h5></div>
                         <div class="table-container">
                           <table id="flag-table">
                             <tr>
@@ -487,7 +489,7 @@
                         </div>
                       </a>
                       <a class="carousel-item" href="#hint!">
-                        <div class="menu-title center-align"><h5 class="left-menu-button">L</h5><h4 class="center-align">Hints</h4><h5 class="right-menu-button">R</h5></div>
+                        <div class="menu-title center-align"><h5 class="left-menu-button">L</h5><span class="large icon icon-compass prefix tilt"></span><h4 class="center-align">Hints</h4><h5 class="right-menu-button">R</h5></div>
                         <div class="table-container">
                           <table id="hint-table">
                             <tr>
@@ -503,8 +505,22 @@
                            </div>
                         </div>
                       </a>
+                      <a class="carousel-item" href="#coop!">
+                        <div class="menu-title center-align"><h5 class="left-menu-button">L</h5><span class="large icon icon-compass icon-group prefix tilt"></span><h4 class="center-align">Co-Op</h4><h5 class="right-menu-button">R</h5></div>
+                        <div class="menu-group"><blockquote>This will sync badges, HMs and some key items between games</blockquote></div>
+                        <div class="network-opts-container">
+                          <div class="input-field col s6 newtwort-input">
+                            <span>Nickname</span>
+                            <input type="text" value="KITTY" data-length="10" maxlength="10">
+                          </div>
+                          <div class="input-field col s6 newtwort-input">
+                            <span>Link Code</span>
+                            <input id="passcode" type="password" class="validate">
+                          </div>
+                        </div>
+                      </a>
                       <a class="carousel-item" href="#clock!">
-                        <div class="menu-title center-align"><h5 class="left-menu-button">L</h5><h4 class="center-align">Clock</h4><h5 class="right-menu-button">R</h5></div>
+                        <div class="menu-title center-align"><h5 class="left-menu-button">L</h5><span class="large icon icon-watch prefix tilt"></span><h4 class="center-align">Clock</h4><h5 class="right-menu-button">R</h5></div>
                         <div class="menu-group">
                           <div class="rom-header"><h5 class="bios-text">SEASON</h5></div>
                           <ul class="collection">

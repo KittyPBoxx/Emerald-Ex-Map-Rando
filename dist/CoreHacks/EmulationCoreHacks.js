@@ -60,7 +60,13 @@ function setSpeedupHackState(mode) {
 }
 
 var disableWaitCount = 0;
+var doingLongWait = false;
 async function disableBypassWait() {
+
+    if (doingLongWait) {
+        return;
+    }
+
     bypassWait = false;
     disableWaitCount = Math.max(disableWaitCount + 1, 2);
     while(disableWaitCount > 0 ) {
@@ -68,6 +74,17 @@ async function disableBypassWait() {
         disableWaitCount--
     }
     disableWaitCount = 0;
+
+    if (!doingLongWait) {
+        bypassWait = true;
+    }
+}
+
+async function longDisableBypassWait() {
+    doingLongWait = true;
+    bypassWait = false;
+    await delay(5000);
+    doingLongWait = false;
     bypassWait = true;
 }
 
@@ -419,6 +436,12 @@ GameBoyAdvanceMultiCartridge.prototype.readROM16 = function (address) {
 var currentlySaving = false;
 GameBoyAdvanceMultiCartridge.prototype.readROM8WithoutIntercept = GameBoyAdvanceMultiCartridge.prototype.readROM8;
 GameBoyAdvanceMultiCartridge.prototype.readROM8 = function (address) {
+
+    if (address == 0x251aed || address == 0x251af9) {
+        console.log("Hall Of Fame End");
+
+        longDisableBypassWait();
+    }   
 
     if (currentlySaving) {
         if ((address == 3084361 || address == 8455992)) {
