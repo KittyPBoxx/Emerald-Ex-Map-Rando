@@ -1,8 +1,12 @@
 # Emerald Speedchoice Ex map rando
 
-This is a custom emulator mod for playing Emerald Ex Speedchoice with random warps and speedup hacks [Go To The Emulator](https://kittypboxx.github.io/Emerald-Ex-Map-Rando/build)
+This is a custom emulator mod for playing Emerald Ex Speedchoice with random warps and speedup hacks. Now with a shortest path finding tool and networking to sync badges and hms between multiple players.
+### --------> [Go To The Emulator](https://kittypboxx.github.io/Emerald-Ex-Map-Rando/build)  <--------
 
-**PLEASE REPORT ANY BUGS IN THE ISSUES SECTION**
+
+<br>
+
+**PLEASE REPORT ANY BUGS IN THE ISSUES SECTION OF THE GITHUB REPO**
 
 ---
 

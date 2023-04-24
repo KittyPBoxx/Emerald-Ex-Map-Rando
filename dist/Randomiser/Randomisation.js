@@ -468,7 +468,13 @@ function doNextMapping(rng, root, progressionState) {
 
     if (progressionState.unconnectedComponents.length > 0) {
 
-      warp1 = [...accessibleNodes][rng.nextRange(0, accessibleNodes.size - 1)];
+      // This is a hack to work around a bug where the first element was never getting connected till the end
+      if (new RNG().nextRange(0, 5) == 0) {
+        warp1 = [...accessibleNodes][0]
+      } else {
+        warp1 = [...accessibleNodes][rng.nextRange(0, accessibleNodes.size - 1)];
+      }
+      
       accessibleNodes.delete(warp1);
 
       // Add a node from every component of the graph (with the assumption no warps are present but all flags are met)
@@ -604,9 +610,11 @@ function doNextMapping(rng, root, progressionState) {
 
       //console.warn("Unevenly matched warps. " + warp1.data().id + " had to map to itself");
       // warp2 = warp1
-
-      // if one warp is left hanging we connect it to altering cave from fire red
-      warp2 = cy.add(new WarpNode(['E,24,83,0', getMapData()["E,24,83,0"]]));
+      
+      // if one warp is left hanging we connect it to a random odd-one-out location
+      // Shoal Cave, Frontier Mart, Sothern Island, Dessert Underpass, Sealed Chamber
+      let oddOneOutLocation = ['E,24,83,0', 'E,26,10,0', 'E,26,55,0', 'E,24,98,0', 'E,24,72,0'][rng.nextRange(0, 5 - 1)];
+      warp2 = cy.add(new WarpNode([oddOneOutLocation, getMapData()[oddOneOutLocation]]));
       shouldCacheNodes = true;
       accessibleNodes.delete(warp2);
 
