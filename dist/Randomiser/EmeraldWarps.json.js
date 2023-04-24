@@ -7299,5 +7299,8 @@ var EMERALD_ESCAPE_PATHS = [
     ["E,24,94,0", "E,24,94,1"],
 
     // Wally's house inside (Teleported there after fight with norman)
-    ["E,8,0,0"]
+    ["E,8,0,0"],
+
+    // Lily Cove (dock inside from ship)
+    ["E,13,10,0"]
 ]
