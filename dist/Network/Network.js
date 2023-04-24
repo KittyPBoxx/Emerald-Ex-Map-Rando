@@ -305,7 +305,19 @@ function createPlayerTag(nickname, isHost) {
     el.classList.add("collection-item");
     el.classList.add("avatar");
     el.classList.add(isHost ? "host" : "client")
-    el.innerHTML = "<img class='circle' src='https://robohash.org/" + encodeURIComponent(nickname.toUpperCase()) + "?set=set4'>" +
+
+    let backgrounds = ['#A0CDED', '#CDECAD', '#FFFAAE', '#FFC29F', '#F19A9C', '#AF8FC1'];
+
+    let hashNumber = Math.abs(getHash(nickname.toUpperCase())) + 78;
+
+    let bgCol = backgrounds[hashNumber % 6];
+    backgrounds.splice(hashNumber % 6, 1);
+    let bgCol2 = backgrounds[(hashNumber + (hashNumber % 7)) % 5];
+    let shiny = hashNumber % 4069 == 998 ? 'shiny/' : '';
+
+    el.innerHTML = "<img class='circle'" + 
+                   " src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + shiny + (hashNumber % 1009) + ".png'" + 
+                   "style='background:" + "linear-gradient(197deg, " + bgCol + '40' + " 0%, " + bgCol + '70' + " 35%, " + bgCol2 + '96' + " 100%); transform: scale(1.3);outline: solid 1px " + bgCol + ";box-shadow: 0 3px 10px rgb(0 0 0 / 41%);'>" +
                    "<span>" + nickname + "<span>"  + 
                    "<p>" + (isHost ? "Hosting" : "Connected") + "</p>";
     return el;
