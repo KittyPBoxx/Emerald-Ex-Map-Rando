@@ -49,6 +49,9 @@ function patchGameIssues() {
         IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x729451, 0x0b);
         IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x729452, 0x25);
         IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x729453, 0x08);
+
+        // Make Mirage Tower always present
+        IodineGUI.Iodine.IOCore.cartridge.cartriges.get("E").patchROM8(0x1e14a4, 0x71);
     }
 
 }
