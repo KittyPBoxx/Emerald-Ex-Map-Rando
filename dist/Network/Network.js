@@ -50,6 +50,8 @@ ConnectionManager.prototype.init = function (isHost, nickname, callback) {
         manager.attachConnectionHandlers(connection);
     });
 
+    this.peer.on('disconnected', netoworkDisconnect);
+
     syncMultiplayerStates = true;
     let syncStateManager = this.syncStateManager;
     syncStateManager.onUpdateFinished = function() {
@@ -71,12 +73,14 @@ ConnectionManager.prototype.attachConnectionHandlers = function (connection) {
         manager.messageHandler.onMessage(data);
     });
 
-    connection.on('close', function(data) {
-        console.log(data);
+    connection.on('close', function() {
+        manager.connections.delete(this.peer);
+        manager.playerList.delete(this.peer);
+        updatePlayerList();
     });
 
     connection.on('error', function(data) {
-        console.log(data);
+        console.error(data);
     });
 
 }
@@ -108,6 +112,18 @@ ConnectionManager.prototype.sendMessage = function (message) {
         }
     });
 
+}
+
+ConnectionManager.prototype.disconnect = function() {
+
+    this.connections.forEach(c => c.close());
+    this.peer.disconnect();
+
+    this.peer = null;
+    this.connections = new Map();
+    this.playerList = new Map();
+
+    syncMultiplayerStates = true;
 }
 
 var connectionManager = new ConnectionManager(gameSyncState);
@@ -259,8 +275,14 @@ function connectAsClient() {
     if (!linkCode) {
 
         M.toast({html: 'Input Link Code From Host', displayLength:5000});
-
+        return;
     }
+
+    document.getElementById("networkHost").classList.add("hide");
+    document.getElementById("networkClient").classList.add("hide");
+    document.getElementById("networkNickname").setAttribute("readonly", "");
+    document.getElementById("networkLinkCode").setAttribute("readonly", "");
+    document.getElementById("networkDisconnect").classList.remove("hide");
 
     connectionManager.init(false, document.getElementById("networkNickname").value, (player) => onClientConnectionOpened(linkCode, player));
 }
@@ -279,6 +301,26 @@ function connectAsHost() {
     M.toast({html: 'Starting Connection...', displayLength:5000});
     connectionManager.init(true, document.getElementById("networkNickname").value, onHostConnectionOpened);
 
+    document.getElementById("networkHost").classList.add("hide");
+    document.getElementById("networkClient").classList.add("hide");
+    document.getElementById("networkNickname").setAttribute("readonly", "");
+    document.getElementById("networkLinkCode").setAttribute("readonly", "");
+    document.getElementById("networkDisconnect").classList.remove("hide");
+
+}
+
+function netoworkDisconnect() {
+
+    document.getElementById("networkHost").classList.remove("hide");
+    document.getElementById("networkClient").classList.remove("hide");
+    document.getElementById("networkNickname").removeAttribute("readonly");
+    document.getElementById("networkLinkCode").removeAttribute("readonly");
+    document.getElementById("networkDisconnect").classList.add("hide");
+
+
+    connectionManager.disconnect();
+
+    updatePlayerList();
 }
 
 function onHostConnectionOpened(player) {

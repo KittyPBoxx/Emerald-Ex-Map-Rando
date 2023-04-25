@@ -520,18 +520,21 @@
                             </div>
                             <div class="input-field col s6 newtwort-input">
                               <span>Link Code</span>
-                              <input id="networkLinkCode" type="password" class="validate">
+                              <input id="networkLinkCode" type="password">
                               <div class="newtork-input-actions-container">
                                 <span class="icon icon-eye" onclick="toggleLinkCodeVisibility()"></span>
                                 <span class="icon icon-notepad" onclick="copyLinkCodeToClipboard()"></span>
                               </div>
                             </div>
                             <div class="network-button-container">
-                              <div class="btn-small plaint-btn" onclick="connectAsHost()">
+                              <div id="networkHost" class="btn-small plaint-btn" onclick="connectAsHost()">
                                 <span>HOST GAME</span>
                               </div>
-                              <div class="btn-small plaint-btn" onclick="connectAsClient()">
+                              <div id="networkClient" class="btn-small plaint-btn" onclick="connectAsClient()">
                                 <span>CONNECT TO HOST</span>
+                              </div>
+                              <div id="networkDisconnect" class="btn-small plaint-btn hide" onclick="netoworkDisconnect()">
+                                <span>DISCONNECT</span>
                               </div>
                             </div>
                           </div>
