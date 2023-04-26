@@ -47,7 +47,7 @@ ConnectionManager.prototype.init = function (isHost, nickname, callback) {
 
     this.peer.on('connection', function(connection) {
         manager.connections.set(connection.peer, connection);
-        manager.attachConnectionHandlers(connection);
+        manager.attachConnectionHandlers(connection, isHost);
     });
 
     this.peer.on('disconnected', netoworkDisconnect);
@@ -66,7 +66,7 @@ ConnectionManager.prototype.connectToHost = function (id, connectionReadyCallbac
     connectionToHost.on('open', connectionReadyCallback);
 }
 
-ConnectionManager.prototype.attachConnectionHandlers = function (connection) {
+ConnectionManager.prototype.attachConnectionHandlers = function (connection, isHost) {
 
     let manager = this;
 	connection.on('data', function(data) {
@@ -77,6 +77,10 @@ ConnectionManager.prototype.attachConnectionHandlers = function (connection) {
         manager.connections.delete(this.peer);
         manager.playerList.delete(this.peer);
         updatePlayerList();
+
+        if (isHost) {
+            manager.sendMessage(new Message(MessageType.PLAYER_LIST, new PlayerList(manager.playerList)))
+        }
     });
 
     connection.on('error', function(data) {
