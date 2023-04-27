@@ -364,9 +364,26 @@ function createPlayerTag(nickname, isHost) {
     el.innerHTML = "<img class='circle'" + 
                    " src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + shiny + (hashNumber % 1009) + ".png'" + 
                    "style='background:" + "linear-gradient(197deg, " + bgCol + '40' + " 0%, " + bgCol + '70' + " 35%, " + bgCol2 + '96' + " 100%); transform: scale(1.3);outline: solid 1px " + bgCol + ";box-shadow: 0 3px 10px rgb(0 0 0 / 41%);'>" +
-                   "<span>" + nickname + "<span>"  + 
+                   "<span>" + escapeHtml(nickname) + "<span>"  + 
                    "<p>" + (isHost ? "Hosting" : "Connected") + "</p>";
     return el;
+}
+
+var entityMap = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+    '/': '&#x2F;',
+    '`': '&#x60;',
+    '=': '&#x3D;'
+  };
+  
+function escapeHtml (string) {
+  return String(string).replace(/[&<>"'`=\/]/g, function (s) {
+    return entityMap[s];
+  });
 }
 
 function toggleLinkCodeVisibility() {
