@@ -6385,6 +6385,8 @@ var EMERALD_WARPS =
         "level" : "8",
         "connections" : {
             "E,24,29,0": "HOENN_STRENGTH",
+            "E,24,29,2": "HOENN_STRENGTH",
+            "E,24,29,3": "HOENN_STRENGTH",
         }
     },
     "E,24,29,2" : {
@@ -6393,15 +6395,14 @@ var EMERALD_WARPS =
         "level" : "8",
         "connections" : {
             "E,24,29,1": "HOENN_STRENGTH",
+            "E,24,29,0": "HOENN_STRENGTH",
+            "E,24,29,2": "HOENN_STRENGTH",
         }
     },
     "E,24,29,3" : {
         "name" : "SEAFLOOR CAVERN - INSIDE - F3 Top Right - B,1",
         "to" : "E,24,34,0",
-        "level" : "8",
-        "connections" : {
-            "E,24,29,1": "HOENN_STRENGTH",
-        }
+        "level" : "8"
     },
 // F4
     "E,24,30,0" : {
