@@ -419,6 +419,7 @@ function isMapOutside() {
            mapType == MAP_TYPES.OCEAN_ROUTE;
 }
 
+var hasRunNewGameCode = false; // Dosn't matter if this is reset because the truck sequence only ever get's played once
 GameBoyAdvanceMultiCartridge.prototype.readROM16WithoutIntercept = GameBoyAdvanceMultiCartridge.prototype.readROM16;
 GameBoyAdvanceMultiCartridge.prototype.readROM16 = function (address) {
     
@@ -428,7 +429,21 @@ GameBoyAdvanceMultiCartridge.prototype.readROM16 = function (address) {
         if (isMapOutside()) {
             usingHomeWarp = true;
         }
-    }   
+    } else if (!hasRunNewGameCode && address == 0x117bcc) {
+        console.log("Truck Sequence Started");
+
+        let bag = new BagStoreage();
+        bag.readData(IodineGUI.Iodine.IOCore.cartridge.romCode);
+
+        // Make sure we have the acro bike as well as the mach bike
+        if (!bag.hasKeyItem(ITEM_DATA["ACRO BIKE"].number)) {
+            bag.keyItemsPocket.set(ITEM_DATA["ACRO BIKE"].number, 1);
+            bag.writeData(false);
+        }
+
+        hasRunNewGameCode = true;
+    }
+
 
     return this.readROM16WithoutIntercept(address);
 }
