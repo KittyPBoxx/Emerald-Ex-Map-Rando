@@ -2764,7 +2764,7 @@ var EMERALD_WARPS =
         }
     },
     "E,0,11,3" : {
-        "name": "DEWFORD TOWN - OUTSIDE - Fishing House (center) - 8,8",
+        "name": "DEWFORD TOWN - OUTSIDE - Bottom Right- 8,8",
         "level": "2", 
         "to" : "E,3,0,0",
         "connections" : {
@@ -2772,7 +2772,7 @@ var EMERALD_WARPS =
         }
     },
     "E,0,11,4" : {
-        "name": "DEWFORD TOWN - OUTSIDE - Bottom Right - 11,E",
+        "name": "DEWFORD TOWN - OUTSIDE - House (center) - 11,E",
         "level": "2", 
         "to" : "E,3,5,0",
         "connections" : {
@@ -7155,6 +7155,16 @@ var EMERALD_WARPS =
     "E,24,72,0" : {
         "name" : "SEALED CHAMBER - INSIDE - Enterance - A,13",
         "to": "E,24,71,0",
+        "ignore" : true,
+    },
+    "E,25,42,0" : {
+        "name" : "FERRY - INSIDE - Downstairs - F,2",
+        "to": "E,25,41,8",
+        "ignore" : true,
+    },
+    "E,25,43,11" : {
+        "name" : "FERRY - INSIDE - Top Right - 1F,1",
+        "to": "E,25,41,7",
         "ignore" : true,
     },
 }

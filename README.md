@@ -70,6 +70,14 @@ There are some differences in this randomizer compared to the universal warp ran
         
 ---
 
+## MANUALLY CHECKED SEEDS
+
+While every mapping generated should be completable there's always a possiblily of a mistake in the algorithm or underlying data that was not picked up during testing. For that reason a collection of seed files that have been manually tested and completed by a human are made available here:
+<br>
+[Download Seed Files Here](https://kittypboxx.github.io/Emerald-Ex-Map-Rando/Seeds)
+
+---
+
 ## Credits
 
 ### Randomizer Coding - `KittyPBoxx`

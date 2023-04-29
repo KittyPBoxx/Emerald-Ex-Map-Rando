@@ -613,7 +613,7 @@ function doNextMapping(rng, root, progressionState) {
       
       // if one warp is left hanging we connect it to a random odd-one-out location
       // Shoal Cave, Frontier Mart, Sothern Island, Dessert Underpass, Sealed Chamber
-      let oddOneOutLocation = ['E,24,83,0', 'E,26,10,0', 'E,26,55,0', 'E,24,98,0', 'E,24,72,0'][rng.nextRange(0, 5 - 1)];
+      let oddOneOutLocation = ['E,24,83,0', 'E,26,10,0', 'E,26,55,0', 'E,24,98,0', 'E,24,72,0', "E,25,43,11", "E,25,42,0"][rng.nextRange(0, 7 - 1)];
       warp2 = cy.add(new WarpNode([oddOneOutLocation, getMapData()[oddOneOutLocation]]));
       shouldCacheNodes = true;
       accessibleNodes.delete(warp2);
