@@ -41,3 +41,4 @@ While every mapping generated should be completable there's always a possiblily 
 1.  <a href="https://kittypboxx.github.io/Emerald-Ex-Map-Rando/Seeds/9/TO_WALLACE_lhjpns.json" download>TO_WALLACE_lhjpns</a>
 2.  <a href="https://kittypboxx.github.io/Emerald-Ex-Map-Rando/Seeds/9/TO_WALLACE_p6i82w.json" download>TO_WALLACE_p6i82w</a>
 3.  <a href="https://kittypboxx.github.io/Emerald-Ex-Map-Rando/Seeds/9/TO_WALLACE_sz02w3.json" download>TO_WALLACE_sz02w3</a>
+4.  <a href="https://kittypboxx.github.io/Emerald-Ex-Map-Rando/Seeds/9/TO_WALLACE_anta59.json" download>TO_WALLACE_anta59</a>
