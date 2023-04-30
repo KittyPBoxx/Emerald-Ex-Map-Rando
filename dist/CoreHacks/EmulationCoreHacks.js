@@ -795,6 +795,9 @@ FlagManager.prototype.writeFlags = function () {
 
     // Remove the brigde Kecleon so we can ride up from lilycove
     this.setFlag(save1Start, EMERALD_BASE_FLAGS_OFFSET, 0x3CA, 1);
+
+    // Change Slateport state to 0 (to work around a glitch where game loops exiting the pokecenter)
+    writeGameVar(0x4058, 0)
 }
 
 
