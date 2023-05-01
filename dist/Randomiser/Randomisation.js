@@ -77,7 +77,7 @@ function generateRandomMappings(seed, mapData, flagData, config, escapePaths) {
           moreWarpsToMap = doNextMapping(rng, root, progressionState);
         } catch (e) {
           console.error("An error occured mapping warps " + e);
-          M.toast({html: 'ERROR: Error assigning valid connections.<BR> Please try a different seed or config', displayLength:5000});
+          M.toast({html: 'ERROR: Error assigning valid connections.<BR> Please try a different seed or config', displayLength:10000});
           moreWarpsToMap = false;
         }
         progressionState = updateProgressionState(progressionState, root);
@@ -441,9 +441,9 @@ function doNextMapping(rng, root, progressionState) {
 
     } else if (accessibleNodes.size == 0) {
 
-      console.warn("Had to leave some dead ends inaccessible");
-      // M.toast({html: 'WARNING: Some unimportant dead ends had to be left inaccessible for the current seed/config to be possible.' + 
-      //                '<BR> You should still be able to complete the seed.', displayLength:10000});
+      console.warn("Had to leave some dead ends unimportant inaccessible");
+      M.toast({html: 'WARNING: Some checks could not be completed' + 
+                     '<BR> This seed should still be possible but is not recommended', displayLength:10000});
       return false;
 
     }
