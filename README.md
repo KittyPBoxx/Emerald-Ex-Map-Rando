@@ -18,7 +18,9 @@ This is a custom emulator mod for playing Emerald Ex Speedchoice with random war
 4. Open [the emulator](https://kittypboxx.github.io/Emerald-Ex-Map-Rando/build) in [Chrome](https://www.google.com/intl/en_uk/chrome/) (**Edge is not supported**) 
 5. Load the rom and press 'start'
 
-ESC (or long swipe down) will bring up the emulation menu where you can change things like the seed.
+ESC (or long swipe down) will bring up the emulation menu where you can change things like the seed. 'F' will bring up the route finding 'spoiler' menu.
+
+The warp randomiser is fully compatible with roms randomised using the randomizer.jar found [here](https://github.com/ProjectRevoTPP/pokeemerald-ex-speedchoice/releases/tag/0.4.0). 
 
 <br>
 [^1] (md5sum 605b89b67018abcea91e693a4dd25be3)
@@ -27,7 +29,7 @@ ESC (or long swipe down) will bring up the emulation menu where you can change t
 
 ## Notes
 
-There are some differences in this randomizer compared to the universal warp randomizer. Here are some things to be aware of: 
+Most features have been kept similar to the universal warp randomizer such as Mirage tower always present, Regi caves always open, Trick house complete room can be traversed both ways e.t.c Howver there are some differences in this randomizer compared to the universal warp randomizer. Here are some things to be aware of: 
 
 - Game mode: Game should be played with 'Plotless' set to 'Full'. No early surf.
 - 'Escape' in menu to avoid any softlocking: 
@@ -50,18 +52,25 @@ There are some differences in this randomizer compared to the universal warp ran
         - Trainer Hill Enterance
     - Removed :
         - Seafloor cavern tide room with centre cave
+        - Seafloor cavern exit room
         - Most floors inside cave of origin
+        - Warps from drops
 - Progression Changes
     - Norman/Wattson completable out-of-order without causing softlock. (Badge order should still be possible in logic) <BR>
+    - Player starts with both mach bike and acro bike
     - Entering Normans gym unlocks left of Petalburg (even without doing the catch tutorial)
     - Delivering letter to steven in granite gave unlocks Slateport -> Mauville
-    - Waterfall can be obtained by talking to the Sootopolis Gym sign if Wallace is not there
+    - Waterfall can be obtained outside Sootopolis Gym any time
+    - Cave of origin enterance is not blocked
     - Sootopolis gym door always unlocked
     - Magma Emblem always available by talking to old couple on Mt Pyer (even after teams defeated)
-    - Dive is never needed in the progression logic (although it might speed things up)
+    - Dive is never needed in the progression logic (although it might speed things up and is always available from stevens house)
     - Rayquaza can be caught on first visit to Sky Pillar (No need to go back to Sootopolis)
+    - Kecleon on brige right of fortree (Route 120) can be removed from left or right 
+    - Devon Corp f1, Tunnlers rest house and cable car bottom never blocked
 - Misc
     - Darkness is removed from all caves (but not Brawly's gym)
+    - Champion battle will not start without talking to him, allowing escape to be used from the menu
 
 - KNOWN GLITCHES 
     - Overworld sprites breaking if certain legendaries like Rayquaza or Hoho are first in the party
