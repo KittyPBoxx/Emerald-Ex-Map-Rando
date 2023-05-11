@@ -1389,7 +1389,8 @@ var EMERALD_WARPS =
     "E,13,1,0" : {
         "name" : "LILYCOVE CITY - INSIDE - Club House Upstairs - 2,1",
         "to" : "E,13,0,2",
-        "level" : "7"
+        "level" : "7",
+        "tags": ["removeable"]
     },
     "E,13,2,0" : {
         "name" : "LILYCOVE CITY - INSIDE - Museum Door - 9,D",
@@ -1988,13 +1989,15 @@ var EMERALD_WARPS =
         "level": "7", 
         "to": "E,0,6,9",
         "grouped": ["E,14,11,1"],
-        "groupMain" : true
+        "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,14,11,1" : {
         "name": "MOSSDEEP CITY - INSIDE - Bellow Mart - 6,9",
         "level": "7", 
         "to": "E,0,6,9",
         "grouped": ["E,14,11,0"],
+        "tags": ["removeable"]
     },
 /* SOOTOPOLIS CITY - EXT */
     "E,0,7,0"  : {
@@ -2844,13 +2847,15 @@ var EMERALD_WARPS =
         "level": "2", 
         "to" : "E,0,11,0",
         "grouped": ["E,3,4,1"],
-        "groupMain" : true
+        "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,3,4,1" : {
         "name": "DEWFORD TOWN - INSIDE - Fanclub (top left) - 6,8",
         "level": "2", 
         "to" : "E,0,11,0",
-        "grouped": ["E,3,4,0"]
+        "grouped": ["E,3,4,0"],
+        "tags": ["removeable"]
     },
     "E,3,5,0" : {
         "name": "DEWFORD TOWN - INSIDE - Fishing House (center) - 3,8",
@@ -3692,13 +3697,15 @@ var EMERALD_WARPS =
         "level" : "1",
         "to" : "E,0,31,1",
         "grouped" : ["E,21,0,1"],
-        "groupMain" : true
+        "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,21,0,1" : {
         "name": "ROUTE 116 - INSIDE - Tunnelers Rest House - 5,8",
         "level" : "1",
         "to" : "E,0,31,1",
-        "grouped" : ["E,21,0,0"]
+        "grouped" : ["E,21,0,0"],
+        "tags": ["removeable"]
     },
 /* RUSTURF TUNNEL */    
     "E,24,4,0" : {
@@ -4197,13 +4204,15 @@ var EMERALD_WARPS =
         "to" : "E,0,26,0",
         "level" : "3",
         "grouped": ["E,18,0,1"],
-        "groupMain" : true
+        "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,18,0,1" : {
         "name" : "ROUTE 111 - INSIDE - Battle House - 4,7",
         "to" : "E,0,26,0",
         "level" : "3",
-        "grouped": ["E,18,0,0"]
+        "grouped": ["E,18,0,0"],
+        "tags": ["removeable"]
     },
     "E,18,1,0" : {
         "name" : "ROUTE 111 - INSIDE - Rest Gandma House - 3,7",
@@ -5385,12 +5394,14 @@ var EMERALD_WARPS =
         "level" : "6",
         "grouped": ["E,32,2,1"],
         "groupMain" : true,
+        "tags": ["removeable"]
     },
     "E,32,2,1" : {
         "name" : "ROUTE 119 - INSIDE - Wingull House - 3,8",
         "to" : "E,0,34,1",
         "level" : "6",
-        "grouped": ["E,32,2,0"]
+        "grouped": ["E,32,2,0"],
+        "tags": ["removeable"]
     },
 /* ROUTE 120 - EXT */
     "E,0,35,0" : {
@@ -7313,5 +7324,11 @@ var EMERALD_ESCAPE_PATHS = [
     ["E,8,0,0"],
 
     // Lily Cove (dock inside from ship)
-    ["E,13,10,0"]
+    ["E,13,10,0"],
+
+    // Slateport Dock (after talking to reporter)
+    ["E,9,9,0"],
+
+    // Seafloor cavern strength + rocksmash room (exit and re-enter top right)
+    ["E,24,29,3"]
 ]
