@@ -298,6 +298,7 @@ function WarpNode(data) {
     this.data.isMapped = false;
     this.data.needsReturn = data[1].tags && data[1].tags.includes("needs_return");
     this.data.noReturn = data[1].tags && data[1].tags.includes("no_return");
+    this.data.lowPriority = data[1].tags && data[1].tags.includes("low_priority");
     this.data.hasMultipleConnections = data[1].connections ? Object.values(data[1].connections).filter(n => n == true).length > 0 : false;
 }
 
@@ -439,7 +440,7 @@ function doNextMapping(rng, root, progressionState) {
                      'Please try a different seed or config', displayLength:10000});
       return false;
 
-    } else if (accessibleNodes.size == 0) {
+    } else if (accessibleNodes.size == 0 && inacessibleNodes.filter(n => !n.data().lowPriority) > 0) {
 
       console.warn("Had to leave some dead ends unimportant inaccessible");
       M.toast({html: 'WARNING: Some checks could not be completed' + 
@@ -581,11 +582,22 @@ function doNextMapping(rng, root, progressionState) {
 
     } else if (inacessibleNodes.length > 0) {
 
+      // Add deadends that are not tagged as lowPriority first to ensure 
+      // even if there arn't enough connections we make it as nice as possible
+
       warp1 = [...accessibleNodes][rng.nextRange(0, accessibleNodes.size - 1)];
       accessibleNodes.delete(warp1);
 
       // Add other inacessible dead-ends 
-      warp2 = selectRandomWarp(rng, inacessibleNodes, warp1); 
+
+      let priorityInaccessibleNodes = inacessibleNodes.filter(n => !n.data().lowPriority);
+
+      if (priorityInaccessibleNodes.length > 0) {
+        warp2 = selectRandomWarp(rng, priorityInaccessibleNodes, warp1); 
+      } else {
+        warp2 = selectRandomWarp(rng, inacessibleNodes, warp1); 
+      }
+
       shouldCacheNodes = true;
       accessibleNodes.delete(warp2);
 
