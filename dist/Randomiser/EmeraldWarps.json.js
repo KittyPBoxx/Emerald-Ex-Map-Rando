@@ -7325,6 +7325,9 @@ var EMERALD_ESCAPE_PATHS = [
     // Ingore 24,19,2
     // ["E,24,19,3", "E,24,19,4"],
 
+    // Aqua Hideout Enterance From Surf
+    ["E,24,23,2"],
+
     // Seafloor Cavern after ledge hop
     ["E,24,31,3"],
 

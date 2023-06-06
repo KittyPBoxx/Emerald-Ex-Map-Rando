@@ -38,7 +38,10 @@ html {
     bottom: 0;
     right: 1em;
     font-size: 5vw;
-    opacity:0.3;
+    color: #000000;
+    opacity: 0.3;
+    text-shadow: 2px 2px 3px rgb(141 141 141 / 50%);
+    display: block;
 }
 
 li a {
@@ -71,11 +74,38 @@ li a {
     width: 8em;
 }
 
+.wip-desc {
+    font-size: 0.8em;
+    color: #70701b;
+    display: block;
+}
+
+::-webkit-scrollbar {
+    width: 20px;
+}
+
+::-webkit-scrollbar-track {
+  background: #141414;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #424242;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555555;
+}
+
+.unused-location {
+    opacity: 0.3;
+}
+
 </style>
 </head>
 <body>
-<div style="min-height:100vh">
-    <p> SPOLIER LOG WIP </p>
+<div style="min-height:100vh; position: relative;">
+    <p> SPOLIER LOG WIP <span class="wip-desc">Routes may be falsely flagged as requiring flags if they were needed in V1. <br> Dungeon floor numbers may be wrong.</span></p>
     <div class="links">
         <ul>
         <h4>GYMS</h4>
@@ -92,9 +122,13 @@ li a {
         <ul>
         <h4>E4</h4>
             <li><a href="#SIDNEY">SIDNEY</a></li>
+            <li><a href="#SIDNEY_BACK">SIDNEY BACK</a></li>
             <li><a href="#PHOEBE">PHOEBE</a></li>
+            <li><a href="#PHOEBE_BACK">PHOEBE BACK</a></li>
             <li><a href="#GLACIA">GLACIA</a></li>
+            <li><a href="#GLACIA_BACK">GLACIA BACK</a></li>
             <li><a href="#DRAKE">DRAKE</a></li>
+            <li><a href="#DRAKE_BACK">DRAKE BACK</a></li>
             <li><a href="#WALLACE">WALLACE</a></li>
             <li><a href="#STEVEN">STEVEN</a></li>
         </ul>
@@ -110,27 +144,28 @@ li a {
         <div class="vl"></div>
         <ul>
         <h4>HMs</h4>
-            <li><a href="#CUT">CUT</a></li>
+            <li class="unused-location"><a href="#CUT">CUT</a></li>
             <li><a href="#FLASH">FLASH</a></li>
             <li><a href="#ROCKSMASH">ROCKSMASH</a></li>
             <li><a href="#STRENGTH">STRENGTH</a></li>
             <li><a href="#WATERFALL">WATERFALL</a></li>
+            <li class="unused-location"><a href="#DIVE">DIVE</a></li>
         </ul>
         <div class="vl"></div>
         <ul>
         <h4>KEY ITEMS</h4>
-            <li><a href="#BIKE_SHOP">BIKE SHOP</a></li>
+            <li class="unused-location"><a href="#BIKE_SHOP">BIKE SHOP</a></li>
             <li><a href="#MAGMA_EMBLEM">MAGMA EMBLEM</a></li>
             <li><a href="#STOREAGE_KEY">STOREAGE KEY</a></li>
         </ul>
         <div class="vl"></div>
         <ul>
         <h4>STORY LOCATIONS</h4>
-            <li><a href="#STONE_OFFICE">STONE OFFICE</a></li>
-            <li><a href="#STEVEN_LETTER">STEVEN LETTER</a></li>
-            <li><a href="#WEATHER_INSTITUTE_F2">WEATHER INSTITUTE F2</a></li>
+            <li class="unused-location"><a href="#STONE_OFFICE">STONE OFFICE</a></li>
+            <li class="unused-location"><a href="#STEVEN_LETTER">STEVEN LETTER</a></li>
+            <li class="unused-location"><a href="#WEATHER_INSTITUTE_F2">WEATHER INSTITUTE F2</a></li>
             <li><a href="#WALLACE_ORIGIN_CAVE">WALLACE ORIGIN CAVE</a></li>
-            <li><a href="#METEOR_FALLS_F1">METEOR FALLS F1</a></li>
+            <li class="unused-location"><a href="#METEOR_FALLS_F1">METEOR FALLS F1</a></li>
         </ul>
         <div class="vl"></div>
         <ul>
@@ -149,7 +184,7 @@ li a {
             <li><a href="#VERDANTURF">VERDANTURF</a></li>
             <li><a href="#PACIFIDLOG">PACIFIDLOG</a></li>
         </ul>
-        <div class="scroll-hint">SPOILERS ⬇️</div>
+        <div class="scroll-hint">⮟ SPOILERS ⮟</div>
     </div>
 </div>
 {{#each this}}

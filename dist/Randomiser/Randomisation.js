@@ -42,10 +42,13 @@ function mappingToWarps(mappingData) {
     return mappedList;
 }
 
+var attempts = 5;
+
 async function mapWarps(seed) {
 
     flagsState = {};
     unaddedConditionalEdges = {};
+    attempts = 5;
 
     let config = getRandomisationConfig();
     let mapData = getFilteredData();
@@ -76,9 +79,17 @@ function generateRandomMappings(seed, mapData, flagData, config, escapePaths) {
         try {
           moreWarpsToMap = doNextMapping(rng, root, progressionState);
         } catch (e) {
-          console.error("An error occured mapping warps " + e);
-          M.toast({html: 'ERROR: Error assigning valid connections.<BR> Please try a different seed or config', displayLength:10000});
-          moreWarpsToMap = false;
+
+          if (attempts > 0) {
+            attempts = attempts - 1;
+            return generateRandomMappings(seed + 1, mapData, flagData, config, escapePaths);
+
+          } else {
+            console.error("An error occured mapping warps " + e);
+            M.toast({html: 'ERROR: Error assigning valid connections.<BR> Please try a different seed or config', displayLength:10000});
+            moreWarpsToMap = false;
+          }
+
         }
         progressionState = updateProgressionState(progressionState, root);
     }
@@ -952,7 +963,8 @@ var PATH_FINDING_LOCATIONS = {
   "FLASH"     : "E,24,7,0" ,         
   "ROCKSMASH" : "E,10,2,0" ,             
   "STRENGTH"  : "E,24,4,0" ,            
-  "WATERFALL" : "E,0,7,2"  ,             
+  "WATERFALL" : "E,0,7,2"  ,
+  "DIVE"      : "E,14,7,0" ,          
   
   "HOHO"      : "E,26,75,0" ,     
   "LUGIA"     : "E,26,87,0" ,      
@@ -993,9 +1005,13 @@ var PATH_FINDING_LOCATIONS = {
   "TATE AND LIZA"    : "E,14,0,0"  ,
   "JUAN"             : "E,15,0,0"  , 
   "SIDNEY"           : "E,16,0,0"  ,
+  "SIDNEY_BACK"      : "E,16,0,1"  ,
   "PHOEBE"           : "E,16,1,0"  ,
+  "PHOEBE_BACK"      : "E,16,1,1"  ,
   "GLACIA"           : "E,16,2,0"  ,
+  "GLACIA_BACK"      : "E,16,2,1"  ,
   "DRAKE"            : "E,16,3,0"  ,
+  "DRAKE_BACK"       : "E,16,3,1"  ,
   "WALLACE"          : "E,16,4,0"  ,
   "STEVEN"           : "E,24,107,0",
 }
