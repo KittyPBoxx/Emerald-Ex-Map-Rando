@@ -172,11 +172,11 @@ function getUPRJsonConfig() {
 
     /* TYPES */
 
-    if (document.getElementById("pokemonTypes_unchanged".checked)) {
+    if (document.getElementById("pokemonTypes_unchanged").checked) {
         upr_config.typesMod = "UNCHANGED";
-    } else if (document.getElementById("pokemonTypes_RandomFollowEvolutions".checked)) {
+    } else if (document.getElementById("pokemonTypes_RandomFollowEvolutions").checked) {
         upr_config.typesMod = "RANDOM_FOLLOW_EVOLUTIONS";
-    } else if (document.getElementById("pokemonTypes_RandomFollowCompletely".checked)) {
+    } else if (document.getElementById("pokemonTypes_RandomFollowCompletely").checked) {
         upr_config.typesMod = "COMPLETELY_RANDOM";
     }
 
@@ -198,15 +198,15 @@ function getUPRJsonConfig() {
 
     /* STARTERS */
 
-    if (document.getElementById("starterPokemon_unchanged".checked)) {
+    if (document.getElementById("starterPokemon_unchanged").checked) {
         upr_config.startersMod = "UNCHANGED";       
-    } else if (document.getElementById("starterPokemon_randomCompletely".checked)) {
+    } else if (document.getElementById("starterPokemon_randomCompletely").checked) {
         upr_config.startersMod = "COMPLETELY_RANDOM";
-    } else if (document.getElementById("starterPokemon_randomBasicPokemonWithTwoEvolutions".checked)) {
+    } else if (document.getElementById("starterPokemon_randomBasicPokemonWithTwoEvolutions").checked) {
         upr_config.startersMod = "RANDOM_WITH_TWO_EVOLUTIONS";
-    } else if (document.getElementById("starterPokemon_randomBasicPokemonWithOneEvolution".checked)) {
+    } else if (document.getElementById("starterPokemon_randomBasicPokemonWithOneEvolution").checked) {
         upr_config.startersMod = "RANDOM_WITH_ONE_EVOLUTION";
-    } else if (document.getElementById("starterPokemon_randomBasicPokemonWithZeroEvolutions".checked)) {
+    } else if (document.getElementById("starterPokemon_randomBasicPokemonWithZeroEvolutions").checked) {
         upr_config.startersMod = "RANDOM_WITH_NO_EVOLUTIONS";
     } 
 
