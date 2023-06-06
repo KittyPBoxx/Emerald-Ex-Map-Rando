@@ -8,7 +8,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
     setupInitialStates();
 
-    romPatcher.setOnMapsGenerated(() => document.getElementById("mapSpoilers").removeAttribute("disabled"));
+    romPatcher.setOnStartRandomizationUI(() => {
+        document.getElementById("downloadProgress").classList.add("shown");
+        document.getElementById("downloadProgressDesc").innerHTML = "Applying Patches";
+    }); 
+    romPatcher.setOnPatchesAppliedUI(() => {
+        document.getElementById("downloadProgressDesc").innerHTML = "Applying Warp Randomizer";
+    });    
+    romPatcher.setOnMapsGeneratedUI(() => {
+        document.getElementById("mapSpoilers").removeAttribute("disabled");
+        document.getElementById("downloadProgressDesc").innerHTML = "Applying Pokemon Randomizer";
+    });      
+    romPatcher.setOnPokemonRandomizedUI(() => {
+        document.getElementById("downloadProgress").classList.remove("shown");
+    });
 
     addEvent("change", document.getElementById("rom_load"), e => romPatcher.fileLoadROM(e.target.files, onRomLoaded, onWarning));
     addEvent("click", document.getElementById("newSeedButton"), e => generateNewSeed());

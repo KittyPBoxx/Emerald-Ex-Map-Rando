@@ -54,16 +54,22 @@ async function mapWarps(seed) {
     let mapData = getFilteredData();
     let flagData = getFlagData();
     let escapePaths = getEscapePaths();
-    remappingsData = getRandomisationAlgorithm().apply(null, [seed, mapData, flagData, config, escapePaths]);
-    warpList = mappingToWarps(getAugmetedRemappingData(remappingsData));
-    updateHashDisplay();
-
-    if (typeof storageManager !== 'undefined') {
-      storageManager.persist("RANDOM_MAPPING", new WarpListData(seed, config, warpList));
-    }
+    getRandomisationAlgorithm().apply(null, [onRandomisationAlogrithmRun, seed, mapData, flagData, config, escapePaths]);
 }
 
-function generateRandomMappings(seed, mapData, flagData, config, escapePaths) {
+var onNewMappingCreated = () => {};
+function onRandomisationAlogrithmRun(finishedData) {
+  remappingsData = finishedData;
+  warpList = mappingToWarps(getAugmetedRemappingData(remappingsData));
+  updateHashDisplay();
+
+  if (typeof storageManager !== 'undefined') {
+    storageManager.persist("RANDOM_MAPPING", new WarpListData(seed, config, warpList));
+  }
+  onNewMappingCreated();
+}
+
+function generateRandomMappings(onFinished, seed, mapData, flagData, config, escapePaths) {
     
     let rng = new RNG(getHash(seed));
     let progressionState = initMappingGraph(mapData, isHeadless, new ProgressionState(flagData, config))
@@ -75,14 +81,18 @@ function generateRandomMappings(seed, mapData, flagData, config, escapePaths) {
     progressionState.unconnectedComponents = progressionState.unconnectedComponents.filter(a => !a.includes(root));
 
     var moreWarpsToMap = true;
-    while(moreWarpsToMap) {
+
+    function blockingRunAlgorithm() {
+
+      if (moreWarpsToMap) {
+
         try {
           moreWarpsToMap = doNextMapping(rng, root, progressionState);
         } catch (e) {
 
           if (attempts > 0) {
             attempts = attempts - 1;
-            return generateRandomMappings(seed + 1, mapData, flagData, config, escapePaths);
+            generateRandomMappings(onFinished, seed + 1, mapData, flagData, config, escapePaths);
 
           } else {
             console.error("An error occured mapping warps " + e);
@@ -92,9 +102,14 @@ function generateRandomMappings(seed, mapData, flagData, config, escapePaths) {
 
         }
         progressionState = updateProgressionState(progressionState, root);
+
+        setTimeout(blockingRunAlgorithm, 0);
+      } else {
+        onFinished(getBaseRemappingData());
+      }
     }
 
-   return getBaseRemappingData();
+    blockingRunAlgorithm();
 }
 
 function getInitialWarp(config) {
@@ -480,12 +495,8 @@ function doNextMapping(rng, root, progressionState) {
 
     if (progressionState.unconnectedComponents.length > 0) {
 
-      // This is a hack to work around a bug where the first element was never getting connected till the end
-      if (rng.nextRange(0, 5) == 0) {
-        warp1 = [...accessibleNodes][0]
-      } else {
-        warp1 = [...accessibleNodes][rng.nextRange(0, accessibleNodes.size - 1)];
-      }
+      // Random Sorting is a hack to work around a bug where the first element was never getting connected till the end
+      warp1 = [...accessibleNodes].sort(() => rng.nextRange(0, 2) - 0.5)[rng.nextRange(0, accessibleNodes.size - 1)];
       
       accessibleNodes.delete(warp1);
 

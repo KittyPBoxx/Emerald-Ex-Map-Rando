@@ -33,11 +33,26 @@ function RomPatcher() {
     this.onAppliedUPR                  = this.saveAndDownload;
 
     /* UI Callbacks to Show progress */
-    this.onMapsGenerated             = () => {};
+    this.onStartRandomizationUI        = () => {};
+    this.onPatchesAppliedUI            = () => {};
+    this.onMapsGeneratedUI             = () => {};
+    this.onPokemonRandomizedUI         = () => {};
 }
 
-RomPatcher.prototype.setOnMapsGenerated = function(callback) {
-    this.onMapsGenerated = callback;
+RomPatcher.prototype.setOnStartRandomizationUI = function(callback) {
+    this.onStartRandomizationUI = callback;
+}
+
+RomPatcher.prototype.setOnPatchesAppliedUI = function(callback) {
+    this.onPatchesAppliedUI = callback;
+}
+
+RomPatcher.prototype.setOnMapsGeneratedUI = function(callback) {
+    this.onMapsGeneratedUI = callback;
+}
+
+RomPatcher.prototype.setOnPokemonRandomizedUI = function(callback) {
+    this.onPokemonRandomizedUI = callback;
 }
 
 RomPatcher.prototype.configureAndDownload = function (applyBaseWarpRandoChanges, randomizeWarps, romSeed) {
@@ -45,6 +60,7 @@ RomPatcher.prototype.configureAndDownload = function (applyBaseWarpRandoChanges,
     this.randomizeWarps            = randomizeWarps;
     this.romSeed                   = romSeed;
 
+    this.onStartRandomizationUI();
     this.onConfigurationFinished();
 }
 
@@ -71,12 +87,14 @@ RomPatcher.prototype.applyPatchFile = function () {
                 romPatcher.ROM = new Uint8Array(new LibPatcher().applyPatch(romPatcher.ROM, arrayBuffer, true));
             }
             
+            this.onPatchesAppliedUI();
             this.onAppliedPatchFile();
           };
     
         xmlhttp.send(null);
 
     } else {
+        this.onPatchesAppliedUI();
         this.onAppliedPatchFile();
     }
 
@@ -100,37 +118,40 @@ RomPatcher.prototype.applyRandomWarps = function () {
 
     if (this.randomizeWarps) {
 
+        /* This is the callback Randomisation.js uses. That whole file needs refactoring */
+        onNewMappingCreated = () => {
+
+            let sortedRemappingList = [...warpList.entries()].sort(triggerEntrySort);
+            let remappingCount = sortedRemappingList.length;
+            let insertAfterNEntries = this.ENTRY_COUNT_gWarpRemappingList - remappingCount;
+            let insertOffset = this.OFFSET_START_gWarpRemappingList + (insertAfterNEntries * this.ENTRY_SIZE_gWarpRemappingList);
+            
+
+            for (let i = 0; i < sortedRemappingList.length; i++) {
+
+                let remapping = sortedRemappingList[i];
+
+                let sourceArr = remapping[0].split(",").slice(1,4);
+                let dest = remapping[1];
+                let destArr = [dest.toBank, dest.toMap, dest.toWarpNo];
+                
+                this.patchROM8(insertOffset + ((i * this.ENTRY_SIZE_gWarpRemappingList) + 0), sourceArr[0]);
+                this.patchROM8(insertOffset + ((i * this.ENTRY_SIZE_gWarpRemappingList) + 1), sourceArr[1]);
+                this.patchROM8(insertOffset + ((i * this.ENTRY_SIZE_gWarpRemappingList) + 2), sourceArr[2]);
+
+                this.patchROM8(insertOffset + ((i * this.ENTRY_SIZE_gWarpRemappingList) + 3), destArr[0]);
+                this.patchROM8(insertOffset + ((i * this.ENTRY_SIZE_gWarpRemappingList) + 4), destArr[1]);
+                this.patchROM8(insertOffset + ((i * this.ENTRY_SIZE_gWarpRemappingList) + 5), destArr[2]);
+
+            }
+
+            this.onMapsGeneratedUI();
+            this.onAppliedRandomWarps();
+
+        }
+
         setTimeout(() => {
-            mapWarps(this.romSeed).then(() => {
-
-                let sortedRemappingList = [...warpList.entries()].sort(triggerEntrySort);
-                let remappingCount = sortedRemappingList.length;
-                let insertAfterNEntries = this.ENTRY_COUNT_gWarpRemappingList - remappingCount;
-                let insertOffset = this.OFFSET_START_gWarpRemappingList + (insertAfterNEntries * this.ENTRY_SIZE_gWarpRemappingList);
-                
-
-                for (let i = 0; i < sortedRemappingList.length; i++) {
-
-                    let remapping = sortedRemappingList[i];
-
-                    let sourceArr = remapping[0].split(",").slice(1,4);
-                    let dest = remapping[1];
-                    let destArr = [dest.toBank, dest.toMap, dest.toWarpNo];
-                    
-                    this.patchROM8(insertOffset + ((i * this.ENTRY_SIZE_gWarpRemappingList) + 0), sourceArr[0]);
-                    this.patchROM8(insertOffset + ((i * this.ENTRY_SIZE_gWarpRemappingList) + 1), sourceArr[1]);
-                    this.patchROM8(insertOffset + ((i * this.ENTRY_SIZE_gWarpRemappingList) + 2), sourceArr[2]);
-
-                    this.patchROM8(insertOffset + ((i * this.ENTRY_SIZE_gWarpRemappingList) + 3), destArr[0]);
-                    this.patchROM8(insertOffset + ((i * this.ENTRY_SIZE_gWarpRemappingList) + 4), destArr[1]);
-                    this.patchROM8(insertOffset + ((i * this.ENTRY_SIZE_gWarpRemappingList) + 5), destArr[2]);
-
-                }
-
-                this.onMapsGenerated();
-                this.onAppliedRandomWarps();
-                
-            });
+            mapWarps(this.romSeed);
         }, 50);
     
     } else {
@@ -176,6 +197,7 @@ RomPatcher.prototype.applyUPR = function () {
                 db.transaction(["files"], "readwrite").objectStore("files").delete("/result.gba");
                 cheerpjRemoveStringFile("/str/config.rnqs.json");
                 cheerpjRemoveStringFile("/str/rom.gba");
+                this.onPokemonRandomizedUI();
                 this.onAppliedUPR();
             };
         };
