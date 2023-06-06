@@ -470,7 +470,7 @@ function doNextMapping(rng, root, progressionState) {
     if (progressionState.unconnectedComponents.length > 0) {
 
       // This is a hack to work around a bug where the first element was never getting connected till the end
-      if (new RNG().nextRange(0, 5) == 0) {
+      if (rng.nextRange(0, 5) == 0) {
         warp1 = [...accessibleNodes][0]
       } else {
         warp1 = [...accessibleNodes][rng.nextRange(0, accessibleNodes.size - 1)];
