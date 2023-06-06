@@ -1,4 +1,64 @@
-# Emerald Speedchoice Ex map rando
+# Emerald Speedchoice Ex Map Rando
+
+Emerald Ex Speedchoice is a version of emerald with items and pokemon up Gen 8 and changes that make the game nicer to speedrun. The project randomizes all the warps.
+
+<br>
+
+### *** UPDATE 06/06/2023 *** ###
+
+<br>
+
+V2 of the randomizer is out now! This brings many bug fixes and QoL improvements including the long awaited ability to patch the rom directly. This means no more Web-Based Emulator, you can now patch the rom and play in the emulator of your choice (or on real hardware).<br><br>
+
+Most features from the web version are still available, either from the ingame options or debug menu. <br>
+*Multi player badge/tm syncing is still currently only available in the online version V1* <br>
+
+<br>
+
+Please use the 'MAPRANDO' preset when starting to ensure the progression logic is correct <br><br>
+
+Key Shortcuts: <br>
+
+|           |   |
+|-------    |---|
+| R + B     | Switch Bike (while on a bike)               |
+| R         | Regular Speed (if ultra speed enabled)      |
+| R + L     | Bullet Time (for mach bike stuff)           |
+| R + Start | Debug Menu (if enabled when starting game)  |
+
+<br>
+
+Other Features: <br>
+
+|                          |   |
+|-------                   |---|
+| Start Menu -> Escape     | Indoors -> Escape Rope / Outdoors -> Warp To Oldale    |
+| Options -> Speed -> ULTR | Speeds up game approx. 3x but keeps audio normal speed |
+| Options -> Speed -> NOWP | Turn off random warps                                  |
+
+
+<br>
+
+### --------> [Go To The Rom Patcher](https://kittypboxx.github.io/Emerald-Ex-Map-Rando/RomMaker)  <--------
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+### *** OLD WEB VERSION *** ###
+
+<br>
 
 This is a custom emulator mod for playing Emerald Ex Speedchoice with random warps and speedup hacks. Now with a shortest path finding tool and networking to sync badges and hms between multiple players.
 ### --------> [Go To The Emulator](https://kittypboxx.github.io/Emerald-Ex-Map-Rando/build)  <--------

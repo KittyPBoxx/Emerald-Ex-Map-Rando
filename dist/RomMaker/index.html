@@ -1,0 +1,1543 @@
+<html>
+    <head>
+        <title>Emerald Ex Speedchoice Warp Randomizer - Rom Maker</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=1430, height=937, initial-scale=1" />
+        <link rel="icon" type="image/png" href="../res/favicon.png">
+        <script src="../user_scripts/Persistence/FileSaver.min.js"></script>
+        <link rel="stylesheet" href="../ui/materialize.min.css">
+        <link rel="stylesheet" href="romMaker.css">
+
+        <script src="https://cjrtnc.leaningtech.com/2.3/loader.js"></script>
+
+        <script src="../ui/materialize.js"></script>
+        <script src="romMakerUI.js"></script>
+
+        <!-- <script src="emerald_ex_offsets.js"></script> -->
+        <script src="uprConfigGenerator.js"></script>
+
+        <script src="romMaker.js"></script>
+
+        <script src="md5.min.js"></script>
+        <script src="libpatch.js"></script>
+
+        <!-- Warp Randomisation -->
+        <script src="../Randomiser/cytoscape.min.js"></script>
+        <script src="../Randomiser/EmeraldWarps.json.js"></script> 
+        <script src="../Randomiser/Flags.json.js"></script> 
+        <script src="../Randomiser/Randomisation.js"></script>
+        <script src="../CoreHacks/TownData.js"></script>
+    </head>
+    <body class="grey darken-4  grey-text text-lighten-1">
+        <div class="container">
+            <div class="title-text">
+                <h1 class="main-title-text">Emerald Ex Speedchoice</h1>
+                <h4 class="sub-title-text">Warp & Pokemon Randomizer</h4>
+                <h5 class="sub-title-text">1.1.0-BETA</h5>
+                <ul class="collapsible credit">
+                    <li>
+                      <div class="collapsible-header">Show Credits</div>
+                      <div class="collapsible-body">
+                        <ul>
+                            <li><a data-title="Dabomstew's Github" href="https://github.com/Dabomstew/UPR-Speedchoice">UPR SpeedChoice</a><small class="button-sub-text credit-text">By Dabomstew</small></li>
+                            <li><a data-title="RevoSucks's Github" href="https://github.com/RevoSucks/pokeemerald-ex-speedchoice">Ex SpeedChoice</a><small class="button-sub-text credit-text">By RevoSucks</small></li>
+                            <li><a data-title="KittyPBoxx's Github" href="https://kittypboxx.github.io/Emerald-Ex-Map-Rando/">Ex Map Rando</a><small class="button-sub-text credit-text">By KittyPBoxx</small></li>
+                        </ul> 
+                       </div>
+                    </li>
+                  </ul>
+            </div>
+            <div class="spacer"></div>
+            <div class="row head-row">
+                <div class="col">
+                    <div class="card outline grey darken-4 grey-text text-lighten-1">
+                        <div class="card-content">
+                          <span class="card-title grey darken-4">General Options</span>
+                        </div>
+                        <div class="card-content">
+                            <form id="generalOptionsForm" action="#">
+                                <p>
+                                <label>
+                                    <input type="checkbox" id="generalOptions_raceMode" />
+                                    <span>Race Mode</span>
+                                </label>
+                                </p>
+                                <p>
+                                <label>
+                                    <input type="checkbox" id="generalOptions_noGameBreakingMoves"/>
+                                    <span>No Game-Breaking Moves</span>
+                                </label>
+                                </p>
+                                <p>
+                                <label>
+                                    <input type="checkbox" id="generalOptions_applyWarpRandoBase" checked/>
+                                    <span>Apply Warp Rando Base</span>
+                                </label>
+                                </p>
+                            </form>
+                        </div>
+                      </div>
+                </div>
+                <div class="col">
+                    <div class="card outline grey darken-4 grey-text text-lighten-1">
+                        <div class="card-content">
+                          <span class="card-title grey darken-4">ROM Info</span>
+                        </div>
+                        <div class="card-content card-info-list" id="romInfoCard">
+                            <p>No ROM Loaded</p>
+                        </div>
+                      </div>
+                </div>
+                <div class="col">
+                    <div class="col s12">
+                        <div class="card outline z-depth-0 grey darken-4 grey-text text-lighten-1">
+                            <div class="card-content">
+                                <span class="card-title grey darken-4">Seed</span>
+                              </div>
+                            <div class="card-content seed-content">
+                              <div id="spriteContainer"></div>
+                              <p id="seedContainer"><input class="seed-input" id="seed_value" value="unset" type="text" minlength="3" maxlength="10" disabled></p>
+                              <span class="checksum" id="hashText"></span>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+                <div class="col head-buttons">
+                    <div class="col s12">
+                        <div class="card z-depth-0 grey darken-4 grey-text text-lighten-1">
+                            <div class="card-content">
+                                <form class="file-form" action="#">
+                                    <div class="file-field input-field">
+                                      <div class="btn">
+                                        <span>Open ROM</span>
+                                        <input type="file" id="rom_load" accept=".gba">
+                                      </div>
+                                      <div class="file-path-wrapper hide">
+                                        <input class="file-path validate" type="text">
+                                      </div>
+                                    </div>
+                                    <a id="newSeedButton" class="waves-effect waves-light btn-small" disabled>New Seed</a>
+                                    <a id="randomizeButton" class="waves-effect waves-light btn-small" disabled>Randomize <small class="button-sub-text">(Download)</small></a>
+                                  </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col warning">
+                <div class="col s12"><p id="warningMessage"></p></div>
+            </div>
+            <div class="divider"></div>
+            <div class="spacer"></div>
+            <div class="row main-options-container">
+
+                <div class="col s12">
+                    <div class="card outline grey darken-4 grey-text text-lighten-1">
+                        <div class="card-content">
+                          <span class="card-title grey darken-4">Limit Pokemon</span>
+                        </div>
+                        <div class="card-content">
+                            <form id="limitPokemonForm" class="horizontal-form" action="#">
+                                <div class="switch">
+                                    <label>Limit Pokemon</label>
+                                    <label>
+                                      Off
+                                      <input id="limitPokemon_switch" type="checkbox">
+                                      <span class="lever"></span>
+                                      On
+                                    </label>
+                                </div> 
+                                <div class="vl"></div>
+                                <div class="list-wrapper">
+                                    <label>Inclued Pokemon From:</label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="limitPokemon_includePokemonFrom_Gen1"  type="checkbox"/>
+                                                    <span>Gen 1</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="limitPokemon_includePokemonFrom_Gen2" type="checkbox"/>
+                                                    <span>Gen 2</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="limitPokemon_includePokemonFrom_Gen3" type="checkbox"/>
+                                                    <span>Gen 3</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="list-wrapper">
+                                    <label>... and related Pokemon From:</label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="limitPokemon_relatedPokemonFrom_Gen1" type="checkbox"/>
+                                                    <span>Gen 1</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="limitPokemon_relatedPokemonFrom_Gen2" type="checkbox"/>
+                                                    <span>Gen 2</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="limitPokemon_relatedPokemonFrom_Gen3" type="checkbox"/>
+                                                    <span>Gen 3</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form>
+                        </div>
+                      </div>
+                </div>
+
+                <div class="col s12">
+                    <div class="card outline grey darken-4 grey-text text-lighten-1">
+                        <div class="card-content">
+                          <span class="card-title grey darken-4">Warps</span>
+                        </div>
+                        <div class="card-content">
+                            <form id="warpForm" class="horizontal-form" action="#">
+                                <div class="switch">
+                                    <label>Randomize Warps</label>
+                                    <label>
+                                      Off
+                                      <input type="checkbox" id="warp_switch">
+                                      <span class="lever"></span>
+                                      On
+                                    </label>
+                                </div> 
+                                <div class="vl"></div>
+                                <div class="select-wrapper">
+                                    <label>Randomize Up To</label>
+                                    <select id="hoennLevel">
+                                      <option value="1">Gym 1</option>
+                                      <option value="2">Gym 2</option>
+                                      <option value="3">Gym 3</option>
+                                      <option value="4">Gym 4</option>
+                                      <option value="5">Gym 5</option>
+                                      <option value="6">Gym 6</option>
+                                      <option value="7">Gym 7</option>
+                                      <option value="8">Gym 8</option>
+                                      <option value="9" selected>Champ</option>
+                                    </select>
+                                </div>
+                                <div class="vl"></div>
+                                <div class="list-wrapper">
+                                    <label>Progression Logic</label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input name="group1" type="radio" checked />
+                                                  <span>Plotless: FULL</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input name="group1" type="radio" disabled/>
+                                                  <span>Plotless: KEEP</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input name="group1" type="radio" disabled/>
+                                                  <span>Plotless: SEMI</span>
+                                                </label>
+                                              </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="form-button-wrapper">
+                                    <a class="waves-effect waves-light btn-small" disabled>Open Checker</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col s6">
+                    <div class="card outline grey darken-4 grey-text text-lighten-1">
+                        <div class="card-content">
+                          <span class="card-title grey darken-4">Pokemon Base Statistics</span>
+                        </div>
+                        <div class="card-content">
+                            <form id="pokemonBaseStatisticsForm" class="horizontal-form" action="#">
+                                <div class="list-wrapper">
+                                    <label></label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input id="pokemonBaseStatisticsForm_unchanged" name="group1" type="radio" checked />
+                                                  <span>Unchanged</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input id="pokemonBaseStatisticsForm_shuffle" name="group1" type="radio" />
+                                                  <span>Shuffle</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input id="pokemonBaseStatisticsForm_random" name="group1" type="radio" />
+                                                  <span>Random</span>
+                                                </label>
+                                              </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input id="pokemonBaseStatisticsForm_randomBTS" name="group1" type="radio" />
+                                                  <span>Random BTS</span>
+                                                </label>
+                                              </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input id="pokemonBaseStatisticsForm_randomBTSPercent" name="group1" type="radio" />
+                                                  <span>Random BTS%</span>
+                                                </label>
+                                              </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input id="pokemonBaseStatisticsForm_equalizeBTS" name="group1" type="radio" />
+                                                  <span>Equalize BTS</span>
+                                                </label>
+                                              </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="vl"></div>
+                                <div class="list-wrapper">
+                                    <label></label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="pokemonBaseStatisticsForm_standardizeExpCurves" type="checkbox"/>
+                                                    <span>Standardize Exp Curves</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="pokemonBaseStatisticsForm_followEvolutions" type="checkbox"/>
+                                                    <span>Follow Evolutions</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="pokemonBaseStatisticsForm_updateBaseStats"  type="checkbox"/>
+                                                    <span>Update Base Stats</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="pokemonBaseStatisticsForm_staticEvoStatGain" type="checkbox"/>
+                                                    <span>Static Evo Stat Gain</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p class="range-field">
+                                                <input id="pokemonBaseStatisticsForm_randomBTSPercent_slider" type="range" id="randomBTSPercent" value="0" step="5" min="0" max="100" />
+                                              </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="pokemonBaseStatisticsForm_maintainStatRatio"  type="checkbox"/>
+                                                    <span>Maintain Stat Ratio</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form>
+                        </div>
+                      </div>
+                </div>
+
+                <div class="col s6">
+                    <div class="card outline grey darken-4 grey-text text-lighten-1">
+                        <div class="card-content">
+                          <span class="card-title grey darken-4">Pokemon Abilities</span>
+                        </div>
+                        <div class="card-content">
+                            <form id="pokemonAbilitiesForm" class="horizontal-form" action="#">
+                                <div class="switch">
+                                    <label>Randomize Abilities</label>
+                                    <label>
+                                      Off
+                                      <input type="checkbox" id="pokemonAbilities_switch">
+                                      <span class="lever"></span>
+                                      On
+                                    </label>
+                                </div>
+                                <div class="vl"></div>
+                                <div class="list-wrapper">
+                                    <label>Options:</label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input type="checkbox" id="pokemonAbilities_AllowWonderGuard"/>
+                                                    <span>Allow Wonder Guard</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input type="checkbox" id="pokemonAbilities_FollowEvolutions"/>
+                                                    <span>Follow Evolutions</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input type="checkbox" id="pokemonAbilities_BanTrappingAbiliies"/>
+                                                    <span>Ban Trapping Abilities</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input type="checkbox" id="pokemonAbilities_BanNegativeAbilities"/>
+                                                    <span>Ban Negative Abilities</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li class="hide">
+                                            <p>
+                                                <label>
+                                                    <input type="checkbox" id="pokemonAbilities_BanStupidAbilities"/>
+                                                    <span>Ban Stupid Abilities</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form>
+                        </div>
+                      </div>
+                </div>
+
+                <div class="col s12">
+                    <div class="card outline grey darken-4 grey-text text-lighten-1">
+                        <div class="card-content">
+                          <span class="card-title grey darken-4">Pokemon Types</span>
+                        </div>
+                        <div class="card-content">
+                            <form id="pokemonTypesForm" class="horizontal-form" action="#">
+                                <div class="list-wrapper">
+                                    <label></label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                <input id="pokemonTypes_unchanged" name="group1" type="radio" checked />
+                                                <span>Unchanged</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                <input id="pokemonTypes_RandomFollowEvolutions" name="group1" type="radio" />
+                                                <span>Random (follow evolutions)</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                <input id="pokemonTypes_RandomFollowCompletely" name="group1" type="radio" />
+                                                <span>Random (completely)</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form>
+                        </div>
+                      </div>
+                </div>
+
+                <div class="col s12">
+                    <div class="card outline grey darken-4 grey-text text-lighten-1">
+                        <div class="card-content">
+                          <span class="card-title grey darken-4">Pokemon Evolutions</span>
+                        </div>
+                        <div class="card-content">
+                            <form id="randomizeEvolutionsForm" class="horizontal-form" action="#">
+                                <div class="switch">
+                                    <label>Randomize Evolutions</label>
+                                    <label>
+                                      Off
+                                      <input id="pokemonEvolutions_switch" type="checkbox">
+                                      <span class="lever"></span>
+                                      On
+                                    </label>
+                                </div>
+                                <div class="vl"></div>
+                                <div class="list-wrapper">
+                                    <label>Options:</label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="pokemonEvolutions_similarStrength" type="checkbox"/>
+                                                    <span>Similar Strength?</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="pokemonEvolutions_sameTypings" type="checkbox"/>
+                                                    <span>Same Typing?</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="pokemonEvolutions_limitEvolutionsToThreeStages" type="checkbox"/>
+                                                    <span>Limit evolutions to three stages?</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="pokemonEvolutions_forceChange" type="checkbox"/>
+                                                    <span>Force Change?</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="vl"></div>
+                                <div class="list-wrapper">
+                                    <label>&nbsp;</label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="pokemonEvolutions_changeImpossibleEvos" type="checkbox"/>
+                                                    <span>Change Impossible Evos</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="pokemonEvolutions_makeEvolutionsEasier"  type="checkbox"/>
+                                                    <span>Make Evolutions Easier</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form>
+                        </div>
+                      </div>
+                </div>
+
+                <div class="col s12">
+                    <div class="card outline grey darken-4 grey-text text-lighten-1">
+                        <div class="card-content">
+                          <span class="card-title grey darken-4">Starter Pokemon</span>
+                        </div>
+                        <div class="card-content">
+                            <form id="starterPokemonForm" class="horizontal-form" action="#">
+                                <div class="list-wrapper">
+                                    <label></label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input id="starterPokemon_unchanged"  name="group1" type="radio" checked />
+                                                  <span>Unchanged</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input id="starterPokemon_randomCompletely"  name="group1" type="radio" />
+                                                  <span>Random (completely)</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input id="starterPokemon_randomBasicPokemonWithTwoEvolutions"  name="group1" type="radio" />
+                                                  <span>Random (basic Pokemon with 2 evolutions)</span>
+                                                </label>
+                                              </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input id="starterPokemon_randomBasicPokemonWithOneEvolution"  name="group1" type="radio" />
+                                                  <span>Random (basic Pokemon with 1 evolution)</span>
+                                                </label>
+                                              </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input id="starterPokemon_randomBasicPokemonWithZeroEvolutions"  name="group1" type="radio" />
+                                                  <span>Random (basic Pokemon with 0 evolutions)</span>
+                                                </label>
+                                              </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="vl"></div>
+                                <div class="list-wrapper">
+                                    <label></label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="starterPokemon_banLegendaryStarters" type="checkbox"/>
+                                                    <span>Ban Legendary Starters</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="starterPokemon_onlyLegendaryStarters" type="checkbox"/>
+                                                    <span>Only Legendary Starters</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form>
+                        </div>
+                      </div>
+                </div>
+
+                <div class="col s12">
+                    <div class="card outline grey darken-4 grey-text text-lighten-1">
+                        <div class="card-content">
+                          <span class="card-title grey darken-4">Move Data</span>
+                        </div>
+                        <div class="card-content">
+                            <form id="moveDataForm" class="horizontal-form" action="#">
+                                <div class="list-wrapper">
+                                    <label></label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="moveData_randomizerMovePower" type="checkbox"/>
+                                                    <span>Randomize Move Power</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="moveData_randomizerMoveAccuracy"  type="checkbox"/>
+                                                    <span>Randomize Move Accuracy</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="moveData_randomizerMovePP" type="checkbox"/>
+                                                    <span>Randomize Move PP</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="moveData_randomizerMoveTypes" type="checkbox"/>
+                                                    <span>Randomize Move Types</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="vl"></div>
+                                <div class="list-wrapper">
+                                    <label></label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="moveData_UpdateMoves" type="checkbox"/>
+                                                    <span>Update Moves</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="list-wrapper">
+                                    <label></label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="moveData_Legacy" type="checkbox"/>
+                                                    <span>Legacy?</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form>
+                        </div>
+                      </div>
+                </div>
+
+                <div class="col s12">
+                    <div class="card outline grey darken-4 grey-text text-lighten-1">
+                        <div class="card-content">
+                          <span class="card-title grey darken-4">Pokemon Movesets</span>
+                        </div>
+                        <div class="card-content">
+                            <form id="pokemonMovesetsForm" class="horizontal-form" action="#">
+                                <div class="list-wrapper">
+                                    <label></label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input id="pokemonMovesets_unchanged" name="group1" type="radio" checked />
+                                                  <span>Unchanged</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input id="pokemonMovesets_randomPreferringSameType" name="group1" type="radio" />
+                                                  <span>Random (preferring same type)</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input id="pokemonMovesets_randomCompletely" name="group1" type="radio" />
+                                                  <span>Random (completely)</span>
+                                                </label>
+                                              </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input id="pokemonMovesets_metronomeOnlyMode" name="group1" type="radio" />
+                                                  <span>Metronome Only Mode</span>
+                                                </label>
+                                              </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="vl"></div>
+                                <div class="list-wrapper">
+                                    <label></label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="pokemonMovesets_EveryPokemonStartsWithFourMoves" type="checkbox"/>
+                                                    <span>Every Pokemon starts with 4 moves</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="pokemonMovesets_reorderDamagingMoves" type="checkbox"/>
+                                                    <span>Reorder Damaging Moves</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="pokemonMovesets_forcePercentOfGoodDamagingMoves" type="checkbox"/>
+                                                    <span>Force % of Good Damaging Moves</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p class="range-field">
+                                                <input type="range" id="pokemonMovesets_forcePercentOfGoodDamagingMoveSlider" value="0" step="5" min="0" max="100" />
+                                              </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form>
+                        </div>
+                      </div>
+                </div>
+
+                <div class="col s12">
+                    <div class="card outline grey darken-4 grey-text text-lighten-1">
+                        <div class="card-content">
+                          <span class="card-title grey darken-4">Trainers Pokemon</span>
+                        </div>
+                        <div class="card-content">
+                            <form id="pokemonTrainersForm" class="horizontal-form" action="#">
+                                <div class="list-wrapper">
+                                    <label></label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input id="pokemonTrainers_unchanged" name="group1" type="radio" checked />
+                                                  <span>Unchanged</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input id="pokemonTrainers_random" name="group1" type="radio" />
+                                                  <span>Random</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input id="pokemonTrainers_typeThemed" name="group1" type="radio" />
+                                                  <span>Type Themed</span>
+                                                </label>
+                                              </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="vl"></div>
+                                <div class="list-wrapper">
+                                    <label></label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="pokemonTrainers_rivalCarriesStarterThroughGame" type="checkbox"/>
+                                                    <span>Rival carries starter through game?</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="pokemonTrainers_tryToUsePokemonWithSimilarStrength" type="checkbox"/>
+                                                    <span>Try to use pokemon with similar strength</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="pokemonTrainers_weightTypesByNumberOfPokemonWithThem" type="checkbox"/>
+                                                    <span>Weight types by # of pokemon with them</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="pokemonTrainers_dontUseLegendaries" type="checkbox"/>
+                                                    <span>Don't use legendaries?</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="pokemonTrainers_noEarlyWonderGuard" type="checkbox"/>
+                                                    <span>No Early Wonder Guard?</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="vl"></div>
+                                <div class="list-wrapper">
+                                    <label></label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="pokemonTrainers_randomizeTrainerNames" type="checkbox"/>
+                                                    <span>Randomize Trainer Names</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="pokemonTrainers_randomizeTrainerClassNames" type="checkbox"/>
+                                                    <span>Randomize Trainer Class Names</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="pokemonTrainers_forceEvolveAtLevel" type="checkbox"/>
+                                                    <span>Force Fully Evolve at level</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p class="range-field">
+                                                <input type="range" id="pokemonTrainers_forceEvolveAtLevelSlider" value="30" step="1" min="30" max="65" />
+                                              </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="pokemonTrainers_percentageLevelModifier" type="checkbox"/>
+                                                    <span>Percentage Level Modifier:</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p class="range-field">
+                                                <input type="range" id="pokemonTrainers_percentageLevelModifierSlider" value="0" step="5" min="-50" max="50" />
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form>
+                        </div>
+                      </div>
+                </div>
+
+                <div class="col s12">
+                    <div class="card outline grey darken-4 grey-text text-lighten-1">
+                        <div class="card-content">
+                          <span class="card-title grey darken-4">Wild Pokemon</span>
+                        </div>
+                        <div class="card-content">
+                            <form id="wildPokemonForm"class="horizontal-form" action="#">
+                                <div class="list-wrapper">
+                                    <label>&nbsp;</label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input id="wildPokemon_unchanged"  name="group1" type="radio" checked />
+                                                  <span>Unchanged</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input id="wildPokemon_random" name="group1" type="radio" />
+                                                  <span>Random</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input id="wildPokemon_areaOneToOneMapping" name="group1" type="radio" />
+                                                  <span>Area 1-to-1 Mapping</span>
+                                                </label>
+                                              </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input id="wildPokemon_globalOneToOneMapping" name="group1" type="radio" />
+                                                  <span>Global 1-to-1 Mapping</span>
+                                                </label>
+                                              </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="vl"></div>
+                                <div class="list-wrapper">
+                                    <label>Additional Rule</label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input id="wildPokemon_none" name="group2" type="radio" checked />
+                                                  <span>None</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input id="wildPokemon_similarStrength" name="group2" type="radio" />
+                                                  <span>Similar Strength</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input id="wildPokemon_catchEmAllMode" name="group2" type="radio" />
+                                                  <span>Catch Em All Mode</span>
+                                                </label>
+                                              </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                  <input id="wildPokemon_TypeThemedAreas" name="group2" type="radio" />
+                                                  <span>Type Themed Areas</span>
+                                                </label>
+                                              </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="vl"></div>
+                                <div class="list-wrapper">
+                                    <label>&nbsp;</label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="wildPokemon_UseTimeBasedEncounters" type="checkbox"/>
+                                                    <span>Use time-based encounters?</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="wildPokemon_dontUseLegendaries" type="checkbox"/>
+                                                    <span>Don't use legendaries?</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="wildPokemon_setMinimumCatchRate" type="checkbox"/>
+                                                    <span>Set minimum catch rate?</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p class="range-field">
+                                                <input type="range" id="wildPokemon_setMinimumCatchRateSlider"  value="1" step="1" min="1" max="4" />
+                                              </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="wildPokemon_randomizeHeldItems" type="checkbox"/>
+                                                    <span>Randomize Held Items?</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="wildPokemon_banBadItems" type="checkbox"/>
+                                                    <span>Ban bad items?</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form>
+                        </div>
+                      </div>
+                </div>
+
+                <div class="col s12">
+                    <div class="card outline grey darken-4 grey-text text-lighten-1">
+                        <div class="card-content">
+                          <span class="card-title grey darken-4">Static Pokemon</span>
+                        </div>
+                        <div class="card-content">
+                            <form id="staticPokemonForm" class="horizontal-form" action="#">
+                                <div class="list-wrapper">
+                                    <label></label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="staticPokemon_unchanged" name="group1" type="radio" checked />
+                                                    <span>Unchanged</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="staticPokemon_randomLegendaryToLegendary" name="group1" type="radio" />
+                                                    <span>Random (Legendary to Legendary & Normal to Normal)</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="staticPokemon_randomCompletely" name="group1" type="radio" />
+                                                    <span>Random (completely)</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form>
+                        </div>
+                      </div>
+                </div>
+
+                <div class="col s12">
+                    <div class="card outline grey darken-4 grey-text text-lighten-1">
+                        <div class="card-content">
+                          <span class="card-title grey darken-4">TMs & HMs</span>
+                        </div>
+                        <div class="card-content">
+                            <form id="tmsAndHmsForm" class="horizontal-form" action="#">
+                                <div class="list-wrapper">
+                                    <label>TM Moves</label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="tmsAndHms_tmMoves_unchanged"  name="group1" type="radio" checked />
+                                                    <span>Unchanged</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="tmsAndHms_tmMoves_random" name="group1" type="radio" />
+                                                    <span>Random</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="vl"></div>
+                                <div class="list-wrapper">
+                                    <label>&nbsp;</label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="tmsAndHms_tmMoves_fullHMCompatibility" type="checkbox"/>
+                                                    <span>Full HM compatibility?</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="tmsAndHms_tmMoves_tmLevelupMoveSanity" type="checkbox"/>
+                                                    <span>TM/Levelup Move Sanity</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="tmsAndHms_tmMoves_keepFieldMoveTMs" type="checkbox"/>
+                                                    <span>Keep field move TMs?</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="tmsAndHms_tmMoves_forcePercentOfGoodDamagingMoves" type="checkbox"/>
+                                                    <span>Force % of Good Damaging Moves</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p class="range-field">
+                                                <input type="range" id="tmsAndHms_tmMoves_forcePercentOfGoodDamagingMovesSlider" value="0" step="5" min="0" max="100" />
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="vl"></div>
+                                <div class="list-wrapper">
+                                    <label>TM/HM Compatibility</label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="tmsAndHms_TMHMCompatibility_unchanged" name="group2" type="radio" checked />
+                                                    <span>Unchanged</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="tmsAndHms_TMHMCompatibility_randomPreferSameType" name="group2" type="radio" />
+                                                    <span>Random (prefer same type)</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="tmsAndHms_TMHMCompatibility_randomCompletely" name="group2" type="radio" />
+                                                    <span>Random (completely)</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="tmsAndHms_TMHMCompatibility_fullCompatibility" name="group2" type="radio" />
+                                                    <span>Full compatibility</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form>    
+                         </div>
+                      </div>
+                </div>
+
+                <div class="col s12">
+                    <div class="card outline grey darken-4 grey-text text-lighten-1">
+                        <div class="card-content">
+                          <span class="card-title grey darken-4">Move Tutors</span>
+                        </div>
+                        <div class="card-content">
+                            <form id="moveTutorsForm" class="horizontal-form" action="#">
+                                <div class="list-wrapper">
+                                    <label>Moves Tutor Moves</label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                <input id="moveTutors_moveTutorMoves_unchanged" name="group1" type="radio" checked />
+                                                <span>Unchanged</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                <input id="moveTutors_moveTutorMoves_random" name="group1" type="radio" />
+                                                <span>Random</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="vl"></div>
+                                <div class="list-wrapper">
+                                    <label>&nbsp;</label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="moveTutors_moveTutorMoves_tutorLevelupMoveSanity" type="checkbox"/>
+                                                    <span>Tutor/Levelup Move Sanity?</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="moveTutors_moveTutorMoves_keepFieldMoveTutors" type="checkbox"/>
+                                                    <span>Keep field move tutors?</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="moveTutors_moveTutorMoves_forcePercentOfGoodDamagingMoves" type="checkbox"/>
+                                                    <span>Force % of Good Damaging Moves</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p class="range-field">
+                                                <input type="range" id="moveTutors_moveTutorMoves_forcePercentOfGoodDamagingMovesSlider" value="0" step="5" min="0" max="100" />
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="vl"></div>
+                                <div class="list-wrapper">
+                                    <label>Move Tutor Compatibility</label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                <input id="moveTutors_moveTutorCompatibility_unchanged" name="group2" type="radio" checked />
+                                                <span>Unchanged</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                <input id="moveTutors_moveTutorCompatibility_randomPreferSameType" name="group2" type="radio" />
+                                                <span>Random (prefer same type)</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                <input id="moveTutors_moveTutorCompatibility_randomCompletely" name="group2" type="radio" />
+                                                <span>Random (completely)</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                <input id="moveTutors_moveTutorCompatibility_randomFullCompatibility" name="group2" type="radio" />
+                                                <span>Full compatibility</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form> 
+                        </div>
+                      </div>
+                </div>
+
+                <div class="col s12">
+                    <div class="card outline grey darken-4 grey-text text-lighten-1">
+                        <div class="card-content">
+                          <span class="card-title grey darken-4">In-Game Trades</span>
+                        </div>
+                        <div class="card-content">
+                            <form id="inGameTradesForm" class="horizontal-form" action="#">
+                                <div class="list-wrapper">
+                                    <label>Trades</label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                <input id="inGameTrades_unchanged" name="group1" type="radio" checked />
+                                                <span>Unchanged</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                <input id="inGameTrades_randomizeGivenPokemonOnly" name="group1" type="radio" />
+                                                <span>Randomize Given Pokemon Only</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                <input id="inGameTrades_randomizeGivenAndRequestedPokemon" name="group1" type="radio" />
+                                                <span>Randomize Given & Requested Pokemon</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="vl"></div>
+                                <div class="list-wrapper">
+                                    <label>&nbsp;</label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="inGameTrades_randomizeNicknames" type="checkbox"/>
+                                                    <span>Randomize Nicknames</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="inGameTrades_randomizeOTs" type="checkbox"/>
+                                                    <span>Randomize OTs</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="inGameTrades_randomizeIVs" type="checkbox"/>
+                                                    <span>Randomize IVs</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="inGameTrades_randomizeItems" type="checkbox"/>
+                                                    <span>Randomize Items</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form> 
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col s12">
+                    <div class="card outline grey darken-4 grey-text text-lighten-1">
+                        <div class="card-content">
+                          <span class="card-title grey darken-4">Field Items</span>
+                        </div>
+                        <div class="card-content">
+                            <form id="fieldItemsForm" class="horizontal-form" action="#">
+                                <div class="list-wrapper">
+                                    <label>Moves Tutor Moves</label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                <input id="fieldItems_unchanged" name="group1" type="radio" checked />
+                                                <span>Unchanged</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                <input id="fieldItems_shuffle" name="group1" type="radio" />
+                                                <span>Shuffle</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                <input id="fieldItems_randomize" name="group1" type="radio" />
+                                                <span>Randomize</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="vl"></div>
+                                <div class="list-wrapper">
+                                    <label>&nbsp;</label>
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                <label>
+                                                    <input id="fieldItems_banBadItems" type="checkbox"/>
+                                                    <span>Ban bad items?</span>
+                                                </label>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form> 
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col s12">
+                    <div class="card outline grey darken-4 grey-text text-lighten-1">
+                        <div class="card-content">
+                          <span class="card-title grey darken-4">Misc. Tweaks</span>
+                        </div>
+                        <div class="card-content">
+                            <form id="miscTweaksForm" class="horizontal-form" action="#">
+                                <div class="horizontal-items-wrapper">
+                                     <p>
+                                         <label>
+                                             <input id="miscTweaks_randomizePCPotion" type="checkbox"/>
+                                             <span>Randomize PC potion</span>
+                                         </label>
+                                     </p>
+
+                                     <p>
+                                         <label>
+                                             <input id="miscTweaks_randomizeNationalDexAtStart" type="checkbox"/>
+                                             <span>Give National Dex at Start</span>
+                                         </label>
+                                     </p>
+                                     <p>
+                                         <label>
+                                             <input id="miscTweaks_lowerCasePokemonNames" type="checkbox"/>
+                                             <span>Lower Case Pokemon Names</span>
+                                         </label>
+                                     </p>
+                                     <p>
+                                         <label>
+                                             <input id="miscTweaks_randomizeCatchingTutorial" type="checkbox"/>
+                                             <span>Randomize Catching Tutorial</span>
+                                         </label>
+                                     </p>
+                                     <p>
+                                         <label>
+                                             <input id="miscTweaks_banLuckyEgg" type="checkbox"/>
+                                             <span>Ban Lucky Egg</span>
+                                         </label>
+                                     </p>
+                                </div>
+                            </form> 
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </body>    
+</html>

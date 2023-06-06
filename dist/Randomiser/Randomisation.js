@@ -215,7 +215,7 @@ function updateWarpListData(warpListData) {
 }
 
 function updateHashDisplay() {
-  document.getElementById("hashText").innerHTML = "CHECK: " + Math.abs(getHash(JSON.stringify(Array.from(warpList)))).toString(16).toUpperCase();
+  document.getElementById("hashText").innerHTML = "MAP CHECK: " + Math.abs(getHash(JSON.stringify(Array.from(warpList)))).toString(16).toUpperCase();
 }
 
 /**
