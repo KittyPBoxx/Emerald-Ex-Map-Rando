@@ -1051,6 +1051,19 @@ function flagWeight(edge, location) {
 
 function shortestPath(location) {
   var fw = cy.elements().floydWarshall({weight: (edge) => flagWeight(edge, location),  directed : true})
+  return shortestPathPreCalcFW(fw, location);
+}
+
+function allshortestPaths() {
+  var fw = cy.elements().floydWarshall({weight: (edge) => flagWeight(edge, location),  directed : true})
+  return Object.entries(PATH_FINDING_LOCATIONS).map(i => {
+    let result = shortestPathPreCalcFW(fw, i[1]);
+    result.name = i[0];
+    return result;
+  });
+}
+
+function shortestPathPreCalcFW(fw, location) {
   let path = fw.path(cy.getElementById("E,0,10,2"), PATH_FINDING_LOCATIONS[location] ? cy.getElementById(PATH_FINDING_LOCATIONS[location]) : cy.getElementById(location)).map(n =>  {
      if(n.isNode()) {
        return Object.assign({}, getMapData()[n.data().id]);
@@ -1089,6 +1102,7 @@ function shortestPath(location) {
 
   return {"route": instructions, "flags": new Set(allFlagsRequired.filter(c => typeof c === 'string'))}
 }
+
 
 var MAP_SCALE = 100;
 var OUTSIDE_MAP_SCALE = 30;

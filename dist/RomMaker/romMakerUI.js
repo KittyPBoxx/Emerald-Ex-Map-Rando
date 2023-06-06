@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     setupInitialStates();
 
+    romPatcher.setOnMapsGenerated(() => document.getElementById("mapSpoilers").removeAttribute("disabled"));
+
     addEvent("change", document.getElementById("rom_load"), e => romPatcher.fileLoadROM(e.target.files, onRomLoaded, onWarning));
     addEvent("click", document.getElementById("newSeedButton"), e => generateNewSeed());
     addEvent("click", document.getElementById("randomizeButton"), e =>  {
@@ -18,6 +20,8 @@ document.addEventListener('DOMContentLoaded', function() {
         romPatcher.configureAndDownload(applyBaseWarpRandoChanges, randomizeWarps, romSeed);
     });
     addEvent("change", document.getElementById("seed_value"), e => updateSeed(e.target.value));
+
+    addEvent("click", document.getElementById("mapSpoilers"), e => generateMapSpoiler());
 
     addEvent("input", document.getElementById("generalOptionsForm"), e => onGeneralOptionsFormUpdated(e));
     addEvent("input", document.getElementById("limitPokemonForm"), e => onLimitFormUpdated(e));

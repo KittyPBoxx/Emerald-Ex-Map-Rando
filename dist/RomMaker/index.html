@@ -27,6 +27,10 @@
         <script src="../Randomiser/Flags.json.js"></script> 
         <script src="../Randomiser/Randomisation.js"></script>
         <script src="../CoreHacks/TownData.js"></script>
+
+        <!-- For Templating The spoiler log -->
+        <script src="mapSpoiler.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
     </head>
     <body class="grey darken-4  grey-text text-lighten-1">
         <div class="container">
@@ -273,7 +277,7 @@
                                     </ul>
                                 </div>
                                 <div class="form-button-wrapper">
-                                    <a class="waves-effect waves-light btn-small" disabled>Open Checker</a>
+                                    <a id="mapSpoilers" class="waves-effect waves-light btn-small" disabled>Map Spoilers</a>
                                 </div>
                             </form>
                         </div>

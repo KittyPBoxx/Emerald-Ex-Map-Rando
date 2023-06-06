@@ -31,6 +31,13 @@ function RomPatcher() {
     this.onAppliedDynamicBinaryChanges = this.applyRandomWarps;
     this.onAppliedRandomWarps          = this.applyUPR;
     this.onAppliedUPR                  = this.saveAndDownload;
+
+    /* UI Callbacks to Show progress */
+    this.onMapsGenerated             = () => {};
+}
+
+RomPatcher.prototype.setOnMapsGenerated = function(callback) {
+    this.onMapsGenerated = callback;
 }
 
 RomPatcher.prototype.configureAndDownload = function (applyBaseWarpRandoChanges, randomizeWarps, romSeed) {
@@ -120,6 +127,7 @@ RomPatcher.prototype.applyRandomWarps = function () {
 
                 }
 
+                this.onMapsGenerated();
                 this.onAppliedRandomWarps();
                 
             });
