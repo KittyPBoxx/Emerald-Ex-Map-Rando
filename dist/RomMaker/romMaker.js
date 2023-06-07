@@ -37,6 +37,7 @@ function RomPatcher() {
     this.onPatchesAppliedUI            = () => {};
     this.onMapsGeneratedUI             = () => {};
     this.onPokemonRandomizedUI         = () => {};
+    this.onErrorUI                     = () => {};
 }
 
 RomPatcher.prototype.setOnStartRandomizationUI = function(callback) {
@@ -54,6 +55,11 @@ RomPatcher.prototype.setOnMapsGeneratedUI = function(callback) {
 RomPatcher.prototype.setOnPokemonRandomizedUI = function(callback) {
     this.onPokemonRandomizedUI = callback;
 }
+
+RomPatcher.prototype.setOnErrorUI = function(callback) {
+    this.onErrorUI = callback;
+}
+
 
 RomPatcher.prototype.configureAndDownload = function (applyBaseWarpRandoChanges, randomizeWarps, romSeed) {
     this.applyBaseWarpRandoChanges = applyBaseWarpRandoChanges;
@@ -183,24 +189,28 @@ RomPatcher.prototype.applyUPR = function () {
 
     var pacher = this; // Scope... plz...
     
-    cheerpjRunMain("com.dabomstew.pkrandom.cli.CliRandomizer", "/app/" + window.location.pathname + "/UPR.jar", "-s", "/str/config.rnqs.json", "-i", "/str/rom.gba", "-o",  "/files/result.gba", "--seed", getHash(this.romSeed).toString()).then(() => {
+    cheerpjRunMain("com.dabomstew.pkrandom.cli.CliRandomizer", "/app" + window.location.pathname + "UPR.jar", "-s", "/str/config.rnqs.json", "-i", "/str/rom.gba", "-o",  "/files/result.gba", "--seed", getHash(this.romSeed).toString()).then(() => {
+        /* I have a feeling the indexDB errors are caused because we're doing a transacion here on the db (after cheerpj is "done") bu it still has transactions doing stuff...*/
+        setTimeout(
+            function() {
+                let db;
+                const request = indexedDB.open("cjFS_/files/", 4);
+        
+                request.onerror = (event) => console.error("Failed To Get Data From DB");
+                request.onsuccess = (event) => {
+                    db = event.target.result;
+                    let trans = db.transaction(["files"], 'readwrite');
+                    trans.objectStore("files").get("/result.gba").onsuccess = (event) => {
+                        pacher.ROM = event.target.result.contents;
+                        db.transaction(["files"], "readwrite").objectStore("files").delete("/result.gba");
+                        cheerpjRemoveStringFile("/str/config.rnqs.json");
+                        cheerpjRemoveStringFile("/str/rom.gba");
+                        romPatcher.onPokemonRandomizedUI();
+                        romPatcher.onAppliedUPR();
+                    };
+                };
+            }, 5000);
 
-        let db;
-        const request = indexedDB.open("cjFS_/files/", 4);
-
-        request.onerror = (event) => console.error("Failed To Get Data From DB");
-        request.onsuccess = (event) => {
-            db = event.target.result;
-            let trans = db.transaction(["files"], 'readwrite');
-            trans.objectStore("files").get("/result.gba").onsuccess = (event) => {
-                pacher.ROM = event.target.result.contents;
-                db.transaction(["files"], "readwrite").objectStore("files").delete("/result.gba");
-                cheerpjRemoveStringFile("/str/config.rnqs.json");
-                cheerpjRemoveStringFile("/str/rom.gba");
-                this.onPokemonRandomizedUI();
-                this.onAppliedUPR();
-            };
-        };
     });
 }
 

@@ -22,6 +22,9 @@ document.addEventListener('DOMContentLoaded', function() {
     romPatcher.setOnPokemonRandomizedUI(() => {
         document.getElementById("downloadProgress").classList.remove("shown");
     });
+    romPatcher.setOnErrorUI((e) => {
+        document.getElementById("downloadProgressDesc").innerHTML = "Error: " + e;
+    });
 
     addEvent("change", document.getElementById("rom_load"), e => romPatcher.fileLoadROM(e.target.files, onRomLoaded, onWarning));
     addEvent("click", document.getElementById("newSeedButton"), e => generateNewSeed());
