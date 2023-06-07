@@ -183,7 +183,7 @@ RomPatcher.prototype.applyUPR = function () {
 
     var pacher = this; // Scope... plz...
     
-    cheerpjRunMain("com.dabomstew.pkrandom.cli.CliRandomizer", "/app" + window.location.pathname + "UPR.jar", "-s", "/str/config.rnqs.json", "-i", "/str/rom.gba", "-o",  "/files/result.gba", "--seed", getHash(this.romSeed).toString()).then(() => {
+    cheerpjRunMain("com.dabomstew.pkrandom.cli.CliRandomizer", "/app/UPR/UPR.jar", "-s", "/str/config.rnqs.json", "-i", "/str/rom.gba", "-o",  "/files/result.gba", "--seed", getHash(this.romSeed).toString()).then(() => {
 
         let db;
         const request = indexedDB.open("cjFS_/files/", 4);
