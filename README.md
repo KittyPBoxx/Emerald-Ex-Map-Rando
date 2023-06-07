@@ -2,7 +2,7 @@
 
 Emerald Ex Speedchoice is a version of emerald with items and pokemon up Gen 8 and changes that make the game nicer to speedrun. The project randomizes all the warps.
 
-<br>
+<!-- <br>
 
 ### *** UPDATE 06/06/2023 *** ###
 
@@ -37,10 +37,11 @@ Other Features: <br>
 | Options -> Speed -> NOWP | Turn off random warps                                  |
 
 
-<br>
+<br> -->
 
-### --------> [Go To The Rom Patcher](https://kittypboxx.github.io/Emerald-Ex-Map-Rando/dist/RomMaker)  <--------
+<!-- ### [Go To The Rom Patcher](https://kittypboxx.github.io/Emerald-Ex-Map-Rando/dist/RomMaker)  -->
 
+<!-- <br>
 <br>
 <br>
 <br>
@@ -53,10 +54,9 @@ Other Features: <br>
 <br>
 <br>
 <br>
-<br>
-<br>
+<br> -->
 
-### *** OLD WEB VERSION *** ###
+<!-- ### *** OLD WEB VERSION *** ### -->
 
 <br>
 
