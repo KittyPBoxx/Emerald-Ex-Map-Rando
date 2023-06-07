@@ -7,8 +7,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function doVisuliseNextMapping() {
   let rng = new RNG(getHash(document.getElementById("input_seed_text").value));
-  doNextMapping(rng, getInitialWarp(getRandomisationConfig()), state);
-  state = updateProgressionState(state, getInitialWarp(getRandomisationConfig()));
+  var root = getInitialWarp(getRandomisationConfig(), rng);
+  doNextMapping(rng, root, state);
+  state = updateProgressionState(state, root);
   cy.layout({name: 'preset', nodeDimensionsIncludeLabels: true, positions:nodeToPosition}).run();
   cy.edges().forEach(n => n.addClass('faded'));
   enableSelection();

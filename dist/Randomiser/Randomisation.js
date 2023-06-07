@@ -76,7 +76,7 @@ function generateRandomMappings(onFinished, seed, mapData, flagData, config, esc
 
     progressionState = generateEscapeWarps(escapePaths, mapData, rng, progressionState);
 
-    var root = getInitialWarp(config);
+    var root = getInitialWarp(config, rng);
 
     progressionState.unconnectedComponents = progressionState.unconnectedComponents.filter(a => !a.includes(root));
 
@@ -112,8 +112,10 @@ function generateRandomMappings(onFinished, seed, mapData, flagData, config, esc
     blockingRunAlgorithm();
 }
 
-function getInitialWarp(config) {
-  return KEY_LOCATION_DATA["OLDALE TOWN"];
+function getInitialWarp(config, rng) {
+  // We also randomise the intial warp for less predictability
+  let candidates = ["E,0,10,2", "E,0,10,1", "E,0,10,0", "E,0,10,3", "E,0,0,0", "E,0,0,4", "E,0,0,5", "E,0,0,3", "E,0,0,2"];
+  return candidates[rng.nextRange(0, candidates.length)]
 }
 
 function filterIgnored(mapData) {
