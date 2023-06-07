@@ -190,27 +190,16 @@ RomPatcher.prototype.applyUPR = function () {
     var pacher = this; // Scope... plz...
     
     cheerpjRunMain("com.dabomstew.pkrandom.cli.CliRandomizer", "/app" + window.location.pathname + "UPR.jar", "-s", "/str/config.rnqs.json", "-i", "/str/rom.gba", "-o",  "/files/result.gba", "--seed", getHash(this.romSeed).toString()).then(() => {
-        /* I have a feeling the indexDB errors are caused because we're doing a transacion here on the db (after cheerpj is "done") bu it still has transactions doing stuff...*/
-        setTimeout(
-            function() {
-                let db;
-                const request = indexedDB.open("cjFS_/files/", 4);
-        
-                request.onerror = (event) => console.error("Failed To Get Data From DB");
-                request.onsuccess = (event) => {
-                    db = event.target.result;
-                    let trans = db.transaction(["files"], 'readwrite');
-                    trans.objectStore("files").get("/result.gba").onsuccess = (event) => {
-                        pacher.ROM = event.target.result.contents;
-                        db.transaction(["files"], "readwrite").objectStore("files").delete("/result.gba");
-                        cheerpjRemoveStringFile("/str/config.rnqs.json");
-                        cheerpjRemoveStringFile("/str/rom.gba");
-                        romPatcher.onPokemonRandomizedUI();
-                        romPatcher.onAppliedUPR();
-                    };
-                };
-            }, 5000);
-
+        let db = cheerpjFSMounts.filter(m => m.mountPoint=="/files/")[0].dbConnection; // We're steal their db connection so we don't have to fight with them over transactions
+        let trans = db.transaction(["files"], 'readwrite');
+        trans.objectStore("files").get("/result.gba").onsuccess = (event) => {
+            pacher.ROM = event.target.result.contents;
+            db.transaction(["files"], "readwrite").objectStore("files").delete("/result.gba");
+            cheerpjRemoveStringFile("/str/config.rnqs.json");
+            cheerpjRemoveStringFile("/str/rom.gba");
+            this.onPokemonRandomizedUI();
+            this.onAppliedUPR();
+        };
     });
 }
 
