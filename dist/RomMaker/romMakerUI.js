@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     M.Collapsible.init(document.querySelectorAll('.collapsible'), {});
 
+    loadConfig();
     setupInitialStates();
 
     romPatcher.setOnStartRandomizationUI(() => {
@@ -32,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let applyBaseWarpRandoChanges = document.getElementById("generalOptions_applyWarpRandoBase").checked;
         let randomizeWarps = this.getElementById("warp_switch").checked;
         let romSeed = document.getElementById("seed_value").value;
-
+        saveConfig();
         romPatcher.configureAndDownload(applyBaseWarpRandoChanges, randomizeWarps, romSeed);
     });
     addEvent("change", document.getElementById("seed_value"), e => updateSeed(e.target.value));
@@ -814,4 +815,25 @@ function onMiscTweaksFormUpdated() {
 
 function addEvent(sEvent, oElement, fListener) {
     oElement.addEventListener(sEvent, fListener, false);
+}
+
+function saveConfig() {
+    let config = [...document.querySelectorAll('form input')].filter(i => !(i.type == "file") && !(i.type == "text") && i.id).map(i => { return {"id": i.id, "checked": i.checked, "value": i.value } });
+    localStorage.setItem("EMERALD_EX_WARP_RANDO_CONFIG", JSON.stringify(config));
+}
+
+function loadConfig() {
+    let config = localStorage.getItem("EMERALD_EX_WARP_RANDO_CONFIG");
+    if (config) {
+        config = JSON.parse(config);
+        config.forEach(conf => {
+            let el = document.getElementById(conf.id);
+            el.value = conf.value;
+            if (conf.checked) {
+                el.setAttribute("checked", true);
+            } else {
+                el.removeAttribute("checked");
+            }
+        })
+    }
 }

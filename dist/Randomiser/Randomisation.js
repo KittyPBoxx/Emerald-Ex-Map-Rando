@@ -68,7 +68,7 @@ function onRandomisationAlogrithmRun(finishedData) {
   }
   onNewMappingCreated();
 }
-
+// Async causing an issue with this seed fz3tmm
 function generateRandomMappings(onFinished, seed, mapData, flagData, config, escapePaths) {
     
     let rng = new RNG(getHash(seed));
@@ -88,6 +88,8 @@ function generateRandomMappings(onFinished, seed, mapData, flagData, config, esc
 
         try {
           moreWarpsToMap = doNextMapping(rng, root, progressionState);
+          progressionState = updateProgressionState(progressionState, root);
+          setTimeout(blockingRunAlgorithm, 0);
         } catch (e) {
 
           if (attempts > 0) {
@@ -101,9 +103,6 @@ function generateRandomMappings(onFinished, seed, mapData, flagData, config, esc
           }
 
         }
-        progressionState = updateProgressionState(progressionState, root);
-
-        setTimeout(blockingRunAlgorithm, 0);
       } else {
         onFinished(getBaseRemappingData());
       }
@@ -463,17 +462,17 @@ function doNextMapping(rng, root, progressionState) {
       return false; 
     } else if (accessibleNodes.size == 0 && (inaccesibleFlagLocations.length > 0 || inaccesibleKeyLocations.length > 0)) {
 
-      M.toast({html: 'ERROR: At least 1 importaint location was detected to be inaccessible. <BR>' +  
-                     'It may be impossible to complete this seed <BR> ' +
-                     'Please try a different seed or config', displayLength:10000});
-      return false;
+      // M.toast({html: 'ERROR: At least 1 importaint location was detected to be inaccessible. <BR>' +  
+      //                'It may be impossible to complete this seed <BR> ' +
+      //                'Please try a different seed or config', displayLength:10000});
+      throw new Error('Seed Failed');
 
     } else if (accessibleNodes.size == 0 && inacessibleNodes.filter(n => !n.data().lowPriority) > 0) {
 
-      console.warn("Had to leave some dead ends unimportant inaccessible");
-      M.toast({html: 'WARNING: Some checks could not be completed' + 
-                     '<BR> This seed should still be possible but is not recommended', displayLength:10000});
-      return false;
+      // console.warn("Had to leave some dead ends unimportant inaccessible");
+      // M.toast({html: 'WARNING: Some checks could not be completed' + 
+      //                '<BR> This seed should still be possible but is not recommended', displayLength:10000});
+      throw new Error('Seed Failed');
 
     }
 
