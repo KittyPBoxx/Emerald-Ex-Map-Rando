@@ -1,4 +1,4 @@
-var gWarpRemappingList = 0x083d5788 - 0x08000000;
+var gWarpRemappingList = 0x083d5798 - 0x08000000;
 var gWarpRemappingList_size = 632;
 
 cheerpjInit();
