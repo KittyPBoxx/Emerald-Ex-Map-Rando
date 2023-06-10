@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     addEvent("change", document.getElementById("seed_value"), e => updateSeed(e.target.value));
 
-    addEvent("click", document.getElementById("mapSpoilers"), e => generateMapSpoiler());
+    addEvent("click", document.getElementById("mapSpoilers"), e => generateMapSpoiler(romPatcher.romSeed));
 
     addEvent("input", document.getElementById("generalOptionsForm"), e => onGeneralOptionsFormUpdated(e));
     addEvent("input", document.getElementById("limitPokemonForm"), e => onLimitFormUpdated(e));

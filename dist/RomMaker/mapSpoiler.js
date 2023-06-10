@@ -18,6 +18,7 @@ body {
     background: #1c1c1c !important;
     color: #bdbdbd !important;
     font-family: 'AvenirLTStd', sans-serif;
+    padding:1em;
 }
 
 a {
@@ -101,11 +102,34 @@ li a {
     opacity: 0.3;
 }
 
+.download-btn {
+    background: #b03e00;
+    padding: 0.8em;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
 </style>
+<script>
+function save() {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(document)));
+    element.setAttribute('download', "spoilers_[SEED].html");
+  
+    element.style.display = 'none';
+    document.body.appendChild(element);
+  
+    element.click();
+  
+    document.body.removeChild(element);
+}
+</script>
 </head>
 <body>
 <div style="min-height:100vh; position: relative;">
-    <p> SPOLIER LOG WIP <span class="wip-desc">Routes may be falsely flagged as requiring flags if they were needed in V1. <br> Dungeon floor numbers may be wrong.</span></p>
+    <p style="float:right;margin:0;"> SPOLIER LOG WIP <span class="wip-desc">Routes may be falsely flagged as requiring flags if they were needed in V1. <br> Dungeon floor numbers may be wrong.</span></p>
+    <a class="download-btn" onclick="save()">Download Page</a>
+    <h1>Seed: [SEED]</h1>
     <div class="links">
         <ul>
         <h4>GYMS</h4>
@@ -207,9 +231,9 @@ li a {
 </html>
 `;
 
-function generateMapSpoiler() {
+function generateMapSpoiler(seed) {
     let spoilers = allshortestPaths().map(i => { i.name = i.name.replaceAll(" ", "_"); i.flags = [...i.flags].join(", "); return i });
-    let compiledTemplate = Handlebars.compile(template);
+    let compiledTemplate = Handlebars.compile(template.replaceAll("[SEED]", seed));
     let newTab = window.open('about:blank', '_blank');
     newTab.document.write(compiledTemplate(spoilers));
     newTab .document.close();
