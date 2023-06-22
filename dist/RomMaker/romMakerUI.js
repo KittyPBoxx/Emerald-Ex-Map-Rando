@@ -844,7 +844,7 @@ function loadSavedConfig() {
 
 function loadConfig(config) {
     if (config) {
-        config = JSON.parse(config);
+        config = JSON.parse(config).filter(s => s.id != "pokemonTrainers_randomizeTrainerNames" && s.id != "pokemonTrainers_randomizeTrainerClassNames");
         config.forEach(conf => {
             let el = document.getElementById(conf.id);
             if (el) {
