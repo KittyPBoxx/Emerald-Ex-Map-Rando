@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     M.Collapsible.init(document.querySelectorAll('.collapsible'), {});
 
-    loadConfig();
+    loadSavedConfig();
     setupInitialStates();
 
     romPatcher.setOnStartRandomizationUI(() => {
@@ -26,6 +26,9 @@ document.addEventListener('DOMContentLoaded', function() {
     romPatcher.setOnErrorUI((e) => {
         document.getElementById("downloadProgressDesc").innerHTML = "Error: " + e;
     });
+
+    addEvent("change", document.getElementById("load_config"), e => onConfigFileChange(e));
+    addEvent("click", document.getElementById("export_config"), e => exportConfig());
 
     addEvent("change", document.getElementById("rom_load"), e => romPatcher.fileLoadROM(e.target.files, onRomLoaded, onWarning));
     addEvent("click", document.getElementById("newSeedButton"), e => generateNewSeed());
@@ -822,8 +825,12 @@ function saveConfig() {
     localStorage.setItem("EMERALD_EX_WARP_RANDO_CONFIG", JSON.stringify(config));
 }
 
-function loadConfig() {
+function loadSavedConfig() {
     let config = localStorage.getItem("EMERALD_EX_WARP_RANDO_CONFIG");
+    loadConfig(config);
+}
+
+function loadConfig(config) {
     if (config) {
         config = JSON.parse(config);
         config.forEach(conf => {
@@ -835,5 +842,29 @@ function loadConfig() {
                 el.removeAttribute("checked");
             }
         })
+        setupInitialStates();
+    }
+}
+
+function exportConfig() {
+    let config = [...document.querySelectorAll('form input')].filter(i => !(i.type == "file") && !(i.type == "text") && i.id).map(i => { return {"id": i.id, "checked": i.checked, "value": i.value } });
+
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(config)));
+    element.setAttribute('download', "Emerald_Ex_Map_Rando_Config.json");
+  
+    element.style.display = 'none';
+    document.body.appendChild(element);
+  
+    element.click();
+  
+    document.body.removeChild(element);
+}
+
+function onConfigFileChange(event) {
+    let reader = new FileReader();
+    reader.onload = (event) => loadConfig(event.target.result);
+    if (event.target.files[0]) {
+        reader.readAsText(event.target.files[0]);
     }
 }

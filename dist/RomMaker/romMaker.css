@@ -511,3 +511,12 @@ input[type=range][disabled] {
     box-shadow: 0 2.5em 0 0;
   }
 }
+
+.conf-btn {
+    background: #2c2c2c;
+    color: #bdbdbd;
+}
+
+.conf-btn:hover {
+    background-color: #5a5a5a !important;
+}
