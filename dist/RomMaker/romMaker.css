@@ -520,3 +520,7 @@ input[type=range][disabled] {
 .conf-btn:hover {
     background-color: #5a5a5a !important;
 }
+
+.rellink {
+    color: var(--main-color) !important; 
+}

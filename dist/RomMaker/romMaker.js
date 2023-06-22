@@ -23,6 +23,7 @@ function RomPatcher() {
     this.applyBaseWarpRandoChanges = false;
     this.randomizeWarps            = false;
     this.romSeed                   = undefined;
+    this.separateupr               = false;
 
     /* Patch Operation Chain */
     this.onConfigurationFinished       = this.resetROM;
@@ -151,8 +152,15 @@ RomPatcher.prototype.applyRandomWarps = function () {
 
             }
 
-            this.onMapsGeneratedUI();
-            this.onAppliedRandomWarps();
+
+            if (this.separateupr) {
+                this.onMapsGeneratedUI();
+                this.onPokemonRandomizedUI();
+                this.onAppliedUPR();
+            } else {
+                this.onMapsGeneratedUI();
+                this.onAppliedRandomWarps();
+            }
 
         }
 

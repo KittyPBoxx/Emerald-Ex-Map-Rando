@@ -27,6 +27,18 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById("downloadProgressDesc").innerHTML = "Error: " + e;
     });
 
+    addEvent("change", document.getElementById("generalOptions_applyUprAfter"), e => {
+
+        if (document.getElementById("generalOptions_applyUprAfter").checked) {
+            romPatcher.separateupr = true;
+            document.querySelectorAll(".upr-setting").forEach(e => e.classList.add("hide"));
+        } else {
+            romPatcher.separateupr = false;
+            document.querySelectorAll(".upr-setting").forEach(e => e.classList.remove("hide"));
+        }
+
+    });
+
     addEvent("change", document.getElementById("load_config"), e => onConfigFileChange(e));
     addEvent("click", document.getElementById("export_config"), e => exportConfig());
 
@@ -843,6 +855,13 @@ function loadConfig(config) {
             }
         })
         setupInitialStates();
+        if (document.getElementById("generalOptions_applyUprAfter").checked) {
+            romPatcher.separateupr = true;
+            document.querySelectorAll(".upr-setting").forEach(e => e.classList.add("hide"));
+        } else {
+            romPatcher.separateupr = false;
+            document.querySelectorAll(".upr-setting").forEach(e => e.classList.remove("hide"));
+        }
     }
 }
 
