@@ -777,24 +777,24 @@ function onInGameTradesFormUpdated() {
     // let inGameTrades_randomizeGivenPokemonOnly         = document.getElementById("inGameTrades_randomizeGivenPokemonOnly");
     // let inGameTrades_randomizeGivenAndRequestedPokemon = document.getElementById("inGameTrades_randomizeGivenAndRequestedPokemon");
 
-    let inGameTrades_randomizeNicknames = document.getElementById("inGameTrades_randomizeNicknames");
-    let inGameTrades_randomizeOTs       = document.getElementById("inGameTrades_randomizeOTs");
+    //let inGameTrades_randomizeNicknames = document.getElementById("inGameTrades_randomizeNicknames");
+    //let inGameTrades_randomizeOTs       = document.getElementById("inGameTrades_randomizeOTs");
     let inGameTrades_randomizeIVs       = document.getElementById("inGameTrades_randomizeIVs");
     let inGameTrades_randomizeItems     = document.getElementById("inGameTrades_randomizeItems");
 
     if (inGameTrades_unchanged.checked) {
-        inGameTrades_randomizeNicknames.setAttribute("disabled", true);
-        inGameTrades_randomizeOTs.setAttribute("disabled", true);
+        //inGameTrades_randomizeNicknames.setAttribute("disabled", true);
+        //inGameTrades_randomizeOTs.setAttribute("disabled", true);
         inGameTrades_randomizeIVs.setAttribute("disabled", true);
         inGameTrades_randomizeItems.setAttribute("disabled", true);
 
-        inGameTrades_randomizeNicknames.checked = false;
-        inGameTrades_randomizeOTs.checked = false;
+       // inGameTrades_randomizeNicknames.checked = false;
+       // inGameTrades_randomizeOTs.checked = false;
         inGameTrades_randomizeIVs.checked = false;
         inGameTrades_randomizeItems.checked = false;
     } else {
-        inGameTrades_randomizeNicknames.removeAttribute("disabled");
-        inGameTrades_randomizeOTs.removeAttribute("disabled");
+       // inGameTrades_randomizeNicknames.removeAttribute("disabled");
+       // inGameTrades_randomizeOTs.removeAttribute("disabled");
         inGameTrades_randomizeIVs.removeAttribute("disabled");
         inGameTrades_randomizeItems.removeAttribute("disabled");
     }
@@ -844,7 +844,10 @@ function loadSavedConfig() {
 
 function loadConfig(config) {
     if (config) {
-        config = JSON.parse(config).filter(s => s.id != "pokemonTrainers_randomizeTrainerNames" && s.id != "pokemonTrainers_randomizeTrainerClassNames");
+        config = JSON.parse(config).filter(s => s.id != "pokemonTrainers_randomizeTrainerNames" && 
+                                                s.id != "pokemonTrainers_randomizeTrainerClassNames" && 
+                                                s.id != "inGameTrades_randomizeOTs" && 
+                                                s.id != "inGameTrades_randomizeNicknames");
         config.forEach(conf => {
             let el = document.getElementById(conf.id);
             if (el) {
@@ -889,3 +892,4 @@ function onConfigFileChange(event) {
         reader.readAsText(event.target.files[0]);
     }
 }
+

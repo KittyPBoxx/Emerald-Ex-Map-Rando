@@ -254,8 +254,8 @@ function getUPRJsonConfig() {
     upr_config.trainersBlockLegendaries            = document.getElementById("pokemonTrainers_dontUseLegendaries").checked;
     upr_config.trainersBlockEarlyWonderGuard       = document.getElementById("pokemonTrainers_noEarlyWonderGuard").checked;
 
-    //upr_config.randomizeTrainerNames            = document.getElementById("pokemonTrainers_randomizeTrainerNames").checked;
-    //upr_config.randomizeTrainerClassNames       = document.getElementById("pokemonTrainers_randomizeTrainerClassNames").checked;
+    upr_config.randomizeTrainerNames            = false; //document.getElementById("pokemonTrainers_randomizeTrainerNames").checked;
+    upr_config.randomizeTrainerClassNames       = false; //document.getElementById("pokemonTrainers_randomizeTrainerClassNames").checked;
     upr_config.trainersForceFullyEvolved        = document.getElementById("pokemonTrainers_forceEvolveAtLevel").checked;
     upr_config.trainersForceFullyEvolvedLevel   = document.getElementById("pokemonTrainers_forceEvolveAtLevelSlider").value;
     upr_config.trainersLevelModified            = document.getElementById("pokemonTrainers_percentageLevelModifier").checked;
@@ -357,8 +357,8 @@ function getUPRJsonConfig() {
         upr_config.inGameTradesMod = "RANDOMIZE_GIVEN_AND_REQUESTED";
     }
 
-    upr_config.randomizeInGameTradesNicknames = document.getElementById("inGameTrades_randomizeNicknames").checked;
-    upr_config.randomizeInGameTradesOTs       =  document.getElementById("inGameTrades_randomizeOTs").checked;
+    upr_config.randomizeInGameTradesNicknames = false; // document.getElementById("inGameTrades_randomizeNicknames").checked;
+    upr_config.randomizeInGameTradesOTs       = false; //document.getElementById("inGameTrades_randomizeOTs").checked;
     upr_config.randomizeInGameTradesIVs       =  document.getElementById("inGameTrades_randomizeIVs").checked;
     upr_config.randomizeInGameTradesItems     =  document.getElementById("inGameTrades_randomizeItems").checked;
 
