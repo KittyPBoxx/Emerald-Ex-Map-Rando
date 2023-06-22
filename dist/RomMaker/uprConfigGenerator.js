@@ -254,8 +254,8 @@ function getUPRJsonConfig() {
     upr_config.trainersBlockLegendaries            = document.getElementById("pokemonTrainers_dontUseLegendaries").checked;
     upr_config.trainersBlockEarlyWonderGuard       = document.getElementById("pokemonTrainers_noEarlyWonderGuard").checked;
 
-    upr_config.randomizeTrainerNames            = document.getElementById("pokemonTrainers_randomizeTrainerNames").checked;
-    upr_config.randomizeTrainerClassNames       = document.getElementById("pokemonTrainers_randomizeTrainerClassNames").checked;
+    //upr_config.randomizeTrainerNames            = document.getElementById("pokemonTrainers_randomizeTrainerNames").checked;
+    //upr_config.randomizeTrainerClassNames       = document.getElementById("pokemonTrainers_randomizeTrainerClassNames").checked;
     upr_config.trainersForceFullyEvolved        = document.getElementById("pokemonTrainers_forceEvolveAtLevel").checked;
     upr_config.trainersForceFullyEvolvedLevel   = document.getElementById("pokemonTrainers_forceEvolveAtLevelSlider").value;
     upr_config.trainersLevelModified            = document.getElementById("pokemonTrainers_percentageLevelModifier").checked;

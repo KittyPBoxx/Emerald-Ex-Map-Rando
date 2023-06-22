@@ -847,11 +847,13 @@ function loadConfig(config) {
         config = JSON.parse(config);
         config.forEach(conf => {
             let el = document.getElementById(conf.id);
-            el.value = conf.value;
-            if (conf.checked) {
-                el.setAttribute("checked", true);
-            } else {
-                el.removeAttribute("checked");
+            if (el) {
+                el.value = conf.value;
+                if (conf.checked) {
+                    el.setAttribute("checked", true);
+                } else {
+                    el.removeAttribute("checked");
+                }
             }
         })
         setupInitialStates();
