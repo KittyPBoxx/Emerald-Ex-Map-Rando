@@ -18,6 +18,7 @@ function getRandomisationAlgorithm() {
 function getRandomisationConfig() {
     let config = {};
     config.hoennLevel = document.getElementById("hoennLevel").value;
+    config.extraDeadendRemoval = document.getElementById("extraDeadendRemoval") && document.getElementById("extraDeadendRemoval").checked;
     return config;
 }
 
@@ -51,7 +52,7 @@ async function mapWarps(seed) {
     attempts = 5;
 
     let config = getRandomisationConfig();
-    let mapData = getFilteredData();
+    let mapData = getFilteredData(config);
     let flagData = getFlagData();
     let escapePaths = getEscapePaths();
     getRandomisationAlgorithm().apply(null, [onRandomisationAlogrithmRun, seed, mapData, flagData, config, escapePaths]);
@@ -151,6 +152,10 @@ function filteGroupedNotMain(mapData) {
 
 function removeRemovableLocations(mapData) {
   return new Map([...mapData].filter(n => !(n[1].tags && n[1].tags.includes("removeable"))));
+}
+
+function removeExtraDeadendLocations(mapData) {
+  return new Map([...mapData].filter(n => !(n[1].tags && n[1].tags.includes("extraDeadend"))));
 }
 
 function toMapBank(s) { 
@@ -392,7 +397,7 @@ function getBaseRemappingData() {
   return cy.edges().filter(e => e.data().isWarp).map(e => { return {source: e.data().source, target: e.data().target} });
 }
 
-function getFilteredData() {
+function getFilteredData(config) {
     let warpIdData = new Map(Object.entries(getMapData()));
     warpIdData = filterIgnored(warpIdData);
     warpIdData = filteGroupedNotMain(warpIdData);
@@ -400,6 +405,10 @@ function getFilteredData() {
 
     // In future this could be config. Remove some deadends that litterally only have dialog to speed things up
     warpIdData = removeRemovableLocations(warpIdData);
+
+    if (config.extraDeadendRemoval) {
+      warpIdData = removeExtraDeadendLocations(warpIdData);
+    }
 
     return warpIdData;
 }

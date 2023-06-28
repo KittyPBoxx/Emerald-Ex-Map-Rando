@@ -2,7 +2,7 @@ var state;
 
 document.addEventListener('DOMContentLoaded', function() {
   isHeadless = false;
-  state = initMappingGraph(getFilteredData(), false, new ProgressionState(getFlagData(), getRandomisationConfig()));
+  state = initMappingGraph(getFilteredData(getRandomisationConfig()), false, new ProgressionState(getFlagData(), getRandomisationConfig()));
 });
 
 function doVisuliseNextMapping() {
