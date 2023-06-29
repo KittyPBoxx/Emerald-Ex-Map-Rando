@@ -2766,7 +2766,8 @@ var EMERALD_WARPS =
         "name": "OLDALE TOWN - INSIDE - Mart - 4,7",
         "level": "1", 
         "to": "E,0,10,3",
-        "grouped": ["E,2,4,0"]
+        "grouped": ["E,2,4,0"],
+        "tags": ["extraDeadend"]
     },
 /* DEWFORD CITY - EXT */
     "E,0,11,0" : {
@@ -3930,8 +3931,7 @@ var EMERALD_WARPS =
         "connections" : {
             "E,24,9,3": true,
             "E,24,8,4": "BIKE"
-        },
-        "tags": ["extraDeadend"]
+        }
     },
 // F3
     "E,24,9,0" : {
@@ -3967,7 +3967,7 @@ var EMERALD_WARPS =
         "name" : "GRANITE CAVE - INSIDE - F3 Top Section Right - 1D,2",
         "to" : "E,24,8,6",
         "level" : "2",
-        "tags": ["low_priority"]
+        "tags": ["low_priority", "extraDeadend"]
     },
 // F4  
     "E,24,10,0" : {
@@ -4953,8 +4953,7 @@ var EMERALD_WARPS =
         "level" : "6",
         "connections" : {
             "E,24,55,0": true
-        },
-        "tags": ["extraDeadend"]
+        }
     },
     "E,24,55,7" : {
         "name" : "ABANDONED SHIP - INSIDE - F1 Right Side Center Top Right - E,3",
@@ -5018,7 +5017,7 @@ var EMERALD_WARPS =
         "name" : "ABANDONED SHIP - INSIDE - F2 Left Side Top - 4,1",
         "to" : "E,24,55,6",
         "level" : "6",
-        "tags": ["low_priority"]
+        "tags": ["low_priority", "extraDeadend"]
     },
     "E,24,56,3" : {
         "name" : "ABANDONED SHIP - INSIDE - F2 Right Side Bottom - D,10",
