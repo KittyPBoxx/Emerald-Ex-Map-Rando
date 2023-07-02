@@ -684,7 +684,7 @@ var EMERALD_WARPS =
             "E,0,19,1": true,
             "E,0,19,2": true,
             "E,0,31,0": true,
-            "E,0,31,1": "TALK_TO_STONE",
+            "E,0,31,1": true,
             "E,0,30,0":"HOENN_SURF"
         }
     },
@@ -761,7 +761,7 @@ var EMERALD_WARPS =
         "grouped": ["E,11,0,1"],
         "groupMain" : true,
         "connections": {
-            "E,11,0,2": "RESCUE_PICO"
+            "E,11,0,2": true
         }
     },
     "E,11,0,1" : {
@@ -1031,7 +1031,7 @@ var EMERALD_WARPS =
             "E,0,4,7": true,
             "E,0,4,8": true,
             "E,0,35,1": "HOENN_SURF",
-            "E,0,34,0": "WEATHER_INSTITUTE"
+            "E,0,34,0": true
         }
     },
     "E,0,4,1" : {
@@ -3885,7 +3885,7 @@ var EMERALD_WARPS =
         "level" : "2",
         "connections" : {
             "E,24,8,3": true,
-            "E,24,8,4": "BIKE"
+            "E,24,8,4": true
         }
     },
     "E,24,8,2" : {
@@ -3911,8 +3911,8 @@ var EMERALD_WARPS =
         "connections" : {
             "E,24,8,1": true,
             "E,24,9,2": true,
-            "E,24,8,5": "BIKE",
-            "E,24,8,6": "BIKE"
+            "E,24,8,5": true,
+            "E,24,8,6": true
         }
     },
     "E,24,8,5" : {
@@ -3921,7 +3921,7 @@ var EMERALD_WARPS =
         "level" : "2",
         "connections" : {
             "E,24,9,3": true,
-            "E,24,8,4": "BIKE"
+            "E,24,8,4": true
         }
     },
     "E,24,8,6" : {
@@ -3930,7 +3930,7 @@ var EMERALD_WARPS =
         "level" : "2",
         "connections" : {
             "E,24,9,3": true,
-            "E,24,8,4": "BIKE"
+            "E,24,8,4": true
         }
     },
 // F3
@@ -4148,7 +4148,7 @@ var EMERALD_WARPS =
         "grouped": ["E,29,11,1"],
         "groupMain" : true,
         "connections" : {
-            "E,29,11,2": "BIKE"
+            "E,29,11,2": true
         }
     },
     "E,29,11,1" : {
@@ -4180,7 +4180,7 @@ var EMERALD_WARPS =
         "grouped": ["E,29,12,1"],
         "groupMain" : true,
         "connections" : {
-            "E,29,12,2": "BIKE"
+            "E,29,12,2": true
         }
     },
     "E,29,12,1" : {
@@ -4346,7 +4346,7 @@ var EMERALD_WARPS =
         "level" : "5",
         "connections" : {
             "E,24,94,0": true,
-            "E,24,95,1": "BIKE"
+            "E,24,95,1": true
         }
     },
     "E,24,95,1" : {
@@ -4355,7 +4355,7 @@ var EMERALD_WARPS =
         "level" : "5",
         "connections" : {
             "E,24,94,0": true,
-            "E,24,95,0": "BIKE"
+            "E,24,95,0": true
         }
     },
     "E,24,96,0" : {
@@ -4446,7 +4446,7 @@ var EMERALD_WARPS =
             "E,0,27,5": "GO_GOGGLES",
             "E,0,26,3": "GO_GOGGLES",
             "E,0,26,4": "HOENN_ROCK_SMASH",
-            "E,0,27,0": "MAGMA_METEOR_FALLS"
+            "E,0,27,0": true
         }
     },
     "E,0,27,5" : {
@@ -4516,7 +4516,7 @@ var EMERALD_WARPS =
         "grouped": ["E,24,13,1"],
         "groupMain" : true,
         "connections" : {
-            "E,24,13,2": "BIKE"
+            "E,24,13,2": true
         }
     },
     "E,24,13,1" : {
@@ -6878,7 +6878,7 @@ var EMERALD_WARPS =
         "level" : "8",
         "connections" : {
             "E,24,81,0": true,
-            "E,24,81,2": "BIKE"
+            "E,24,81,2": true
         }
     },
     "E,24,82,1" : {

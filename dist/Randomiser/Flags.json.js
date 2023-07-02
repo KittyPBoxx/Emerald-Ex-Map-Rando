@@ -71,7 +71,6 @@
 var COMPOSITE_FLAGS = {
 
     // ITEMS
-    "BIKE_1"           : { "flag":"BIKE"           , "condition" : ["L_MAUVILLE_BIKE_SHOP"]                                                                                                                 },
     "GO_GOGGLES"       : { "flag":"GO_GOGGLES"     , "condition" : ["L_RUSTBORO_CITY_GYM", "L_DEWFORD_TOWN_GYM", "L_MAUVILLE_CITY_GYM", "L_LAVARIDGE_TOWN_GYM", "L_LAVARIDGE_TOWN"]                         },
     // "DEVON_SCOPE" // Only blocks locations in fortree and if you have fortree access you can already get it 
     "MAGMA_EMBLEM"     : { "flag":"MAGMA_EMBLEM"   , "condition" : ["L_MT_PYRE_SUMMIT"]                                                                                                                     },
@@ -84,46 +83,61 @@ var COMPOSITE_FLAGS = {
     "HOENN_ROCK_SMASH_1" : { "flag": "HOENN_ROCK_SMASH" , "condition"  : ["L_RUSTBORO_CITY_GYM", "L_DEWFORD_TOWN_GYM", "L_MAUVILLE_CITY_GYM", "L_MAUVILLE_CITY_ROCK_SMASH"]                                                                                                                 },
     "HOENN_STRENGTH_1"   : { "flag": "HOENN_STRENGTH"   , "condition"  : ["L_RUSTBORO_CITY_GYM", "L_DEWFORD_TOWN_GYM", "L_MAUVILLE_CITY_GYM", "L_LAVARIDGE_TOWN_GYM", "L_RUSTURF_TUNNEL", "HOENN_ROCK_SMASH" ]                                                                              },
     "HOENN_SURF"         : { "flag": "HOENN_SURF"       , "condition"  : ["L_RUSTBORO_CITY_GYM", "L_DEWFORD_TOWN_GYM", "L_MAUVILLE_CITY_GYM", "L_LAVARIDGE_TOWN_GYM", "L_PETALBURG_GYM"]                                                                                                    },
-    "HOENN_DIVE"         : { "flag": "HOENN_DIVE"       , "condition"  : ["L_RUSTBORO_CITY_GYM", "L_DEWFORD_TOWN_GYM", "L_MAUVILLE_CITY_GYM", "L_LAVARIDGE_TOWN_GYM", "L_PETALBURG_GYM", "L_FORTREE_CITY_GYM", "L_MOSSDEEP_CITY_GYM", "L_MOSSDEEP_STEVEN_HOUSE", "L_SPACE_CENTER_TOP"]      },
+    //"HOENN_DIVE"         : { "flag": "HOENN_DIVE"       , "condition"  : ["L_RUSTBORO_CITY_GYM", "L_DEWFORD_TOWN_GYM", "L_MAUVILLE_CITY_GYM", "L_LAVARIDGE_TOWN_GYM", "L_PETALBURG_GYM", "L_FORTREE_CITY_GYM", "L_MOSSDEEP_CITY_GYM", "L_MOSSDEEP_STEVEN_HOUSE", "L_SPACE_CENTER_TOP"]      },
     "HOENN_WATERFALL"    : { "flag": "HOENN_WATERFALL"  , "condition"  : ["L_RUSTBORO_CITY_GYM", "L_DEWFORD_TOWN_GYM", "L_MAUVILLE_CITY_GYM", "L_LAVARIDGE_TOWN_GYM", "L_PETALBURG_GYM", "L_FORTREE_CITY_GYM", "L_MOSSDEEP_CITY_GYM", "L_SOOTOPOLIS_CITY_GYM", "L_SOOTOPOLIS_OUTSIDE_GYM"]  },
 
     // STORY
     "HOENN_CATCH_TUTORIAL" : { "flag": "HOENN_CATCH_TUTORIAL" , "condition"  : ["L_PETALBURG_GYM"]                                                                                                                                                                   },
-    "TALK_TO_STONE"        : { "flag": "TALK_TO_STONE"        , "condition"  : ["L_PRESIDENTS_OFFICE"]                                                                                                                                                               },
     "UNLOCK_SLATEPORT"     : { "flag": "UNLOCK_SLATEPORT"     , "condition"  : ["L_GRANITE_STEVEN"]                                                                                                                                                                  },
-    "RESCUE_PICO"          : { "flag": "RESCUE_PICO"          , "condition"  : ["L_RUSTBORO_CITY_GYM", "L_RUSTBORO", "L_RUSTURF_TUNNEL"]                                                                                                                             },
-    "MAGMA_METEOR_FALLS"   : { "flag": "MAGMA_METEOR_FALLS"   , "condition"  : ["L_METOR_FALLS_F1"]                                                                                                                                                                  },
-    "WEATHER_INSTITUTE"    : { "flag": "WEATHER_INSTITUTE"    , "condition"  : ["L_WEATHER_INSITUTE_TOP"]                                                                                                                                                            },
     "SPEAK_TO_WALLACE"     : { "flag": "SPEAK_TO_WALLACE"     , "condition"  : ["L_CAVE_OF_ORIGIN_WALLACE"]                                                                                                                                                          },
     "ALL_BADGES"           : { "flag": "ALL_BADGES"           , "condition"  : ["L_RUSTBORO_CITY_GYM", "L_DEWFORD_TOWN_GYM", "L_MAUVILLE_CITY_GYM", "L_LAVARIDGE_TOWN_GYM", "L_PETALBURG_GYM", "L_FORTREE_CITY_GYM", "L_MOSSDEEP_CITY_GYM", "L_SOOTOPOLIS_CITY_GYM"] }
 
 }
 
+/**
+ * Currently unused intented for a mode were gyms may have to be completed out of order
+ */
+var COMPOSITE_FLAGS_OUT_OF_SEQ = {
+
+    // ITEMS
+    "GO_GOGGLES"       : { "flag":"GO_GOGGLES"     , "condition" : ["L_LAVARIDGE_TOWN_GYM", "L_LAVARIDGE_TOWN"]                        },
+    // "DEVON_SCOPE" // Only blocks locations in fortree and if you have fortree access you can already get it 
+    "MAGMA_EMBLEM"     : { "flag":"MAGMA_EMBLEM"   , "condition" : ["L_MT_PYRE_SUMMIT"]                                                },
+    "STOREAGE_KEY"     : { "flag":"STOREAGE_KEY"   , "condition" : ["L_ABANDONED_SHIP_KEY_ROOM"]                                       },
+    "BASEMENT_KEY"     : { "flag":"BASEMENT_KEY"   , "condition" : ["L_MAUVILLE_CITY_GYM", "L_PETALBURG_GYM", "L_MAUVILLE_CITY"]       },
+        
+    // HMS
+    "HOENN_CUT_1"        : { "flag": "HOENN_CUT"        , "condition"  : ["L_RUSTBORO_CITY_GYM", "L_CUTTERS_HOUSE"]                                                 }, 
+    "HOENN_FLASH_1"      : { "flag": "HOENN_FLASH"      , "condition"  : ["L_DEWFORD_TOWN_GYM", "L_GRANITE_CAVE_F1"]                                                },
+    "HOENN_ROCK_SMASH_1" : { "flag": "HOENN_ROCK_SMASH" , "condition"  : ["L_MAUVILLE_CITY_GYM", "L_MAUVILLE_CITY_ROCK_SMASH"]                                      },
+    "HOENN_STRENGTH_1"   : { "flag": "HOENN_STRENGTH"   , "condition"  : ["L_MAUVILLE_CITY_GYM", "L_LAVARIDGE_TOWN_GYM", "L_RUSTURF_TUNNEL", "HOENN_ROCK_SMASH" ]   },
+    "HOENN_SURF"         : { "flag": "HOENN_SURF"       , "condition"  : ["L_PETALBURG_GYM"]                                                                        },
+    "HOENN_WATERFALL"    : { "flag": "HOENN_WATERFALL"  , "condition"  : ["L_SOOTOPOLIS_CITY_GYM", "L_SOOTOPOLIS_OUTSIDE_GYM"]                                      },
+
+    // STORY
+    "HOENN_CATCH_TUTORIAL" : { "flag": "HOENN_CATCH_TUTORIAL" , "condition"  : ["L_PETALBURG_GYM"]           },
+    "UNLOCK_SLATEPORT"     : { "flag": "UNLOCK_SLATEPORT"     , "condition"  : ["L_GRANITE_STEVEN"]          },
+    "SPEAK_TO_WALLACE"     : { "flag": "SPEAK_TO_WALLACE"     , "condition"  : ["L_CAVE_OF_ORIGIN_WALLACE"]  },
+    "ALL_BADGES"           : { "flag": "ALL_BADGES"           , "condition"  : ["L_FORTREE_CITY_GYM"]        }
+
+}
+
 var LOCATIONS_TRIGGER = {
 
-    "E,11,2,0" : "L_PRESIDENTS_OFFICE",
     "E,24,7,0" : "L_GRANITE_CAVE_F1",
     "E,0,2,0"  : "L_MAUVILLE_CITY",
-    "E,0,3,3"  : "L_RUSTBORO",
-    "E,10,1,0" : "L_MAUVILLE_BIKE_SHOP",
-    "E,17,1,0" : "L_ROUTE_104_FLOWER_SHOP",
-    "E,1,4,0"  : "L_BIRCH_LAB",
-    "E,0,10,2" : "L_OLDALE_TOWN",
-    "E,0,4,0"  : "L_DEVON_CORP_PRESIDENT_OFFICE",
     "E,11,11,0": "L_CUTTERS_HOUSE",
     "E,24,7,0" : "L_GRANITE_CAVE_F1",
     "E,24,10,0": "L_GRANITE_STEVEN",
     "E,0,12,1" : "L_LAVARIDGE_TOWN",
     "E,10,2,0" : "L_MAUVILLE_CITY_ROCK_SMASH",
     "E,24,4,0" : "L_RUSTURF_TUNNEL",
-    "E,24,0,0" : "L_METOR_FALLS_F1",
     "E,24,63,0": "L_ABANDONED_SHIP_KEY_ROOM",
-    "E,32,1,0" : "L_WEATHER_INSITUTE_TOP",
     "E,24,22,1": "L_MT_PYRE_SUMMIT",
     "E,0,7,2"  : "L_SOOTOPOLIS_OUTSIDE_GYM",
     "E,24,42,0": "L_CAVE_OF_ORIGIN_WALLACE",
-    "E,14,7,0" : "L_MOSSDEEP_STEVEN_HOUSE",
-    "E,14,10,0": "L_SPACE_CENTER_TOP",
+    //"E,14,7,0" : "L_MOSSDEEP_STEVEN_HOUSE",
+    //"E,14,10,0": "L_SPACE_CENTER_TOP",
     "E,15,0,0" : "L_SOOTOPOLIS_CITY_GYM",
     "E,11,3,0" : "L_RUSTBORO_CITY_GYM",
     "E,3,3,0"  : "L_DEWFORD_TOWN_GYM",
@@ -141,8 +155,7 @@ var KEY_LOCATIONS = {
     "E,16,2,0" : "L_HOENN_LEAGUE_3",
     "E,16,3,0" : "L_HOENN_LEAGUE_4",
     "E,16,4,0" : "L_HOENN_LEAGUE_CHAMP",
-    "E,24,107,0" : "L_STEVEN_FINAL_BOSS",
-    "E,8,0,0"    : "L_WALLY_HOUSE" // Is key because you are warped here after beating norman
+    "E,24,107,0" : "L_STEVEN_FINAL_BOSS"
 }
 
 var FLAG_DATA = {
