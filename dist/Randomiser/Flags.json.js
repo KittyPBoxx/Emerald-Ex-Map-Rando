@@ -101,7 +101,6 @@ var COMPOSITE_FLAGS_OUT_OF_SEQ = {
 
     // ITEMS
     "GO_GOGGLES"       : { "flag":"GO_GOGGLES"     , "condition" : ["L_LAVARIDGE_TOWN_GYM", "L_LAVARIDGE_TOWN"]                        },
-    // "DEVON_SCOPE" // Only blocks locations in fortree and if you have fortree access you can already get it 
     "MAGMA_EMBLEM"     : { "flag":"MAGMA_EMBLEM"   , "condition" : ["L_MT_PYRE_SUMMIT"]                                                },
     "STOREAGE_KEY"     : { "flag":"STOREAGE_KEY"   , "condition" : ["L_ABANDONED_SHIP_KEY_ROOM"]                                       },
     "BASEMENT_KEY"     : { "flag":"BASEMENT_KEY"   , "condition" : ["L_MAUVILLE_CITY_GYM", "L_PETALBURG_GYM", "L_MAUVILLE_CITY"]       },

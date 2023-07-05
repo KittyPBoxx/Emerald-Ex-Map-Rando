@@ -48,8 +48,11 @@ document.addEventListener('DOMContentLoaded', function() {
         let applyBaseWarpRandoChanges = document.getElementById("generalOptions_applyWarpRandoBase").checked;
         let randomizeWarps = this.getElementById("warp_switch").checked;
         let romSeed = document.getElementById("seed_value").value;
+        let config = {
+            "disableInOrderGymLogic": document.getElementById("disableInOrderGymLogic").checked
+        }
         saveConfig();
-        romPatcher.configureAndDownload(applyBaseWarpRandoChanges, randomizeWarps, romSeed);
+        romPatcher.configureAndDownload(applyBaseWarpRandoChanges, randomizeWarps, romSeed, config);
     });
     addEvent("change", document.getElementById("seed_value"), e => updateSeed(e.target.value));
 

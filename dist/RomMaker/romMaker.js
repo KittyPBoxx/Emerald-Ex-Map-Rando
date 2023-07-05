@@ -62,12 +62,20 @@ RomPatcher.prototype.setOnErrorUI = function(callback) {
 }
 
 
-RomPatcher.prototype.configureAndDownload = function (applyBaseWarpRandoChanges, randomizeWarps, romSeed) {
+RomPatcher.prototype.configureAndDownload = function (applyBaseWarpRandoChanges, randomizeWarps, romSeed, config) {
     this.applyBaseWarpRandoChanges = applyBaseWarpRandoChanges;
     this.randomizeWarps            = randomizeWarps;
     this.romSeed                   = romSeed;
+    this.config                    = config;
 
     this.onStartRandomizationUI();
+
+    if (this.config.disableInOrderGymLogic) {
+        FLAG_DATA.COMPOSITE_FLAGS = COMPOSITE_FLAGS_OUT_OF_SEQ;
+    } else {
+        FLAG_DATA.COMPOSITE_FLAGS = COMPOSITE_FLAGS;
+    }
+
     this.onConfigurationFinished();
 }
 

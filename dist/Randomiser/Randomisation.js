@@ -88,7 +88,7 @@ function generateRandomMappings(onFinished, seed, mapData, flagData, config, esc
       if (moreWarpsToMap) {
 
         try {
-          moreWarpsToMap = doNextMapping(rng, root, progressionState);
+          moreWarpsToMap = doNextMapping(rng, root, progressionState, config);
           progressionState = updateProgressionState(progressionState, root);
           setTimeout(blockingRunAlgorithm, 0);
         } catch (e) {
@@ -461,7 +461,7 @@ function findAccessibleUnmappedNodes(cy, root) {
  * NB: Some teleport tile nodes needed to be walked over for the player to access another area / item
  *     In these special cases we have to make sure that they don't link to a one-way 
  */
-function doNextMapping(rng, root, progressionState) {
+function doNextMapping(rng, root, progressionState, config) {
     let accessibleNodes = progressionState.cachedNodes ? progressionState.cachedNodes : findAccessibleUnmappedNodes(window.cy, root);
     let inacessibleNodes = cy.nodes().not(accessibleNodes).filter(e => e.data().isWarp && !e.data().isMapped);
     let inaccesibleFlagLocations = inacessibleNodes.filter(n => progressionState.unmarkedLocations.has(n.data().id));
@@ -656,8 +656,7 @@ function doNextMapping(rng, root, progressionState) {
       // warp2 = warp1
       
       // if one warp is left hanging we connect it to a random odd-one-out location
-      // Shoal Cave, Frontier Mart, Sothern Island, Dessert Underpass, Sealed Chamber
-      let oddOneOutLocation = ['E,24,83,0', 'E,26,10,0', 'E,26,55,0', 'E,24,98,0', 'E,24,72,0', "E,25,43,11", "E,25,42,0"][rng.nextRange(0, 7 - 1)];
+      let oddOneOutLocation = getOddOneOutWarp(config, rng);
       warp2 = cy.add(new WarpNode([oddOneOutLocation, getMapData()[oddOneOutLocation]]));
       shouldCacheNodes = true;
       accessibleNodes.delete(warp2);
@@ -717,6 +716,17 @@ function doNextMapping(rng, root, progressionState) {
     warp2.data().isMapped = true;
 
     return true;
+}
+
+function getOddOneOutWarp(config, rng) {
+  // Shoal Cave, Frontier Mart, Sothern Island, Dessert Underpass, Sealed Chamber
+  let candidates = ['E,24,83,0', 'E,26,10,0', 'E,26,55,0', 'E,24,98,0', 'E,24,72,0', "E,25,43,11", "E,25,42,0"];
+
+  if (config.extraDeadendRemoval) {
+    candidates = candidates.concat(["E,10,3,0", "E,11,4,0", "E,12,0,0", "E,9,5,0", "E,13,13,0", "E,13,21,0", "E,15,5,0", "E,2,4,0", "E,3,5,0", "E,4,3,0", "E,5,7,0", "E,17,1,0", "E,0,31,2", "E,24,9,4", "E,28,0,0", "E,18,1,0", "E,26,60,0", "E,31,0,0"]);
+  }
+
+  return candidates[rng.nextRange(0, candidates.length)]
 }
 
 function selectRandomWarp(rng, listOfWarps, connectingWarp) {
@@ -1054,9 +1064,9 @@ var LOCATIONS_DISABLED_FLAGS = {
   "WALLACE ORIGIN CAVE"  : ["SPEAK_TO_WALLACE"], 
   "METEOR FALLS F1"      : ["MAGMA_METEOR_FALLS"],
   
-  "ROXANNE"              : ["HOENN_CUT", "HOENN_FLASH", "HOENN_ROCK_SMASH", "HOENN_STRENGTH", "HOENN_SURF", "HOENN_WATERFALL"],
-  "BRAWLY"               : ["HOENN_FLASH", "HOENN_ROCK_SMASH", "HOENN_STRENGTH", "HOENN_SURF", "HOENN_WATERFALL"],
-  "WATTSON"              : ["HOENN_ROCK_SMASH", "HOENN_STRENGTH", "HOENN_SURF", "HOENN_WATERFALL"],
+  "ROXANNE"              : ["HOENN_CUT", "HOENN_FLASH", "HOENN_ROCK_SMASH", "HOENN_STRENGTH", "HOENN_SURF", "HOENN_WATERFALL", "GO_GOGGLES"],
+  "BRAWLY"               : ["HOENN_FLASH", "HOENN_ROCK_SMASH", "HOENN_STRENGTH", "HOENN_SURF", "HOENN_WATERFALL", "GO_GOGGLES"],
+  "WATTSON"              : ["HOENN_ROCK_SMASH", "HOENN_STRENGTH", "HOENN_SURF", "HOENN_WATERFALL", "GO_GOGGLES"],
   "FLANNERY"             : ["HOENN_STRENGTH", "HOENN_SURF", "HOENN_WATERFALL"],
   "NORMAN"               : ["HOENN_SURF", "HOENN_WATERFALL"],
   "WINONA"               : ["HOENN_WATERFALL"],
@@ -1083,7 +1093,7 @@ function flagWeight(edge, location) {
   }
 
   // Otherwise use standard wieghts (prioritize least flags flags completed)
-  return Object.values(COMPOSITE_FLAGS).filter(f => f.flag == difficulty)[0].condition.length * 100;
+  return Object.values(FLAG_DATA.COMPOSITE_FLAGS).filter(f => f.flag == difficulty)[0].condition.length * 100;
 }
 
 function shortestPath(location) {
