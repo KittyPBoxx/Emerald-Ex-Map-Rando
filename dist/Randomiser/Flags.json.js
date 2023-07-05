@@ -94,9 +94,7 @@ var COMPOSITE_FLAGS = {
 
 }
 
-/**
- * Currently unused intented for a mode were gyms may have to be completed out of order
- */
+
 var COMPOSITE_FLAGS_OUT_OF_SEQ = {
 
     // ITEMS

@@ -78,6 +78,10 @@ a[data-title]:hover::after {
     font-size: min(1vw, 0.7em);
 }
 
+.sub-title-text a {
+    color: var(--main-color) !important; 
+}
+
 .collapsible.credit {
     border: 0;
     box-shadow: none;
