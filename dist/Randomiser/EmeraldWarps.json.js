@@ -5392,7 +5392,7 @@ var EMERALD_WARPS =
         "name" : "NEW MAUVILLE - INSIDE - Powerplant Door - 20,21",
         "to" : "E,24,52,1",
         "level" : "6",
-        "tags": ["low_priority"]
+        "tags": ["low_priority", "extraDeadend"]
     },
 /* ROUTE 123 - EXT */
     "E,0,38,0" : {
