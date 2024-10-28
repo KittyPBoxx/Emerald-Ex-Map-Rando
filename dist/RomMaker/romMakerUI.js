@@ -6,6 +6,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     M.Collapsible.init(document.querySelectorAll('.collapsible'), {});
 
+    M.Modal.init(document.querySelectorAll('.modal'), {});
+    M.Modal.getInstance(document.querySelector('.modal')).open();
+
     loadSavedConfig();
     setupInitialStates();
 

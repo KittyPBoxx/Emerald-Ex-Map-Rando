@@ -4,6 +4,17 @@ Emerald Ex Speedchoice is a version of emerald with items and pokemon up Gen 8 a
 
 <br>
 
+### *** UPDATE 28/10/2024 *** ###
+
+<br>
+
+V3 of the randomizer is out now! The whole map randomizer now comes packaged inside a copy of UPR you can download. 
+The latest version brings a huge number of changes including the update to Gen 9
+https://github.com/KittyPBoxx/upr-speedchoice-ex-gen9/releases/
+
+
+<br>
+
 ### *** UPDATE 06/06/2023 *** ###
 
 <br>
